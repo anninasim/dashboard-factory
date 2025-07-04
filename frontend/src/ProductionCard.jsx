@@ -31,10 +31,13 @@ function ProductionCard({ data }) {
     ? Math.round((data.mntg_qta_lotti_attuale / data.mntg_qta_lotti) * 100)
     : 0;
 
-  // ✂️ Pulizia della descrizione (es: "THERMOPLAST VERDE FORATO * 3,40 X ..." -> "THERMOPLAST VERDE FORATO")
   const descrizionePulita = data.mntg_descr_articolo
     ? data.mntg_descr_articolo.split('*')[0].trim()
     : '-';
+
+  const messaggioAttDescr = data.att_descr
+    ? data.att_descr.toUpperCase()
+    : null;
 
   return (
     <div className="card">
@@ -55,6 +58,11 @@ function ProductionCard({ data }) {
         </div>
         <p><strong>Velocità:</strong> {data.mntg_vel_ril} m/min</p>
         <p><strong>Portata:</strong> {data.mntg_portata_ril} Kg/h</p>
+        {messaggioAttDescr && (
+          <p style={{ marginTop: '12px', fontWeight: 'bold', color: '#ff9800' }}>
+            ⚠️ {messaggioAttDescr}
+          </p>
+        )}
       </div>
     </div>
   );

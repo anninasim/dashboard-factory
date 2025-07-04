@@ -32,20 +32,21 @@ app.get('/api/dashboard', async (req, res) => {
     const pool = await poolPromise;
 
     const result = await pool.request().query(`
-      SELECT
-        fnt_sigla,
-        mntg_rif_ordine,
-        mntg_articolo,
-        mntg_descr_articolo,  -- ⬅️ AGGIUNTA QUESTA RIGA
-        mntg_codice_ricetta,
-        mntg_qta_lotti,
-        mntg_qta_lotti_attuale,
-        mntg_vel_ril,
-        mntg_portata_ril,
-        mntg_stato_gruppo,
-        mntg_azione AS mntg_azione
-      FROM dbo.view_dash_react_factory_eye
-    `);
+    SELECT
+      fnt_sigla,
+      mntg_rif_ordine,
+      mntg_articolo,
+      mntg_descr_articolo,
+      mntg_codice_ricetta,
+      mntg_qta_lotti,
+      mntg_qta_lotti_attuale,
+      mntg_vel_ril,
+      mntg_portata_ril,
+      att_descr, -- ⬅️ AGGIUNTA QUESTA RIGA
+      mntg_stato_gruppo,
+      mntg_azione AS mntg_azione
+    FROM dbo.view_dash_react_factory_eye
+        `);
 
     res.json(result.recordset);
   } catch (err) {
