@@ -46,3 +46,38 @@ body {
   height: 100%;
   background-color: #4caf50;
 }
+
+
+@media (min-width: 3840px) {
+  .container {
+    grid-template-columns: repeat(6, 1fr); /* 6 colonne per TV 4K */
+    gap: 32px;
+    padding: 32px;
+  }
+
+  .card {
+    padding: 24px;
+    min-height: 400px;
+    font-size: 1.4rem;
+  }
+
+  .card-header h2 {
+    font-size: 2rem;
+  }
+
+  .status {
+    font-size: 1rem;
+    padding: 6px 12px;
+  }
+
+  .card-body p {
+    font-size: 1.2rem;
+    margin-bottom: 0.8rem;
+  }
+
+  .progress-bar {
+    height: 14px;
+  }
+}
+
+
