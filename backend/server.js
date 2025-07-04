@@ -36,13 +36,14 @@ app.get('/api/dashboard', async (req, res) => {
         fnt_sigla,
         mntg_rif_ordine,
         mntg_articolo,
+        mntg_descr_articolo,  -- ⬅️ AGGIUNTA QUESTA RIGA
         mntg_codice_ricetta,
         mntg_qta_lotti,
         mntg_qta_lotti_attuale,
         mntg_vel_ril,
         mntg_portata_ril,
         mntg_stato_gruppo,
-        mntg_azione AS mntg_azione  -- ⬅️ Alias esplicito e corretto
+        mntg_azione AS mntg_azione
       FROM dbo.view_dash_react_factory_eye
     `);
 
