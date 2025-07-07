@@ -1,4 +1,5 @@
 import React from 'react';
+import LEDProgressBar from './LEDProgressBar';
 
 const getStatus = (stato, azione) => {
   const s = Number(stato);
@@ -27,9 +28,6 @@ const getStatus = (stato, azione) => {
 
 function ProductionCard({ data }) {
   const stato = getStatus(data.mntg_stato_gruppo, data.mntg_azione);
-  const completamento = data.mntg_qta_lotti > 0
-    ? Math.round((data.mntg_qta_lotti_attuale / data.mntg_qta_lotti) * 100)
-    : 0;
 
   const descrizionePulita = data.mntg_descr_articolo
     ? data.mntg_descr_articolo.split('*')[0].trim()
@@ -52,10 +50,14 @@ function ProductionCard({ data }) {
         <p><strong>Articolo:</strong> {data.mntg_articolo}</p>
         <p><strong>Descrizione:</strong> {descrizionePulita}</p>
         <p><strong>Miscela:</strong> {data.mntg_codice_ricetta}</p>
-        <p><strong>Bobine:</strong> {data.mntg_qta_lotti_attuale} / {data.mntg_qta_lotti}</p>
-        <div className="progress-bar">
-          <div className="fill" style={{ width: completamento + '%' }}></div>
-        </div>
+        
+        {/* ✅ Nuova Barra LED Progress */}
+        <LEDProgressBar 
+          current={data.mntg_qta_lotti_attuale}
+          total={data.mntg_qta_lotti}
+          unit="bobine"
+        />
+        
         <p><strong>Velocità:</strong> {data.mntg_vel_ril} m/min</p>
         <p><strong>Portata:</strong> {data.mntg_portata_ril} Kg/h</p>
         {messaggioAttDescr && (
