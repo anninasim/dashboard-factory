@@ -1,58 +1,121 @@
-# 🏭 Dashboard Factory
+# 📊 Dashboard Factory
 
-Una dashboard di produzione industriale in tempo reale sviluppata con React (frontend) e Node.js + SQL Server (backend). Il sistema mostra lo stato delle macchine, gli ordini in corso, e i dati di produzione aggiornati.
+Un'applicazione full-stack per visualizzare dati di produzione industriale in tempo reale, con:
 
----
-
-## 📦 Tecnologie utilizzate
-
-- ⚛️ **React** (Vite) – Frontend
-- 🟨 **Node.js + Express** – Backend REST API
-- 🗃️ **Microsoft SQL Server** – Database
-- 🧠 **CSS Responsive** per display 4K montati in produzione
+- 🔧 Backend in Node.js + Express con connessione a SQL Server
+- ⚙️ Frontend in React (Vite)
+- 🔗 API RESTful
+- 🧠 Visualizzazione intelligente dati macchina
 
 ---
 
-## 🚀 Avvio del progetto
+## 🧪 Avvio del progetto
 
-### 1️⃣ Backend
+### 1. Backend
 
-📁 Vai nella cartella `backend/` e segui questi passaggi:
+1. Copia il file `.env` nella cartella `backend/` con i parametri:
+   ```env
+   DB_USER=tuo_utente
+   DB_PASSWORD=la_tua_password
+   DB_SERVER=IP_del_tuo_SQL_Server
+   DB_NAME=nome_del_database
+   ```
 
+2. Installa le dipendenze:
+   ```bash
+   cd backend
+   npm install
+   ```
+
+3. Avvia il server:
+   ```bash
+   node server.js
+   ```
+
+### 2. Frontend
+
+1. Installa le dipendenze:
+   ```bash
+   cd frontend
+   npm install
+   ```
+
+2. Avvia l’app:
+   ```bash
+   npm run dev
+   ```
+
+---
+
+## 💾 Come salvare le modifiche su GitHub
+
+> Esegui sempre questi comandi **dalla root del progetto** (`dashboard-factory`):
+
+### Aggiungi le modifiche:
 ```bash
-npm install
-npm start
+git add .
+```
 
+### Crea un commit con messaggio:
+```bash
+git commit -m "Descrizione delle modifiche"
+```
 
-🔐 Crea un file .env nella root del backend con i seguenti parametri:
-DB_USER=tuo_user_sql
-DB_PASSWORD=la_tua_password
-DB_SERVER=ip_o_nome_del_server
-DB_NAME=nome_database
+### Aggiorna il ramo remoto (dopo aver risolto eventuali conflitti/pull):
+```bash
+git push origin main
+```
 
-La tua API sarà disponibile su http://localhost:3001/api/dashboard
+> ❗ Se ottieni errori tipo `non fast-forward`, prima fai:
+```bash
+git pull origin main --rebase
+```
+Poi riprova:
+```bash
+git push origin main
+```
 
 ---
 
-### 2️⃣ Frontend
-📁 Vai nella cartella frontend/:
-npm install
-npm run dev
+## 📁 Struttura del progetto
 
-
-
-📁 Struttura del progetto
-pgsql
-Copia
-Modifica
+```
 dashboard-factory/
+│
 ├── backend/
 │   ├── server.js
-│   └── .env
+│   ├── package.json
+│   └── .env (🔒 escluso da Git)
+│
 ├── frontend/
-│   ├── index.html
-│   ├── App.jsx
-│   ├── App.css
-│   └── components/
-│       └── ProductionCard.jsx
+│   ├── src/
+│   ├── public/
+│   ├── vite.config.js
+│   └── package.json
+│
+├── .gitignore
 └── README.md
+```
+
+---
+
+## 🚫 File ignorati da Git
+
+Nel file `.gitignore` sono esclusi:
+
+- `node_modules/`
+- `dist/`, `build/`, `.vite/`
+- `.env`, `.log`, `.DS_Store`
+- File temporanei (`*.swp`, `*.tmp`, ecc.)
+
+---
+
+## ✅ Prerequisiti
+
+- Node.js (>= 16)
+- SQL Server attivo e accessibile
+- Git installato
+
+---
+
+Made with ❤️ by [anninasim](https://github.com/anninasim)
