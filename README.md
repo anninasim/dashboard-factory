@@ -34,8 +34,6 @@ La tua API sarà disponibile su http://localhost:3001/api/dashboard
 
 ---
 
-## 🚀 Avvio del progetto
-
 ### 2️⃣ Frontend
 📁 Vai nella cartella frontend/:
 npm install
