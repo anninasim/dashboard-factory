@@ -52,12 +52,14 @@ function ProductionCard({ data }) {
         <p><strong>Miscela:</strong> {data.mntg_codice_ricetta}</p>
         
         {/* ✅ Nuova Barra LED Progress */}
-        <LEDProgressBar 
-          current={data.mntg_qta_lotti_attuale}
-          total={data.mntg_qta_lotti}
-          unit="bobine"
-        />
-        
+        {/* ✅ Nuova Barra LED Progress con stato macchina */}
+{/* ✅ Nuova Barra LED Progress con stato macchina */}
+      <LEDProgressBar 
+        current={data.mntg_qta_lotti_attuale}
+        total={data.mntg_qta_lotti}
+        unit="bobine"
+        machineStatus={stato.label} // ✅ Passa lo stato della macchina
+      />          
         <p><strong>Velocità:</strong> {data.mntg_vel_ril} m/min</p>
         <p><strong>Portata:</strong> {data.mntg_portata_ril} Kg/h</p>
         {messaggioAttDescr && (

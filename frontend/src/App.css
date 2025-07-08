@@ -180,6 +180,7 @@ body {
 
 .led-header {
   display: flex;
+  justify-content: space-between; /* ✅ Cambiato da flex-start */
   align-items: center;
   gap: 6px;
   font-size: 1.1rem;
@@ -281,11 +282,7 @@ body {
 }
 
 .led-indicators {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-size: 0.8rem;
-  color: #666666;
+  display: none; /* ✅ Nasconde i numeretti come richiesto */
 }
 
 /* Responsive per TV 4K */
