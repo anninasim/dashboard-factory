@@ -1,4 +1,63 @@
 import React, { useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
+
+// Componente Three Dots esattamente come l'esempio originale Motion
+const LoadingThreeDots = ({ color = '#00cc66', size = 12 }) => {
+  const dotVariants = {
+    pulse: {
+      scale: [1, 1.3, 1],
+      transition: {
+        duration: 0.9,
+        repeat: Infinity,
+        ease: "easeInOut",
+      },
+    },
+  };
+
+  return (
+    <motion.div
+      animate="pulse"
+      transition={{ staggerChildren: -0.15, staggerDirection: -1 }}
+      style={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        gap: '7px',
+      }}
+    >
+      <motion.div 
+        variants={dotVariants}
+        style={{
+          width: `${size}px`,
+          height: `${size}px`,
+          borderRadius: '50%',
+          backgroundColor: color,
+          willChange: 'transform',
+        }}
+      />
+      <motion.div 
+        variants={dotVariants}
+        style={{
+          width: `${size}px`,
+          height: `${size}px`,
+          borderRadius: '50%',
+          backgroundColor: color,
+          willChange: 'transform',
+        }}
+      />
+      <motion.div 
+        variants={dotVariants}
+        style={{
+          width: `${size}px`,
+          height: `${size}px`,
+          borderRadius: '50%',
+          backgroundColor: color,
+          willChange: 'transform',
+        }}
+      />
+    </motion.div>
+  );
+};
 
 const LEDProgressBar = ({ current, total, unit = "bobine", machineStatus }) => {
   const [pulseActive, setPulseActive] = useState(true);
@@ -6,7 +65,7 @@ const LEDProgressBar = ({ current, total, unit = "bobine", machineStatus }) => {
   const segments = 20;
   const activeSegments = Math.floor((percentage / 100) * segments);
   
-  // Pulse animation
+  // Pulse animation per LED
   useEffect(() => {
     const interval = setInterval(() => {
       setPulseActive(prev => !prev);
@@ -16,39 +75,68 @@ const LEDProgressBar = ({ current, total, unit = "bobine", machineStatus }) => {
   
   // Logica stato macchina basata su dati reali
   const getMachineStatus = () => {
-    if (percentage === 0) return { color: '#666666', pulse: false, show: false }; // Nessuna produzione
-    if (machineStatus === 'FERMA') return { color: '#cc4444', pulse: false, show: true }; // Ferma
-    if (machineStatus === 'IN PRODUZIONE') return { color: '#00cc66', pulse: true, show: true }; // Attiva
-    if (machineStatus === 'RIAVVIO') return { color: '#ff9500', pulse: true, show: true }; // Riavvio
-    if (percentage >= 95) return { color: '#666666', pulse: false, show: true }; // Completata
+    if (percentage === 0) return { type: 'none', show: false };
     
-    // Default: in produzione
-    return { color: '#00cc66', pulse: true, show: true };
+    switch(machineStatus) {
+      case 'FERMA':
+        return { type: 'dot', color: '#cc4444', pulse: false, show: true }; // 🔴 Dot rosso fisso
+        
+      case 'IN PRODUZIONE':
+        return { type: 'motion', color: '#00cc66', show: true }; // 🟢 Motion dots verdi
+        
+      case 'RIAVVIO':
+        return { type: 'motion', color: '#ff9500', show: true }; // 🟡 Motion dots gialli
+        
+      case 'INIZIO PRODUZIONE':
+        return { type: 'motion', color: '#00cc66', show: true }; // 🟢 Motion dots verdi
+        
+      case 'SCARTO':
+        return { type: 'dot', color: '#cc4444', pulse: false, show: true }; // 🔴 Dot rosso fisso
+        
+      case 'STATO 5':
+        return { type: 'dot', color: '#1976d2', pulse: false, show: true }; // 🔵 Dot blu fisso
+        
+      case '-':
+        return { type: 'dot', color: '#9e9e9e', pulse: false, show: true }; // ⚫ Dot grigio fisso
+        
+      default:
+        if (percentage >= 95) return { type: 'dot', color: '#666666', pulse: false, show: true };
+        return { type: 'motion', color: '#00cc66', show: true }; // Default: motion dots verdi
+    }
   };
 
-  const statusDot = getMachineStatus();
+  const statusIndicator = getMachineStatus();
   
   return (
     <div className="led-progress-section">
-      {/* Header con dot di stato */}
+      {/* Header con indicatore di stato */}
       <div className="led-header">
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
           <span className="led-icon">⚙️</span>
           <span className="led-title">Avanzamento {unit}</span>
         </div>
         
-        {/* Dot di stato intelligente */}
-        {statusDot.show && (
-          <div style={{
-            width: '10px',
-            height: '10px',
-            backgroundColor: statusDot.color,
-            borderRadius: '50%',
-            opacity: statusDot.pulse ? (pulseActive ? 1 : 0.4) : 1,
-            transition: 'opacity 0.8s ease',
-            boxShadow: `0 0 8px ${statusDot.color}60`,
-            border: `1px solid ${statusDot.color}80`
-          }} />
+        {/* Indicatore di stato con Motion originale */}
+        {statusIndicator.show && (
+          <div style={{ display: 'flex', alignItems: 'center' }}>
+            {statusIndicator.type === 'motion' ? (
+              <LoadingThreeDots 
+                color={statusIndicator.color} 
+                size={8} 
+              />
+            ) : (
+              <div style={{
+                width: '10px',
+                height: '10px',
+                backgroundColor: statusIndicator.color,
+                borderRadius: '50%',
+                opacity: statusIndicator.pulse ? (pulseActive ? 1 : 0.4) : 1,
+                transition: 'opacity 0.8s ease',
+                boxShadow: `0 0 8px ${statusIndicator.color}60`,
+                border: `1px solid ${statusIndicator.color}80`
+              }} />
+            )}
+          </div>
         )}
       </div>
       
@@ -60,7 +148,7 @@ const LEDProgressBar = ({ current, total, unit = "bobine", machineStatus }) => {
         <span className="led-unit">{unit}</span>
       </div>
       
-      {/* Barra LED con pulse solo se attiva */}
+      {/* Barra LED */}
       <div className="led-bar-container">
         {Array.from({ length: segments }, (_, i) => {
           const isActive = i < activeSegments;
@@ -80,7 +168,7 @@ const LEDProgressBar = ({ current, total, unit = "bobine", machineStatus }) => {
           
           // Pulse solo sull'ultimo LED se macchina attiva
           const isLastActive = isActive && i === activeSegments - 1;
-          const shouldPulse = isLastActive && statusDot.pulse && pulseActive;
+          const shouldPulse = isLastActive && statusIndicator.type === 'motion' && pulseActive;
           
           return (
             <div
