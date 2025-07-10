@@ -57,7 +57,7 @@ function ProductionCard({ data }) {
       <LEDProgressBar 
         current={data.mntg_qta_lotti_attuale}
         total={data.mntg_qta_lotti}
-        unit="bobine"
+        unit=""  // <-- niente "bobine"
         machineStatus={stato.label} // ✅ Passa lo stato della macchina
       />          
         <p><strong>Velocità:</strong> {data.mntg_vel_ril} m/min</p>

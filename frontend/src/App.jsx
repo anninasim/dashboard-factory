@@ -25,7 +25,7 @@ function App() {
   }, []);
 
   return (
-    <div className="container dashboard-grid">
+    <div className="dashboard-grid">
       {dati.map((riga, i) => (
         <ProductionCard key={i} data={riga} />
       ))}
