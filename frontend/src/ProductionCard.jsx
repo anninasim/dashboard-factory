@@ -38,8 +38,19 @@ function ProductionCard({ data }) {
     ? data.att_descr.toUpperCase()
     : null;
 
-  return (
-    <div className="card">
+    return (
+  <div className="card">
+    {/* ⚠️ ALERT BANNER - Solo quando c'è att_descr */}
+    {messaggioAttDescr && (
+      <div className="alert-banner">
+        <div className="alert-content">
+          <div className="alert-icon">⚠️</div>
+          <div className="alert-message">{messaggioAttDescr}</div>
+          <div className="alert-pulse"></div>
+        </div>
+      </div>
+    )}
+    
       <div className="card-header" style={{ borderColor: stato.color }}>
         <h2>{data.fnt_sigla}</h2>
         <span className="status" style={{ backgroundColor: stato.color }}>
@@ -76,12 +87,6 @@ function ProductionCard({ data }) {
             icon="🌀" 
           />
         </div>
-
-        {messaggioAttDescr && (
-          <p style={{ marginTop: '12px', fontWeight: 'bold', color: '#ff9800' }}>
-            ⚠️ {messaggioAttDescr}
-          </p>
-        )}
       </div>
     </div>
   );
