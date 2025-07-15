@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { PieChart, Pie, Cell, ResponsiveContainer } from 'recharts';
 
 // Componente Three Dots (esistente)
 const LoadingThreeDots = ({ color = '#00cc66', size = 14 }) => (
@@ -24,115 +23,6 @@ const LoadingThreeDots = ({ color = '#00cc66', size = 14 }) => (
     ))}
   </div>
 );
-
-// 📊 NUOVO: Circular Progress Chart
-const CircularProgress = ({ percentage, size = 250, strokeWidth = 2 }) => {
-  // Colore dinamico basato su percentuale
-  const getProgressColor = (percent) => {
-    if (percent < 33) return '#cc4444'; // Rosso
-    if (percent < 66) return '#cc7700'; // Arancione  
-    return '#00cc66'; // Verde
-  };
-
-  const progressColor = getProgressColor(percentage);
-  const data = [
-    { name: 'completed', value: percentage },
-    { name: 'remaining', value: 100 - percentage }
-  ];
-
-  return (
-    <div style={{ 
-      position: 'relative', 
-      width: size, 
-      height: size,
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center'
-    }}>
-      {/* Chart circolare */}
-      <ResponsiveContainer width="100%" height="100%">
-        <PieChart>
-          <Pie
-            data={data}
-            cx="50%"
-            cy="50%"
-            startAngle={90}
-            endAngle={-270}
-            innerRadius={size/2 - strokeWidth*2}
-            outerRadius={size/2 - strokeWidth/2}
-            paddingAngle={0}
-            dataKey="value"
-          >
-            <Cell fill={progressColor} />
-            <Cell fill="#333333" />
-          </Pie>
-        </PieChart>
-      </ResponsiveContainer>
-      
-      {/* Percentuale al centro */}
-      <div style={{
-        position: 'absolute',
-        top: '50%',
-        left: '50%',
-        transform: 'translate(-50%, -50%)',
-        textAlign: 'center'
-      }}>
-        <div style={{
-          fontSize: `${size * 0.2}px`,
-          fontWeight: 'bold',
-          color: '#ffffff',
-          lineHeight: 1
-        }}>
-          {Math.round(percentage)}%
-        </div>
-      </div>
-    </div>
-  );
-};
-
-// 🌊 Wave Progress Component (esistente)
-const WaveProgress = ({ percentage, isActive = false }) => {
-  const getProgressColor = (percent) => {
-    if (percent < 33) return '#cc4444';
-    if (percent < 66) return '#cc7700';
-    return '#00cc66';
-  };
-
-  const progressColor = getProgressColor(percentage);
-  
-  return (
-    <div className="wave-progress-container">
-      <div className="wave-progress-track">
-        <div 
-          className="wave-progress-fill"
-          style={{ 
-            width: `${Math.min(percentage, 100)}%`,
-            backgroundColor: progressColor,
-            backgroundImage: isActive ? 
-              `repeating-linear-gradient(
-                45deg,
-                ${progressColor},
-                ${progressColor} 8px,
-                rgba(255,255,255,0.1) 8px,
-                rgba(255,255,255,0.1) 16px
-              )` : 'none',
-            animation: isActive ? 'waveFlow 2s linear infinite' : 'none'
-          }}
-        >
-          {isActive && (
-            <div 
-              className="wave-glow"
-              style={{
-                backgroundColor: progressColor,
-                boxShadow: `0 0 10px ${progressColor}60, inset 0 0 10px rgba(255,255,255,0.1)`
-              }}
-            />
-          )}
-        </div>
-      </div>
-    </div>
-  );
-};
 
 const LEDProgressBar = ({ current, total, unit = "bobine", machineStatus }) => {
   const [pulseActive, setPulseActive] = useState(true);
@@ -175,11 +65,11 @@ const LEDProgressBar = ({ current, total, unit = "bobine", machineStatus }) => {
   
   return (
     <div className="led-progress-section">
-      {/* Header con indicatore di stato */}
+      {/* Header con indicatore di stato - titolo più conciso */}
       <div className="led-header">
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
           <span className="led-icon">⚙️</span>
-          <span className="led-title">Stato di avanzamento della produzione {unit}</span>
+          <span className="led-title">Avanzamento</span>
         </div>
         
         {statusIndicator.show && (
@@ -202,35 +92,46 @@ const LEDProgressBar = ({ current, total, unit = "bobine", machineStatus }) => {
         )}
       </div>
       
-      {/* Conteggio bobine */}
-      <div className="led-counter">
-        <span className="led-current">{current}</span>
-        <span className="led-separator">/</span>
-        <span className="led-total">{total}</span>
-        {/* <span className="led-unit">{unit}</span> */}
+      {/* ⭐ CONTEGGIO PROMINENTE - Numeri chiave in grande evidenza */}
+      <div className="led-counter-prominent">
+        <span className="led-current-key">{current}</span>
+        <span className="led-separator-key">/</span>
+        <span className="led-total-key">{total}</span>
       </div>
       
-      {/* 🎯 NUOVA SEZIONE: Progress Combo */}
-      <div className="progress-combo">
-        {/* Circular Progress - Ingrandito per TV 4K */}
-        <div className="circular-section">
-          <CircularProgress 
-            percentage={percentage} 
-            size={100} 
-            strokeWidth={8}
-          />
-        </div>
-        
-        {/* Wave Progress */}
-        <div className="wave-section">
-          <WaveProgress 
-            percentage={percentage} 
-            isActive={statusIndicator.isActive}
-          />
+      {/* Barra di progresso wave (senza progresso circolare) */}
+      <div className="wave-progress-container">
+        <div className="wave-progress-track">
+          <div 
+            className="wave-progress-fill"
+            style={{ 
+              width: `${Math.min(percentage, 100)}%`,
+              backgroundColor: statusIndicator.isActive ? '#00cc66' : '#666666',
+              backgroundImage: statusIndicator.isActive ? 
+                `repeating-linear-gradient(
+                  45deg,
+                  #00cc66,
+                  #00cc66 8px,
+                  rgba(255,255,255,0.1) 8px,
+                  rgba(255,255,255,0.1) 16px
+                )` : 'none',
+              animation: statusIndicator.isActive ? 'waveFlow 2s linear infinite' : 'none'
+            }}
+          >
+            {statusIndicator.isActive && (
+              <div 
+                className="wave-glow"
+                style={{
+                  backgroundColor: '#00cc66',
+                  boxShadow: `0 0 10px #00cc6660, inset 0 0 10px rgba(255,255,255,0.1)`
+                }}
+              />
+            )}
+          </div>
         </div>
       </div>
-      
-      {/* CSS Styles */}
+
+      {/* CSS Styles per il nuovo design */}
       <style>{`
         @keyframes dotPulse {
           0%, 80%, 100% { 
@@ -247,68 +148,98 @@ const LEDProgressBar = ({ current, total, unit = "bobine", machineStatus }) => {
           0% { background-position: 0px 0px; }
           100% { background-position: 32px 0px; }
         }
-        
-        .progress-combo {
+
+        /* ⭐ NUOVI STILI: Conteggio prominente per massima visibilità */
+        .led-counter-prominent {
           display: flex;
-          align-items: center;
-          gap: 16px;
-          margin: 16px 0;
+          justify-content: center;
+          align-items: baseline;
+          gap: 8px;
+          margin: 20px 0;
+          padding: 16px;
+          background: linear-gradient(135deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.08));
+          border-radius: 12px;
+          border: 2px solid #444;
         }
-        
-        .circular-section {
-          flex-shrink: 0;
+
+        .led-current-key {
+          font-size: 3.2rem !important; /* ⭐ Ridotto per eleganza e equilibrio */
+          font-weight: 700 !important; /* ⭐ Meno bold per eleganza */
+          color: #00cc66 !important;
+          line-height: 1;
         }
-        
-        .wave-section {
-          flex: 1;
+
+        .led-separator-key {
+          font-size: 2.2rem !important; /* ⭐ Proporzionalmente ridotto */
+          color: #888888;
+          margin: 0 6px;
+          font-weight: 500; /* ⭐ Più leggero */
         }
-        
+
+        .led-total-key {
+          font-size: 2.2rem !important; /* ⭐ Proporzionalmente ridotto */
+          font-weight: 600 !important;
+          color: #cccccc !important;
+          line-height: 1;
+        }
+
+        /* Barra di progresso wave (senza progresso circolare) */
         .wave-progress-container {
-          margin: 0;
+          margin: 16px 0 0 0;
         }
-        
+
         .wave-progress-track {
           width: 100%;
-          height: 14px;
+          height: 18px; /* Altezza leggermente aumentata */
           background: linear-gradient(90deg, #2a2a2a, #333);
-          border-radius: 7px;
+          border-radius: 9px;
           overflow: hidden;
           border: 1px solid #555;
           box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
           position: relative;
         }
-        
+
         .wave-progress-fill {
           height: 100%;
           transition: width 1s cubic-bezier(0.4, 0, 0.2, 1);
-          border-radius: 6px;
+          border-radius: 8px;
           position: relative;
           overflow: hidden;
         }
-        
+
         .wave-glow {
           position: absolute;
           top: 0;
           left: 0;
           right: 0;
           bottom: 0;
-          border-radius: 6px;
+          border-radius: 8px;
           opacity: 0.3;
         }
-        
-        /* Responsive per TV 4K */
+
+        /* Responsive per schermi più piccoli */
+        @media (max-width: 768px) {
+          .led-current-key {
+            font-size: 2.6rem !important; /* ⭐ Elegante e leggibile su mobile */
+          }
+
+          .led-separator-key, .led-total-key {
+            font-size: 1.8rem !important; /* ⭐ Proporzionato e pulito */
+          }
+        }
+
+        /* Responsive per TV 4K - Dimensioni aumentate ma eleganti */
         @media (min-width: 3840px) {
-          .progress-combo {
-            gap: 24px;
+          .led-current-key {
+            font-size: 4rem !important; /* ⭐ Grande su 4K ma non eccessivo */
           }
-          
-          .circular-section {
-            /* Ancora più grande su 4K */
-            transform: scale(1.2);
+
+          .led-separator-key, .led-total-key {
+            font-size: 2.8rem !important; /* ⭐ Proporzionato per 4K */
           }
-          
+
           .wave-progress-track {
-            height: 18px;
+            height: 24px;
           }
         }
       `}</style>

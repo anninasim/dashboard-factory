@@ -1,4 +1,4 @@
-// server.js - backend REST API con SQL Server
+// server.js - backend REST API con SQL Server (AGGIORNATO)
 const express = require('express');
 const cors = require('cors');
 const sql = require('mssql');
@@ -27,39 +27,65 @@ const poolPromise = new sql.ConnectionPool(dbConfig)
   })
   .catch(err => console.error('❌ Errore SQL:', err));
 
+// 🔥 ENDPOINT AGGIORNATO: Dashboard con dati tecnici materiali
 app.get('/api/dashboard', async (req, res) => {
   try {
     const pool = await poolPromise;
 
     const result = await pool.request().query(`
-    SELECT
-      fnt_sigla,
-      mntg_rif_ordine,
-      mntg_articolo,
-      mntg_descr_articolo,
-      mntg_codice_ricetta,
-      mntg_qta_lotti,
-      mntg_qta_lotti_attuale,
-      mntg_vel_ril,
-      mntg_portata_ril,
-      att_descr, -- ⬅️ AGGIUNTA QUESTA RIGA
-      mntg_stato_gruppo,
-      mntg_azione AS mntg_azione
-    FROM dbo.view_dash_react_factory_eye
-        `);
+      SELECT
+        -- Dati operativi dalla vista principale
+        main.fnt_sigla,
+        main.mntg_rif_ordine,
+        main.mntg_articolo,
+        main.mntg_descr_articolo,
+        main.mntg_codice_ricetta,
+        main.mntg_qta_lotti,
+        main.mntg_qta_lotti_attuale,
+        main.mntg_vel_ril,
+        main.mntg_portata_ril,
+        main.att_descr,
+        main.mntg_stato_gruppo,
+        main.mntg_azione,
+        
+        -- 🆕 NUOVI DATI TECNICI: Caratteristiche materiali
+        tech.mntg_gruppo,          -- Per debug/verifica del join
+        tech.mandrino,             -- Informazioni mandrino
+        tech.tipologia,            -- Tipo di materiale
+        tech.larghezza,            -- Dimensione materiale
+        tech.spessore_micron,      -- Spessore in micron
+        tech.qta_uni_kg,           -- Quantità unitaria in kg
+        tech.qta_uni_ml,           -- Quantità unitaria in ml
+        tech.num_bobine            -- Numero bobine
+        
+      FROM dbo.view_dash_react_factory_eye AS main
+      
+      -- JOIN con la vista tecnica usando mntg_gruppo (identificativo macchina)
+      LEFT JOIN dbo.VIEW_display_s1_tab AS tech 
+        ON main.mntg_gruppo = tech.mntg_gruppo
+      
+      -- Ordiniamo per identificativo macchina per consistenza
+      ORDER BY main.fnt_sigla
+    `);
+
+    // Log per debug: verifica i nuovi campi
+    console.log(`📊 Dashboard query completata: ${result.recordset.length} records`);
+    console.log(`🔧 Primo record con dati tecnici:`, {
+      macchina: result.recordset[0]?.fnt_sigla,
+      tipologia: result.recordset[0]?.tipologia,
+      larghezza: result.recordset[0]?.larghezza,
+      spessore: result.recordset[0]?.spessore_micron
+    });
 
     res.json(result.recordset);
   } catch (err) {
-    console.error('❌ Errore nella query:', err);
-    res.status(500).json({ error: 'Errore query SQL Server' });
+    console.error('❌ Errore nella query dashboard:', err);
+    res.status(500).json({ 
+      error: 'Errore query SQL Server',
+      details: err.message 
+    });
   }
 });
-
-app.listen(3001, () => {
-  console.log('✅ Backend attivo su http://localhost:3001');
-});
-
-
 
 // Utility function per convertire DataFormattata in HH:MM
 function formatDataToTime(dataFormattata) {
@@ -69,7 +95,7 @@ function formatDataToTime(dataFormattata) {
   return `${hours}:${minutes}`;
 }
 
-// Endpoint per i dati di portata
+// Endpoint per i dati di portata (invariato)
 app.get('/api/flow-data', async (req, res) => {
   try {
     const pool = await poolPromise;
@@ -138,4 +164,9 @@ app.get('/api/flow-data', async (req, res) => {
     console.error('❌ Errore nella query portata:', err);
     res.status(500).json({ error: 'Errore query dati portata' });
   }
+});
+
+app.listen(3001, () => {
+  console.log('✅ Backend attivo su http://localhost:3001');
+  console.log('🔧 Endpoint dashboard arricchito con dati tecnici materiali');
 });
