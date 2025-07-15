@@ -58,3 +58,84 @@ app.get('/api/dashboard', async (req, res) => {
 app.listen(3001, () => {
   console.log('✅ Backend attivo su http://localhost:3001');
 });
+
+
+
+// Utility function per convertire DataFormattata in HH:MM
+function formatDataToTime(dataFormattata) {
+  const timeStr = dataFormattata.slice(-4); // Ultimi 4 caratteri (HHMM)
+  const hours = timeStr.slice(0, 2);
+  const minutes = timeStr.slice(2, 4);
+  return `${hours}:${minutes}`;
+}
+
+// Endpoint per i dati di portata
+app.get('/api/flow-data', async (req, res) => {
+  try {
+    const pool = await poolPromise;
+    const { date } = req.query;
+    
+    // Se non viene fornita una data, usa oggi
+    const targetDate = date || new Date().toISOString().slice(0, 10).replace(/-/g, '');
+    
+    const result = await pool.request()
+      .input('datePattern', sql.NVarChar, `${targetDate}%`)
+      .query(`
+        SELECT 
+          macchina,
+          DataFormattata,
+          portata_ril
+        FROM [OptimusNT_data].[dbo].[view_grafico_portata_giornaliera]
+        WHERE DataFormattata LIKE @datePattern
+        ORDER BY macchina, DataFormattata
+      `);
+
+    // Raggruppa i dati per macchina
+    const machineData = {};
+    
+    result.recordset.forEach(row => {
+      const machine = row.macchina;
+      if (!machineData[machine]) {
+        machineData[machine] = [];
+      }
+      
+      machineData[machine].push({
+        time: formatDataToTime(row.DataFormattata),
+        rawTime: row.DataFormattata,
+        flowRate: row.portata_ril,
+        timestamp: row.DataFormattata
+      });
+    });
+
+    // Calcola statistiche per ogni macchina
+    const machines = Object.keys(machineData).map(machine => {
+      const data = machineData[machine];
+      const flowRates = data.map(d => d.flowRate);
+      
+      return {
+        machine,
+        dataPoints: data.length,
+        data: data,
+        stats: {
+          min: Math.min(...flowRates),
+          max: Math.max(...flowRates),
+          avg: flowRates.reduce((a, b) => a + b, 0) / flowRates.length,
+          latest: data[data.length - 1]?.flowRate || null
+        }
+      };
+    });
+
+    const response = {
+      date: targetDate,
+      machines: machines,
+      totalMachines: machines.length,
+      totalDataPoints: machines.reduce((sum, m) => sum + m.dataPoints, 0)
+    };
+
+    res.json(response);
+    
+  } catch (err) {
+    console.error('❌ Errore nella query portata:', err);
+    res.status(500).json({ error: 'Errore query dati portata' });
+  }
+});

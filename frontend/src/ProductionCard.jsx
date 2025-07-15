@@ -1,3 +1,4 @@
+
 import React from 'react';
 import LEDProgressBar from './LEDProgressBar';
 import KpiBox from './components/Kpibox'; // ✅ Corretto il nome del file (b minuscola)
@@ -40,23 +41,21 @@ function ProductionCard({ data }) {
 
     return (
   <div className="card">
-    {/* ⚠️ ALERT BANNER - Solo quando c'è att_descr */}
-    {messaggioAttDescr && (
-      <div className="alert-banner">
-        <div className="alert-content">
-          <div className="alert-icon">⚠️</div>
-          <div className="alert-message">{messaggioAttDescr}</div>
-          <div className="alert-pulse"></div>
-        </div>
-      </div>
-    )}
-    
       <div className="card-header" style={{ borderColor: stato.color }}>
-        <h2>{data.fnt_sigla}</h2>
-        <span className="status" style={{ backgroundColor: stato.color }}>
-          {stato.label}
-        </span>
-      </div>
+  <h2>{data.fnt_sigla}</h2>
+  
+  {/* ⚠️ ALERT AL CENTRO */}
+  {messaggioAttDescr && (
+    <div className="header-alert-center">
+      <span className="alert-icon-small">⚠️</span>
+      <span className="alert-text-small">{messaggioAttDescr}</span>
+    </div>
+  )}
+  
+  <span className="status" style={{ backgroundColor: stato.color }}>
+    {stato.label}
+  </span>
+</div>
       <div className="card-body">
         <p><strong>Ordine:</strong> {data.mntg_rif_ordine}</p>
         <p><strong>Articolo:</strong> {data.mntg_articolo}</p>
@@ -87,6 +86,7 @@ function ProductionCard({ data }) {
             icon="🌀" 
           />
         </div>
+
       </div>
     </div>
   );

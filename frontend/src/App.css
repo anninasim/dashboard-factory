@@ -310,36 +310,56 @@ body {
     font-size: 1.2rem;
   }
 
-.alert-banner {
-  background: #ff6b35;
-  border: 2px solid #ff9800;
-  border-radius: 4px 4px 0 0;
-  padding: 12px 16px;
-  margin: -24px -24px 0 -24px;
-  animation: simpleFlash 1.5s ease-in-out infinite;
+/* Stili per alert integrato nell'header */
+.header-left {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
-.alert-content {
+.header-alert-center {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 6px;
+  background: rgba(255, 152, 0, 0.15);
+  border: 1px solid rgba(255, 152, 0, 0.4);
+  border-radius: 6px;
+  padding: 4px 8px;
+  animation: headerFlash 1.5s ease-in-out infinite;
 }
 
-.alert-icon {
-  font-size: 1.6rem;
-  color: #ffffff;
-}
-
-.alert-message {
-  flex: 1;
-  color: #ffffff;
-  font-weight: 700;
+.alert-icon-small {
   font-size: 1.3rem;
-  text-transform: uppercase;
+  animation: iconPulse 1.5s ease-in-out infinite;
 }
 
-@keyframes simpleFlash {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.7; }
+.alert-text-small {
+  color: #ffcc02;
+  font-size: 1.5rem;
+  font-weight: 600;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+
+
+@keyframes headerFlash {
+  0%, 100% { 
+    background: rgba(255, 152, 0, 0.15);
+    border-color: rgba(255, 152, 0, 0.4);
+  }
+  50% { 
+    background: rgba(255, 152, 0, 0.25);
+    border-color: rgba(255, 152, 0, 0.6);
+  }
+}
+
+@keyframes iconPulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+}
+
+@keyframes iconPulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.1); }
 }
 }
