@@ -2,29 +2,136 @@ import React from 'react';
 import LEDProgressBar from './LEDProgressBar';
 import KpiBox from './components/Kpibox';
 
-const getStatus = (stato, azione) => {
+// 🚨 LOGICA AGGIORNATA: Stato FERMA più visibile in stile industriale
+const getStatus = (stato, azione, velocita, portata) => {
   const s = Number(stato);
-
-  if (s === 5) {
-    switch (azione) {
-      case 'CPF':
-        return { label: 'IN PRODUZIONE', color: '#4caf50' };
-      case 'RIA':
-        return { label: 'RIAVVIO', color: '#ffc107' };
-      case 'INI':
-        return { label: 'INIZIO PRODUZIONE', color: '#2196f3' };
-      case 'SCR':
-        return { label: 'SCARTO', color: '#f44336' };
-      default:
-        return { label: 'STATO 5', color: '#1976d2' };
+  const vel = Number(velocita) || 0;
+  const port = Number(portata) || 0;
+  
+  const isSensorsStopped = vel === 0 && port === 0;
+  const isSensorsActive = vel > 0 || port > 0;
+  
+  // 🚨 PRIORITÀ 1: FERMA - Stesso stile ma colore distintivo
+  if (isSensorsStopped) {
+    return { 
+      label: '🔴 FERMA', 
+      color: '#e53e3e',           // Rosso industriale acceso
+      bgColor: '#2a1f1f',         // Background rosso scuro
+      borderColor: '#e53e3e',     // Border rosso
+      animation: 'none',          // Nessuna animazione
+      priority: 'critical'        // Priorità critica
+    };
+  }
+  
+  // Stati normali (produzione attiva)
+  if (isSensorsActive) {
+    if (s === 5) {
+      switch (azione) {
+        case 'CPF': return { 
+          label: '🟢 IN PRODUZIONE', 
+          color: '#4caf50',
+          bgColor: '#1f2a1f',
+          borderColor: '#4caf50',
+          animation: 'none',
+          priority: 'normal'
+        };
+        case 'RIA': return { 
+          label: '🟡 RIAVVIO', 
+          color: '#ffc107',
+          bgColor: '#2a2a1f',
+          borderColor: '#ffc107',
+          animation: 'slowPulse',
+          priority: 'medium'
+        };
+        case 'INI': return { 
+          label: '🔵 INIZIO PRODUZIONE', 
+          color: '#2196f3',
+          bgColor: '#1f2a2a',
+          borderColor: '#2196f3',
+          animation: 'none',
+          priority: 'normal'
+        };
+        case 'SCR': return { 
+          label: '🟠 SCARTO', 
+          color: '#f44336',
+          bgColor: '#2a1f1f',
+          borderColor: '#f44336',
+          animation: 'fastPulse',
+          priority: 'high'
+        };
+        default: return { 
+          label: 'STATO 5', 
+          color: '#1976d2',
+          bgColor: '#1f1f2a',
+          borderColor: '#1976d2',
+          animation: 'none',
+          priority: 'normal'
+        };
+      }
+    }
+    
+    if (s === 7) {
+      switch (azione) {
+        case 'CPF': return { 
+          label: '🟢 IN PRODUZIONE', 
+          color: '#4caf50',
+          bgColor: '#1f2a1f',
+          borderColor: '#4caf50',
+          animation: 'none',
+          priority: 'normal'
+        };
+        case 'FER': return { 
+          label: '🔴 FERMA', 
+          color: '#e53e3e',
+          bgColor: '#2a1f1f',
+          borderColor: '#e53e3e',
+          animation: 'none',
+          priority: 'critical'
+        };
+        case 'RIA': return { 
+          label: '🟡 RIAVVIO', 
+          color: '#ffc107',
+          bgColor: '#2a2a1f',
+          borderColor: '#ffc107',
+          animation: 'slowPulse',
+          priority: 'medium'
+        };
+        case 'INI': return { 
+          label: '🔵 INIZIO PRODUZIONE', 
+          color: '#2196f3',
+          bgColor: '#1f2a2a',
+          borderColor: '#2196f3',
+          animation: 'none',
+          priority: 'normal'
+        };
+        case 'SCR': return { 
+          label: '🟠 SCARTO', 
+          color: '#f44336',
+          bgColor: '#2a1f1f',
+          borderColor: '#f44336',
+          animation: 'fastPulse',
+          priority: 'high'
+        };
+        default: return { 
+          label: 'STATO 7', 
+          color: '#666666',
+          bgColor: '#252525',
+          borderColor: '#666666',
+          animation: 'none',
+          priority: 'normal'
+        };
+      }
     }
   }
-
-  if (s === 7 && azione === 'FER') {
-    return { label: 'FERMA', color: '#9e9e9e' };
-  }
-
-  return { label: '-', color: '#9e9e9e' };
+  
+  return { 
+    label: 'STATO SCONOSCIUTO', 
+    color: '#9e9e9e',
+    bgColor: '#252525',
+    borderColor: '#9e9e9e',
+    animation: 'none',
+    priority: 'normal'
+  };
 };
 
 // 🎯 Componente ottimizzato per le specifiche tecniche del materiale
@@ -84,7 +191,7 @@ const MaterialSpecs = ({ data }) => {
               <div className="spec-item">
                 <span className="spec-icon">📏</span>
                 <span className="spec-label">Larghezza</span>
-                <span className="spec-value-key">{formatNumber(data.larghezza)} m</span>
+                <span className="spec-value-key">{formatNumber(data.larghezza)} mt</span>
               </div>
             )}
             
@@ -111,7 +218,7 @@ const MaterialSpecs = ({ data }) => {
               <div className="spec-item">
                 <span className="spec-icon">📏</span>
                 <span className="spec-label">Metri lineari</span>
-                <span className="spec-value-key">{formatNumber(data.qta_uni_ml)} m</span>
+                <span className="spec-value-key">{formatNumber(data.qta_uni_ml)} mt</span>
               </div>
             )}
           </div>
@@ -217,7 +324,7 @@ const MaterialSpecs = ({ data }) => {
         }
 
         .spec-icon {
-          font-size: 1rem;
+          font-size: 1.5rem;
           flex-shrink: 0;
           opacity: 0.8;
         }
@@ -281,7 +388,7 @@ const MaterialSpecs = ({ data }) => {
           }
           
           .spec-label {
-            font-size: 1rem;
+            font-size: 1.2rem;
           }
           
           .spec-value-key {
@@ -293,8 +400,50 @@ const MaterialSpecs = ({ data }) => {
   );
 };
 
+// 🎨 FUNZIONE per determinare i colori KPI in base allo stato macchina
+const getKpiColor = (machineStatus, kpiType) => {
+  // Colori base per diversi tipi di KPI
+  const colorSchemes = {
+    velocity: {
+      active: '#4fc3f7',    // Azzurro per velocità attiva
+      inactive: '#666666',  // Grigio per velocità ferma
+      warning: '#ffc107',   // Giallo per velocità in allerta
+      error: '#f44336'      // Rosso per velocità in errore
+    },
+    flow: {
+      active: '#ffb74d',    // Arancione per portata attiva
+      inactive: '#666666',  // Grigio per portata ferma
+      warning: '#ffc107',   // Giallo per portata in allerta
+      error: '#f44336'      // Rosso per portata in errore
+    }
+  };
+
+  const scheme = colorSchemes[kpiType] || colorSchemes.velocity;
+
+  // Logica di colore basata sullo stato della macchina
+  if (machineStatus.includes('FERMA')) {
+    return scheme.inactive;
+  } else if (machineStatus.includes('IN PRODUZIONE')) {
+    return scheme.active;
+  } else if (machineStatus.includes('RIAVVIO')) {
+    return scheme.warning;
+  } else if (machineStatus.includes('SCARTO')) {
+    return scheme.error;
+  } else if (machineStatus.includes('INIZIO PRODUZIONE')) {
+    return scheme.active;
+  } else {
+    return scheme.inactive;  // Default per stati sconosciuti
+  }
+};
+
 function ProductionCard({ data }) {
-  const stato = getStatus(data.mntg_stato_gruppo, data.mntg_azione);
+  // 🎯 AGGIORNAMENTO: Passa velocità e portata alla funzione getStatus
+  const stato = getStatus(
+    data.mntg_stato_gruppo, 
+    data.mntg_azione,
+    data.mntg_vel_ril,      // ← AGGIUNGI velocità
+    data.mntg_portata_ril   // ← AGGIUNGI portata
+  );
 
   // ⭐ Combina articolo e descrizione in un unico campo
   const articoloCompleto = () => {
@@ -319,9 +468,12 @@ function ProductionCard({ data }) {
     : null;
 
   return (
-    <div className="card">
+    <div className={`card ${stato.priority === 'critical' ? 'card-critical' : ''}`}>
       {/* Header con stato e alert */}
-      <div className="card-header" style={{ borderColor: stato.color }}>
+      <div className="card-header" style={{ 
+        borderColor: stato.borderColor || stato.color,
+        backgroundColor: stato.bgColor || 'transparent'
+      }}>
         <h2>{data.fnt_sigla}</h2>
         
         {/* Alert al centro se presente */}
@@ -332,7 +484,12 @@ function ProductionCard({ data }) {
           </div>
         )}
         
-        <span className="status" style={{ backgroundColor: stato.color }}>
+        <span 
+          className={`status ${stato.animation !== 'none' ? stato.animation : ''}`}
+          style={{ 
+            backgroundColor: stato.color
+          }}
+        >
           {stato.label}
         </span>
       </div>
@@ -354,6 +511,8 @@ function ProductionCard({ data }) {
               total={data.mntg_qta_lotti}
               unit=""
               machineStatus={stato.label}
+              machineColor={stato.color}  // ← NUOVO: Passa il colore dello stato
+              percentage={data.mntg_qta_lotti > 0 ? (data.mntg_qta_lotti_attuale / data.mntg_qta_lotti) * 100 : 0}
             />
           </div>
 
@@ -363,7 +522,7 @@ function ProductionCard({ data }) {
               label="Velocità" 
               value={data.mntg_vel_ril || 0} 
               unit="m/min" 
-              color="#4fc3f7" 
+              color={getKpiColor(stato.label, 'velocity')}  // ← NUOVO: Colore condizionato
               background="#2a2a2a"
               border="#555"
             />
@@ -371,14 +530,14 @@ function ProductionCard({ data }) {
               label="Portata" 
               value={data.mntg_portata_ril || 0} 
               unit="Kg/h" 
-              color="#ffb74d" 
+              color={getKpiColor(stato.label, 'flow')}      // ← NUOVO: Colore condizionato
               background="#2a2a2a"
               border="#555"
             />
           </div>
         </div>
 
-        {/* CSS per il nuovo layout orizzontale */}
+        {/* 🚨 CSS COMPLETO per layout + animazioni industriali */}
         <style>{`
           .progress-and-kpi-container {
             display: flex;
@@ -401,6 +560,46 @@ function ProductionCard({ data }) {
             min-width: 0;
           }
 
+          /* 🚨 CARD CRITICA: Stato FERMA - Stesso stile ma colore distintivo */
+          .card-critical {
+            border: 3px solid #e53e3e !important;
+            background: linear-gradient(145deg, #2a1f1f, #331f1f) !important;
+            position: relative;
+          }
+
+          /* 🟡 ANIMAZIONE SLOW PULSE - Per riavvio */
+          @keyframes slowPulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+          }
+
+          /* 🟠 ANIMAZIONE FAST PULSE - Per scarto */
+          @keyframes fastPulse {
+            0%, 100% { opacity: 1; }
+            25% { opacity: 0.6; }
+            75% { opacity: 0.9; }
+          }
+
+          /* 🎯 APPLICAZIONE ANIMAZIONI - Solo per stati attivi */
+          .status.slowPulse {
+            animation: slowPulse 3s ease-in-out infinite;
+          }
+
+          .status.fastPulse {
+            animation: fastPulse 1s ease-in-out infinite;
+          }
+
+          /* 🔴 OVERRIDE PER STATO FERMA - Elegante ma visibile */
+          .card-critical .status {
+            font-weight: 700 !important;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5) !important;
+            border: 2px solid rgba(255, 255, 255, 0.2) !important;
+            text-transform: uppercase !important;
+            letter-spacing: 1px !important;
+            font-size: 1.5rem !important;
+            padding: 14px 28px !important;
+          }
+
           /* Adattamenti per schermi più piccoli */
           @media (max-width: 1200px) {
             .progress-and-kpi-container {
@@ -416,6 +615,17 @@ function ProductionCard({ data }) {
             .kpi-section {
               flex-direction: row; /* Su schermi piccoli torna orizzontale */
               gap: 12px;
+            }
+          }
+
+          /* 📱 Responsive per mobile */
+          @media (max-width: 768px) {
+            .progress-and-kpi-container {
+              gap: 8px;
+            }
+            
+            .kpi-section {
+              gap: 8px;
             }
           }
 

@@ -10,6 +10,43 @@ function App() {
   // ⏱️ Intervallo di polling configurabile
   const POLLING_INTERVAL_MS = 30000; // 30 secondi per dashboard produzione
 
+  // 🎯 FUNZIONE ORDINAMENTO PERSONALIZZATO per le card della dashboard
+  const ordinaMacchine = (dati) => {
+    // Ordinamento personalizzato secondo la sequenza richiesta
+    const ordinePersonalizzato = [
+      'TR100 A',
+      'TR100 B', 
+      'TR100 C',
+      'TR 80',
+      'TR120 A',
+      'TR120 B',
+      'TR160',
+      'COEX 7s'
+    ];
+
+    return dati.sort((a, b) => {
+      // Ottieni i nomi delle macchine dai dati (campo fnt_sigla)
+      const nomeA = a.fnt_sigla || '';
+      const nomeB = b.fnt_sigla || '';
+      
+      // Trova le posizioni nell'ordinamento personalizzato
+      let posizioneA = ordinePersonalizzato.indexOf(nomeA);
+      let posizioneB = ordinePersonalizzato.indexOf(nomeB);
+      
+      // Se una macchina non è nell'elenco personalizzato, la mette alla fine
+      if (posizioneA === -1) posizioneA = ordinePersonalizzato.length;
+      if (posizioneB === -1) posizioneB = ordinePersonalizzato.length;
+      
+      // Ordinamento per posizione
+      if (posizioneA !== posizioneB) {
+        return posizioneA - posizioneB;
+      }
+      
+      // Se entrambe sono "fuori lista", ordina alfabeticamente
+      return nomeA.localeCompare(nomeB);
+    });
+  };
+
   useEffect(() => {
     // Fetch dati solo per la dashboard di produzione
     if (currentPage === 'dashboard') {
@@ -17,7 +54,10 @@ function App() {
         try {
           const res = await fetch('http://localhost:3001/api/dashboard');
           const data = await res.json();
-          setDati(data);
+          
+          // 🎯 APPLICA L'ORDINAMENTO PERSONALIZZATO
+          const datiOrdinati = ordinaMacchine(data);
+          setDati(datiOrdinati);
         } catch (err) {
           console.error('Errore nel recupero dati:', err);
         }

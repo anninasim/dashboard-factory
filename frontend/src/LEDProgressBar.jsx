@@ -36,28 +36,78 @@ const LEDProgressBar = ({ current, total, unit = "bobine", machineStatus }) => {
     return () => clearInterval(interval);
   }, []);
   
-  // Logica stato macchina
+  // 🎨 NUOVA FUNZIONE: Colore dinamico basato su avanzamento + stato macchina (4 COLORI)
+  const getProgressColor = () => {
+    // Se la macchina è ferma, sempre grigio (OVERRIDE)
+    if (machineStatus?.includes('FERMA')) {
+      return {
+        color: '#666666',  // Grigio - Macchina ferma
+        name: 'Fermo',
+        glow: '#66666660'
+      };
+    }
+    
+    // Se c'è un errore/scarto, sempre rosso scuro
+    if (machineStatus?.includes('SCARTO')) {
+      return {
+        color: '#d32f2f',  // Rosso scuro - Errore/Scarto
+        name: 'Errore',
+        glow: '#d32f2f60'
+      };
+    }
+    
+    // Colore basato sulla percentuale di avanzamento (SOLO se macchina attiva)
+    if (percentage >= 75) {
+      return {
+        color: '#4caf50',  // Verde - Quasi completato (75%+)
+        name: 'Completamento',
+        glow: '#4caf5060'
+      };
+    } else if (percentage >= 25) {
+      return {
+        color: '#ff9800',  // Arancione - Produzione normale (25-74%)
+        name: 'Produzione',
+        glow: '#ff980060'
+      };
+    } else if (percentage > 0) {
+      return {
+        color: '#f44336',  // Rosso - Inizio critico (1-24%)
+        name: 'Inizio',
+        glow: '#f4433660'
+      };
+    } else {
+      return {
+        color: '#666666',  // Grigio - Nessun avanzamento
+        name: 'Fermo',
+        glow: '#66666660'
+      };
+    }
+  };
+  
+  const progressColor = getProgressColor();
+  
+  // Logica stato macchina - AGGIORNATA per usare colore dinamico con rosso
   const getMachineStatus = () => {
     if (percentage === 0) return { type: 'none', show: false, isActive: false };
     
     switch(machineStatus) {
-      case 'FERMA':
-        return { type: 'dot', color: '#cc4444', pulse: false, show: true, isActive: false };
-      case 'IN PRODUZIONE':
-        return { type: 'motion', color: '#00cc66', show: true, isActive: true };
-      case 'RIAVVIO':
-        return { type: 'motion', color: '#ff9500', show: true, isActive: true };
-      case 'INIZIO PRODUZIONE':
-        return { type: 'motion', color: '#00cc66', show: true, isActive: true };
-      case 'SCARTO':
-        return { type: 'dot', color: '#cc4444', pulse: false, show: true, isActive: false };
+      case '🔴 FERMA':
+        return { type: 'dot', color: '#f44336', pulse: false, show: true, isActive: false };
+      case '🟢 IN PRODUZIONE':
+        return { type: 'motion', color: progressColor.color, show: true, isActive: true };
+      case '🟡 RIAVVIO':
+        return { type: 'motion', color: progressColor.color, show: true, isActive: true };
+      case '🔵 INIZIO PRODUZIONE':
+        return { type: 'motion', color: progressColor.color, show: true, isActive: true };
+      case '🟠 SCARTO':
+        return { type: 'dot', color: '#d32f2f', pulse: false, show: true, isActive: false };
       case 'STATO 5':
         return { type: 'dot', color: '#1976d2', pulse: false, show: true, isActive: false };
       case '-':
         return { type: 'dot', color: '#9e9e9e', pulse: false, show: true, isActive: false };
       default:
-        if (percentage >= 95) return { type: 'dot', color: '#666666', pulse: false, show: true, isActive: false };
-        return { type: 'motion', color: '#00cc66', show: true, isActive: true };
+        if (percentage >= 95) return { type: 'dot', color: '#4caf50', pulse: false, show: true, isActive: false };
+        return { type: 'motion', color: progressColor.color, show: true, isActive: true };
     }
   };
 
@@ -70,6 +120,18 @@ const LEDProgressBar = ({ current, total, unit = "bobine", machineStatus }) => {
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
           <span className="led-icon">⚙️</span>
           <span className="led-title">Avanzamento</span>
+          {/* 🆕 NUOVO: Indicatore stato colore */}
+          <span 
+            className="progress-status-label"
+            style={{ 
+              color: progressColor.color,
+              fontSize: '0.8rem',
+              fontWeight: '500',
+              opacity: 0.8
+            }}
+          >
+            ({progressColor.name})
+          </span>
         </div>
         
         {statusIndicator.show && (
@@ -92,38 +154,44 @@ const LEDProgressBar = ({ current, total, unit = "bobine", machineStatus }) => {
         )}
       </div>
       
-      {/* ⭐ CONTEGGIO PROMINENTE - Numeri chiave in grande evidenza */}
+      {/* ⭐ CONTEGGIO PROMINENTE con colore dinamico */}
       <div className="led-counter-prominent">
-        <span className="led-current-key">{current}</span>
+        <span 
+          className="led-current-key"
+          style={{ color: progressColor.color }}
+        >
+          {current}
+        </span>
         <span className="led-separator-key">/</span>
         <span className="led-total-key">{total}</span>
       </div>
       
-      {/* Barra di progresso wave (senza progresso circolare) */}
+      {/* Barra di progresso wave con colore dinamico */}
       <div className="wave-progress-container">
         <div className="wave-progress-track">
           <div 
             className="wave-progress-fill"
             style={{ 
               width: `${Math.min(percentage, 100)}%`,
-              backgroundColor: statusIndicator.isActive ? '#00cc66' : '#666666',
+              backgroundColor: progressColor.color,
               backgroundImage: statusIndicator.isActive ? 
                 `repeating-linear-gradient(
                   45deg,
-                  #00cc66,
-                  #00cc66 8px,
+                  ${progressColor.color},
+                  ${progressColor.color} 8px,
                   rgba(255,255,255,0.1) 8px,
                   rgba(255,255,255,0.1) 16px
                 )` : 'none',
-              animation: statusIndicator.isActive ? 'waveFlow 2s linear infinite' : 'none'
+              animation: statusIndicator.isActive ? 'waveFlow 2s linear infinite' : 'none',
+              transition: 'all 0.8s cubic-bezier(0.4, 0, 0.2, 1)' // Smooth color transition
             }}
           >
             {statusIndicator.isActive && (
               <div 
                 className="wave-glow"
                 style={{
-                  backgroundColor: '#00cc66',
-                  boxShadow: `0 0 10px #00cc6660, inset 0 0 10px rgba(255,255,255,0.1)`
+                  backgroundColor: progressColor.color,
+                  boxShadow: `0 0 10px ${progressColor.glow}, inset 0 0 10px rgba(255,255,255,0.1)`
                 }}
               />
             )}
@@ -165,8 +233,9 @@ const LEDProgressBar = ({ current, total, unit = "bobine", machineStatus }) => {
         .led-current-key {
           font-size: 3.2rem !important; /* ⭐ Ridotto per eleganza e equilibrio */
           font-weight: 700 !important; /* ⭐ Meno bold per eleganza */
-          color: #00cc66 !important;
+          /* color rimosso - ora è dinamico inline */
           line-height: 1;
+          transition: color 0.8s cubic-bezier(0.4, 0, 0.2, 1); /* Smooth color transition */
         }
 
         .led-separator-key {
