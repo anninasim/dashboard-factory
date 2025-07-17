@@ -199,7 +199,7 @@ const MaterialSpecs = ({ data }) => {
             {data.qta_uni_ml && (
               <div className="spec-item">
                 <span className="spec-icon">📏</span>
-                <span className="spec-label">Metri lineari</span>
+                <span className="spec-label">Metri unitari</span>
                 <span className="spec-value-key">{formatNumber(data.qta_uni_ml)} mt</span>
               </div>
             )}
