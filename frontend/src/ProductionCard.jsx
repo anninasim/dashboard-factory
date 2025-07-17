@@ -2,128 +2,110 @@ import React from 'react';
 import LEDProgressBar from './LEDProgressBar';
 import KpiBox from './components/Kpibox';
 
-// 🚨 LOGICA AGGIORNATA: Stato FERMA più visibile in stile industriale
+// ✅ LOGICA CORRETTA: Solo stato PLC comanda, sensori ignorati
 const getStatus = (stato, azione, velocita, portata) => {
   const s = Number(stato);
-  const vel = Number(velocita) || 0;
-  const port = Number(portata) || 0;
   
-  const isSensorsStopped = vel === 0 && port === 0;
-  const isSensorsActive = vel > 0 || port > 0;
-  
-  // 🚨 PRIORITÀ 1: FERMA - Stesso stile ma colore distintivo
-  if (isSensorsStopped) {
-    return { 
-      label: '🔴 FERMA', 
-      color: '#e53e3e',           // Rosso industriale acceso
-      bgColor: '#2a1f1f',         // Background rosso scuro
-      borderColor: '#e53e3e',     // Border rosso
-      animation: 'none',          // Nessuna animazione
-      priority: 'critical'        // Priorità critica
-    };
-  }
-  
-  // Stati normali (produzione attiva)
-  if (isSensorsActive) {
-    if (s === 5) {
-      switch (azione) {
-        case 'CPF': return { 
-          label: '🟢 IN PRODUZIONE', 
-          color: '#4caf50',
-          bgColor: '#1f2a1f',
-          borderColor: '#4caf50',
-          animation: 'none',
-          priority: 'normal'
-        };
-        case 'RIA': return { 
-          label: '🟡 RIAVVIO', 
-          color: '#ffc107',
-          bgColor: '#2a2a1f',
-          borderColor: '#ffc107',
-          animation: 'slowPulse',
-          priority: 'medium'
-        };
-        case 'INI': return { 
-          label: '🔵 INIZIO PRODUZIONE', 
-          color: '#2196f3',
-          bgColor: '#1f2a2a',
-          borderColor: '#2196f3',
-          animation: 'none',
-          priority: 'normal'
-        };
-        case 'SCR': return { 
-          label: '🟠 SCARTO', 
-          color: '#f44336',
-          bgColor: '#2a1f1f',
-          borderColor: '#f44336',
-          animation: 'fastPulse',
-          priority: 'high'
-        };
-        default: return { 
-          label: 'STATO 5', 
-          color: '#1976d2',
-          bgColor: '#1f1f2a',
-          borderColor: '#1976d2',
-          animation: 'none',
-          priority: 'normal'
-        };
-      }
-    }
-    
-    if (s === 7) {
-      switch (azione) {
-        case 'CPF': return { 
-          label: '🟢 IN PRODUZIONE', 
-          color: '#4caf50',
-          bgColor: '#1f2a1f',
-          borderColor: '#4caf50',
-          animation: 'none',
-          priority: 'normal'
-        };
-        case 'FER': return { 
-          label: '🔴 FERMA', 
-          color: '#e53e3e',
-          bgColor: '#2a1f1f',
-          borderColor: '#e53e3e',
-          animation: 'none',
-          priority: 'critical'
-        };
-        case 'RIA': return { 
-          label: '🟡 RIAVVIO', 
-          color: '#ffc107',
-          bgColor: '#2a2a1f',
-          borderColor: '#ffc107',
-          animation: 'slowPulse',
-          priority: 'medium'
-        };
-        case 'INI': return { 
-          label: '🔵 INIZIO PRODUZIONE', 
-          color: '#2196f3',
-          bgColor: '#1f2a2a',
-          borderColor: '#2196f3',
-          animation: 'none',
-          priority: 'normal'
-        };
-        case 'SCR': return { 
-          label: '🟠 SCARTO', 
-          color: '#f44336',
-          bgColor: '#2a1f1f',
-          borderColor: '#f44336',
-          animation: 'fastPulse',
-          priority: 'high'
-        };
-        default: return { 
-          label: 'STATO 7', 
-          color: '#666666',
-          bgColor: '#252525',
-          borderColor: '#666666',
-          animation: 'none',
-          priority: 'normal'
-        };
-      }
+  // ✅ SOLO LOGICA BASATA SU STATO E AZIONE DEL PLC
+  if (s === 5) {
+    switch (azione) {
+      case 'CPF': return { 
+        label: '🟢 IN PRODUZIONE', 
+        color: '#4caf50',
+        bgColor: '#1f2a1f',
+        borderColor: '#4caf50',
+        animation: 'none',
+        priority: 'normal'
+      };
+      case 'RIA': return { 
+        label: '🟡 RIAVVIO', 
+        color: '#ffc107',
+        bgColor: '#2a2a1f',
+        borderColor: '#ffc107',
+        animation: 'slowPulse',
+        priority: 'medium'
+      };
+      case 'INI': return { 
+        label: '🔵 INIZIO PRODUZIONE', 
+        color: '#2196f3',
+        bgColor: '#1f2a2a',
+        borderColor: '#2196f3',
+        animation: 'none',
+        priority: 'normal'
+      };
+      case 'SCR': return { 
+        label: '🟠 SCARTO', 
+        color: '#f44336',
+        bgColor: '#2a1f1f',
+        borderColor: '#f44336',
+        animation: 'fastPulse',
+        priority: 'high'
+      };
+      default: return { 
+        label: 'STATO 5', 
+        color: '#1976d2',
+        bgColor: '#1f1f2a',
+        borderColor: '#1976d2',
+        animation: 'none',
+        priority: 'normal'
+      };
     }
   }
   
+  if (s === 7) {
+    switch (azione) {
+      case 'CPF': return { 
+        label: '🟢 IN PRODUZIONE', 
+        color: '#4caf50',
+        bgColor: '#1f2a1f',
+        borderColor: '#4caf50',
+        animation: 'none',
+        priority: 'normal'
+      };
+      case 'FER': return { 
+        label: '🔴 FERMA', 
+        color: '#e53e3e',
+        bgColor: '#2a1f1f',
+        borderColor: '#e53e3e',
+        animation: 'none',
+        priority: 'critical'
+      };
+      case 'RIA': return { 
+        label: '🟡 RIAVVIO', 
+        color: '#ffc107',
+        bgColor: '#2a2a1f',
+        borderColor: '#ffc107',
+        animation: 'slowPulse',
+        priority: 'medium'
+      };
+      case 'INI': return { 
+        label: '🔵 INIZIO PRODUZIONE', 
+        color: '#2196f3',
+        bgColor: '#1f2a2a',
+        borderColor: '#2196f3',
+        animation: 'none',
+        priority: 'normal'
+      };
+      case 'SCR': return { 
+        label: '🟠 SCARTO', 
+        color: '#f44336',
+        bgColor: '#2a1f1f',
+        borderColor: '#f44336',
+        animation: 'fastPulse',
+        priority: 'high'
+      };
+      default: return { 
+        label: 'STATO 7', 
+        color: '#666666',
+        bgColor: '#252525',
+        borderColor: '#666666',
+        animation: 'none',
+        priority: 'normal'
+      };
+    }
+  }
+  
+  // ✅ Default per stati non riconosciuti
   return { 
     label: 'STATO SCONOSCIUTO', 
     color: '#9e9e9e',
@@ -437,12 +419,12 @@ const getKpiColor = (machineStatus, kpiType) => {
 };
 
 function ProductionCard({ data }) {
-  // 🎯 AGGIORNAMENTO: Passa velocità e portata alla funzione getStatus
+  // ✅ STATO COMANDATO SOLO DAL PLC
   const stato = getStatus(
     data.mntg_stato_gruppo, 
     data.mntg_azione,
-    data.mntg_vel_ril,      // ← AGGIUNGI velocità
-    data.mntg_portata_ril   // ← AGGIUNGI portata
+    data.mntg_vel_ril,      // ← Parametri mantenuti per compatibilità
+    data.mntg_portata_ril   // ← Ma non più usati per determinare lo stato
   );
 
   // ⭐ Combina articolo e descrizione in un unico campo
