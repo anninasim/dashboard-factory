@@ -12,38 +12,41 @@ function App() {
 
   // 🎯 FUNZIONE ORDINAMENTO PERSONALIZZATO per le card della dashboard
   const ordinaMacchine = (dati) => {
-    // Ordinamento personalizzato secondo la sequenza richiesta
-    const ordinePersonalizzato = [
-      'TR100 A',
-      'TR100 B', 
-      'TR100 C',
-      'TR 80',
-      'TR120 A',
-      'TR120 B',
-      'TR160',
-      'COEX 7s'
-    ];
+    // ⭐ Ordinamento personalizzato FISSO secondo la sequenza richiesta
+const ordinePersonalizzato = [
+  'TR80',       // ← fnt_ordina: 1
+  'TR100C',     // ← fnt_ordina: 2
+  'TR160',      // ← fnt_ordina: 3
+  'TR120A',     // ← fnt_ordina: 4
+  'TR120B',     // ← fnt_ordina: 5
+  'TR100B',     // ← fnt_ordina: 6
+  'TR100A',     // ← fnt_ordina: 7
+  'COEX7s'      // ← Non nella tabella, alla fine
+];
+    // Funzione helper per normalizzare i nomi delle macchine
+    const normalizzaNome = (nome) => {
+      return nome?.toString().trim().toUpperCase() || '';
+    };
 
     return dati.sort((a, b) => {
-      // Ottieni i nomi delle macchine dai dati (campo fnt_sigla)
-      const nomeA = a.fnt_sigla || '';
-      const nomeB = b.fnt_sigla || '';
+      // Ottieni i nomi delle macchine dai dati (campo fnt_sigla) e normalizzali
+      const nomeA = normalizzaNome(a.fnt_sigla);
+      const nomeB = normalizzaNome(b.fnt_sigla);
       
-      // Trova le posizioni nell'ordinamento personalizzato
-      let posizioneA = ordinePersonalizzato.indexOf(nomeA);
-      let posizioneB = ordinePersonalizzato.indexOf(nomeB);
+      // Cerca le posizioni nell'ordinamento personalizzato (normalizzato)
+      let posizioneA = ordinePersonalizzato.findIndex(nome => 
+        normalizzaNome(nome) === nomeA
+      );
+      let posizioneB = ordinePersonalizzato.findIndex(nome => 
+        normalizzaNome(nome) === nomeB
+      );
       
       // Se una macchina non è nell'elenco personalizzato, la mette alla fine
       if (posizioneA === -1) posizioneA = ordinePersonalizzato.length;
       if (posizioneB === -1) posizioneB = ordinePersonalizzato.length;
       
-      // Ordinamento per posizione
-      if (posizioneA !== posizioneB) {
-        return posizioneA - posizioneB;
-      }
-      
-      // Se entrambe sono "fuori lista", ordina alfabeticamente
-      return nomeA.localeCompare(nomeB);
+      // Ordinamento per posizione nell'elenco fisso
+      return posizioneA - posizioneB;
     });
   };
 
