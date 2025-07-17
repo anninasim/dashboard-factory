@@ -478,7 +478,7 @@ function ProductionCard({ data }) {
 
       <div className="card-body">
         {/* Informazioni operative dell'ordine */}
-        <p><strong>Ordine:</strong> {data.mntg_rif_ordine}</p>
+        <p><strong>Ordine:</strong> {data.fp_schedula_completo}</p>
         <p><strong>Articolo:</strong> {articoloCompleto()}</p>
 
         {/* 🆕 NUOVA SEZIONE: Specifiche tecniche del materiale (include miscela) */}
@@ -503,7 +503,7 @@ function ProductionCard({ data }) {
             <KpiBox 
               label="Velocità" 
               value={data.mntg_vel_ril || 0} 
-              unit="m/min" 
+              unit="mt/min" 
               color={getKpiColor(stato.label, 'velocity')}  // ← NUOVO: Colore condizionato
               background="#2a2a2a"
               border="#555"
