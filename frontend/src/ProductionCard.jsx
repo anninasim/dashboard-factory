@@ -11,7 +11,7 @@ const getStatus = (stato, azione, velocita, portata) => {
     switch (azione) {
       case 'CPF': return { 
         label: '🟢 IN PRODUZIONE', 
-        color: '#4caf50',
+        color: '#4caf50',           // Verde normale
         bgColor: '#1f2a1f',
         borderColor: '#4caf50',
         animation: 'none',
@@ -19,7 +19,7 @@ const getStatus = (stato, azione, velocita, portata) => {
       };
       case 'RIA': return { 
         label: '🟡 RIAVVIO', 
-        color: '#ffc107',
+        color: '#ffc107',           // Giallo
         bgColor: '#2a2a1f',
         borderColor: '#ffc107',
         animation: 'slowPulse',
@@ -27,7 +27,7 @@ const getStatus = (stato, azione, velocita, portata) => {
       };
       case 'INI': return { 
         label: '🔵 INIZIO PRODUZIONE', 
-        color: '#2196f3',
+        color: '#2196f3',           // Blu
         bgColor: '#1f2a2a',
         borderColor: '#2196f3',
         animation: 'none',
@@ -35,9 +35,9 @@ const getStatus = (stato, azione, velocita, portata) => {
       };
       case 'SCR': return { 
         label: '🟠 SCARTO', 
-        color: '#f44336',
+        color: '#ff5722',           // Arancione/rosso per scarto
         bgColor: '#2a1f1f',
-        borderColor: '#f44336',
+        borderColor: '#ff5722',
         animation: 'fastPulse',
         priority: 'high'
       };
@@ -56,7 +56,7 @@ const getStatus = (stato, azione, velocita, portata) => {
     switch (azione) {
       case 'CPF': return { 
         label: '🟢 IN PRODUZIONE', 
-        color: '#4caf50',
+        color: '#4caf50',           // Verde normale
         bgColor: '#1f2a1f',
         borderColor: '#4caf50',
         animation: 'none',
@@ -64,7 +64,7 @@ const getStatus = (stato, azione, velocita, portata) => {
       };
       case 'FER': return { 
         label: '🔴 FERMA', 
-        color: '#e53e3e',
+        color: '#e53e3e',           // Rosso per fermo
         bgColor: '#2a1f1f',
         borderColor: '#e53e3e',
         animation: 'none',
@@ -72,7 +72,7 @@ const getStatus = (stato, azione, velocita, portata) => {
       };
       case 'RIA': return { 
         label: '🟡 RIAVVIO', 
-        color: '#ffc107',
+        color: '#ffc107',           // Giallo
         bgColor: '#2a2a1f',
         borderColor: '#ffc107',
         animation: 'slowPulse',
@@ -80,7 +80,7 @@ const getStatus = (stato, azione, velocita, portata) => {
       };
       case 'INI': return { 
         label: '🔵 INIZIO PRODUZIONE', 
-        color: '#2196f3',
+        color: '#2196f3',           // Blu
         bgColor: '#1f2a2a',
         borderColor: '#2196f3',
         animation: 'none',
@@ -88,9 +88,9 @@ const getStatus = (stato, azione, velocita, portata) => {
       };
       case 'SCR': return { 
         label: '🟠 SCARTO', 
-        color: '#f44336',
+        color: '#ff5722',           // Arancione/rosso per scarto
         bgColor: '#2a1f1f',
-        borderColor: '#f44336',
+        borderColor: '#ff5722',
         animation: 'fastPulse',
         priority: 'high'
       };
@@ -99,6 +99,28 @@ const getStatus = (stato, azione, velocita, portata) => {
         color: '#666666',
         bgColor: '#252525',
         borderColor: '#666666',
+        animation: 'none',
+        priority: 'normal'
+      };
+    }
+  }
+  
+  // ✅ NUOVO: Gestione STATO 10
+  if (s === 10) {
+    switch (azione) {
+      case 'FIN': return { 
+        label: '🔷 PRODUZIONE TERMINATA', 
+        color: '#00695c',           // Teal industrial scuro
+        bgColor: '#0d1f1c',
+        borderColor: '#00695c',
+        animation: 'none',
+        priority: 'completed'
+      };
+      default: return { 
+        label: 'STATO 10', 
+        color: '#1976d2',
+        bgColor: '#1f1f2a',
+        borderColor: '#1976d2',
         animation: 'none',
         priority: 'normal'
       };
@@ -427,6 +449,35 @@ function ProductionCard({ data }) {
     data.mntg_portata_ril   // ← Ma non più usati per determinare lo stato
   );
 
+  // 🆕 AGGIUNTA: Rilevamento produzione completata
+  const isProductionComplete = (
+    data.mntg_stato_gruppo === '10' && 
+    data.mntg_azione === 'FIN'
+  );
+
+  // 🆕 AGGIUNTA: Formattazione timestamp completamento (senza conversione fuso orario)
+  const getCompletionDateTime = (timestampString) => {
+    if (!timestampString) return { date: '', time: '' };
+    
+    try {
+      // Formato input: "2025-07-19T16:25:31.140Z"
+      // Rimuoviamo la Z per evitare la conversione UTC->locale di JavaScript
+      const cleanTimestamp = timestampString.replace('Z', '').replace('T', ' ');
+      
+      // Parse manuale: "2025-07-19 16:25:31.140"
+      const [datePart, timePart] = cleanTimestamp.split(' ');
+      const [year, month, day] = datePart.split('-');
+      const [hour, minute] = timePart.split(':');
+      
+      return {
+        date: `${day}/${month}`,           // "19/07"
+        time: `${hour}:${minute}`          // "16:25" (ora esatta dal DB)
+      };
+    } catch (error) {
+      return { date: '', time: '' };
+    }
+  };
+
   // ⭐ Combina articolo e descrizione in un unico campo
   const articoloCompleto = () => {
     const articolo = data.mntg_articolo || '';
@@ -450,7 +501,14 @@ function ProductionCard({ data }) {
     : null;
 
   return (
-    <div className={`card ${stato.priority === 'critical' ? 'card-critical' : ''}`}>
+    <div 
+      className={`card ${stato.priority === 'critical' ? 'card-critical' : ''}`}
+      style={{ 
+        position: 'relative',
+        // 🆕 MODIFICA: Border verde quando produzione completata
+        border: isProductionComplete ? '3px solid #00695c' : undefined
+      }}
+    >
       {/* Header con stato e alert */}
       <div className="card-header" style={{ 
         borderColor: stato.borderColor || stato.color,
@@ -519,7 +577,30 @@ function ProductionCard({ data }) {
           </div>
         </div>
 
-        {/* 🚨 CSS COMPLETO per layout + animazioni industriali */}
+        {/* 🎯 BANNER COMPLETAMENTO - DESIGN COMPATTO SU UNA RIGA */}
+        {isProductionComplete && (
+          <div className="completion-banner-large">
+            <div className="completion-icon">✓</div>
+            <div className="completion-info">
+              {(() => {
+                const completion = getCompletionDateTime(data.mntg_dataril);
+                return completion.date && completion.time ? (
+                  <div className="completion-single-line">
+                    <span className="completion-status">PRODUZIONE COMPLETATA</span>
+                    <span className="completion-datetime">{completion.date} ore {completion.time}</span>
+                  </div>
+                ) : (
+                  <div className="completion-single-line">
+                    <span className="completion-status">PRODUZIONE COMPLETATA</span>
+                    <span className="completion-datetime">Completata con successo</span>
+                  </div>
+                );
+              })()}
+            </div>
+          </div>
+        )}
+
+        {/* 🚨 CSS COMPLETO per layout + animazioni industriali + BANNER COMPLETAMENTO */}
         <style>{`
           .progress-and-kpi-container {
             display: flex;
@@ -582,6 +663,75 @@ function ProductionCard({ data }) {
             padding: 14px 28px !important;
           }
 
+          /* 🎯 STILE OTTIMIZZATO PER BANNER COMPLETAMENTO */
+          .completion-banner {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(135deg, #1b5e20, #2e7d32);
+            padding: 12px 16px;
+            border-radius: 0 0 8px 8px;
+            border-top: 2px solid #4caf50;
+            backdrop-filter: blur(5px);
+          }
+
+          .completion-content {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+          }
+
+          .completion-time {
+            font-size: 1rem;
+            color: #ffffff;  /* ✅ Bianco su verde scuro = contrasto perfetto */
+            font-weight: 600;
+            text-align: center;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+          }
+
+          .completion-time strong {
+            color: #ffffff;  /* ✅ Mantiene il bianco anche per l'ora */
+            font-weight: 700;
+            font-size: 1.1rem;
+          }
+
+          /* 🎯 CARD COMPLETATA - STILE SOTTILE */
+          .card-completed {
+            border-left: 4px solid #4caf50 !important;
+          }
+
+          /* 📱 Responsive */
+          @media (max-width: 768px) {
+            .completion-banner {
+              padding: 10px 14px;
+            }
+            
+            .completion-time {
+              font-size: 0.9rem;
+            }
+            
+            .completion-time strong {
+              font-size: 1rem;
+            }
+          }
+
+          /* 🖥️ TV 4K */
+          @media (min-width: 3840px) {
+            .completion-banner {
+              padding: 16px 20px;
+              border-top: 3px solid #4caf50;
+            }
+            
+            .completion-time {
+              font-size: 1.2rem;
+            }
+            
+            .completion-time strong {
+              font-size: 1.3rem;
+            }
+          }
+
           /* Adattamenti per schermi più piccoli */
           @media (max-width: 1200px) {
             .progress-and-kpi-container {
@@ -609,6 +759,16 @@ function ProductionCard({ data }) {
             .kpi-section {
               gap: 8px;
             }
+
+            /* Banner responsive mobile */
+            .completion-banner {
+              padding: 10px 14px;
+              gap: 10px;
+            }
+
+            .completion-time {
+              font-size: 0.9rem;
+            }
           }
 
           /* Ottimizzazioni per TV 4K */
@@ -625,6 +785,16 @@ function ProductionCard({ data }) {
             .kpi-section {
               gap: 16px; /* Più spazio tra le KPI su schermi grandi */
             }
+
+            /* Banner responsive 4K */
+            .completion-banner {
+              padding: 16px 24px;
+              gap: 14px;
+            }
+
+            .completion-time {
+              font-size: 1.1rem;
+            }
           }
 
           /* Adattamenti per schermi molto piccoli */
@@ -635,6 +805,147 @@ function ProductionCard({ data }) {
             
             .kpi-section {
               gap: 8px;
+            }
+          }
+
+          /* 🎯 BANNER COMPLETAMENTO - DESIGN GRANDE E PROFESSIONALE */
+          .completion-banner-large {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(135deg, #0d1f1c, #00695c, #00796b);
+            padding: 16px 24px;
+            border-radius: 0 0 8px 8px;
+            border-top: 4px solid #00695c;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            backdrop-filter: blur(10px);
+          }
+
+          .completion-icon {
+            font-size: 2rem;
+            color: #ffffff;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
+            flex-shrink: 0;
+          }
+
+          .completion-info {
+            flex: 1;
+            display: flex;
+            align-items: center;
+          }
+
+          .completion-single-line {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            gap: 16px;
+          }
+
+          .completion-status {
+            font-size: 1.2rem;
+            color: #ffffff;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
+            flex-shrink: 0;
+          }
+
+          .completion-datetime {
+            font-size: 1.3rem;
+            color: #ffffff;
+            font-weight: 700;
+            font-family: 'Segoe UI', sans-serif;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
+            background: rgba(255, 255, 255, 0.15);
+            padding: 6px 14px;
+            border-radius: 6px;
+            border-left: 4px solid #00695c;
+            flex-shrink: 0;
+            letter-spacing: 0.5px;
+          }
+
+          /* 📱 Responsive Mobile */
+          @media (max-width: 768px) {
+            .completion-banner-large {
+              padding: 12px 16px;
+              gap: 12px;
+            }
+            
+            .completion-icon {
+              font-size: 1.5rem;
+            }
+            
+            .completion-single-line {
+              gap: 12px;
+            }
+            
+            .completion-status {
+              font-size: 1rem;
+            }
+            
+            .completion-datetime {
+              font-size: 1.1rem;
+              padding: 4px 10px;
+            }
+          }
+
+          /* 🖥️ TV 4K */
+          @media (min-width: 3840px) {
+            .completion-banner-large {
+              padding: 20px 28px;
+              border-top: 6px solid #00695c;
+              gap: 20px;
+            }
+            
+            .completion-icon {
+              font-size: 2.5rem;
+            }
+            
+            .completion-single-line {
+              gap: 20px;
+            }
+            
+            .completion-status {
+              font-size: 1.5rem;
+            }
+            
+            .completion-datetime {
+              font-size: 1.6rem;
+              padding: 8px 16px;
+              border-left: 6px solid #00695c;
+            }
+          }
+
+          /* 📺 Tablet */
+          @media (min-width: 768px) and (max-width: 1200px) {
+            .completion-banner-large {
+              padding: 14px 20px;
+            }
+            
+            .completion-status {
+              font-size: 1.1rem;
+            }
+            
+            .completion-datetime {
+              font-size: 1.2rem;
+            }
+          }
+
+          /* 📱 Mobile molto piccolo - Stack verticale se necessario */
+          @media (max-width: 480px) {
+            .completion-single-line {
+              flex-direction: column;
+              align-items: flex-start;
+              gap: 8px;
+            }
+            
+            .completion-datetime {
+              align-self: flex-end;
             }
           }
         `}</style>

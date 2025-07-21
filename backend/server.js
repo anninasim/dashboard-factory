@@ -48,6 +48,7 @@ app.get('/api/dashboard', async (req, res) => {
         main.mntg_stato_gruppo,
         main.mntg_azione,
         main.fp_schedula_completo,
+        main.mntg_dataril,          
         
         -- 🆕 NUOVI DATI TECNICI: Caratteristiche materiali
         tech.mntg_gruppo,          -- Per debug/verifica del join
