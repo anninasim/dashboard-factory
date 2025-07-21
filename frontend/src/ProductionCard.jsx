@@ -11,7 +11,7 @@ const getStatus = (stato, azione, velocita, portata) => {
     switch (azione) {
       case 'CPF': return { 
         label: '🟢 IN PRODUZIONE', 
-        color: '#4caf50',           // VERDE per produzione attiva (come prima)
+        color: '#4caf50',           // Verde normale
         bgColor: '#1f2a1f',
         borderColor: '#4caf50',
         animation: 'none',
@@ -56,7 +56,7 @@ const getStatus = (stato, azione, velocita, portata) => {
     switch (azione) {
       case 'CPF': return { 
         label: '🟢 IN PRODUZIONE', 
-        color: '#4caf50',           // VERDE per produzione attiva (come prima)
+        color: '#4caf50',           // Verde normale
         bgColor: '#1f2a1f',
         borderColor: '#4caf50',
         animation: 'none',
@@ -110,9 +110,9 @@ const getStatus = (stato, azione, velocita, portata) => {
     switch (azione) {
       case 'FIN': return { 
         label: '🔵 PRODUZIONE TERMINATA', 
-        color: '#ffffff',           // Testo bianco per contrasto
-        bgColor: 'linear-gradient(135deg, #263238, #37474f, #455a64)', // Gradiente blu-grigio elegante
-        borderColor: '#455a64',     // Border coordinato
+        color: '#1565c0',           // Blu industrial scuro
+        bgColor: '#0d1b2a',
+        borderColor: '#1565c0',
         animation: 'none',
         priority: 'completed'
       };
@@ -172,12 +172,20 @@ const MaterialSpecs = ({ data }) => {
         <span className="material-title">Specifiche Materiale</span>
       </div>
 
-      {/* Miscela (spostata qui dalle info operative) */}
-      <div className="spec-row-single">
-        <div className="spec-item-full">
+      {/* 🆕 MODIFICATO: Miscela + Kg Totali in doppia colonna */}
+      <div className="spec-row">
+        {/* Prima colonna: Miscela */}
+        <div className="spec-item">
           <span className="spec-icon">⚗️</span>
           <span className="spec-label">Miscela</span>
           <span className="spec-value-key">{data.mntg_codice_ricetta || '-'}</span>
+        </div>
+        
+        {/* Seconda colonna: Kg Totali */}
+        <div className="spec-item">
+          <span className="spec-icon">⚖️</span>
+          <span className="spec-label">Kg Totali</span>
+          <span className="spec-value-key">{formatNumber(data.mntg_qta_ini)} kg</span>
         </div>
       </div>
 
@@ -275,27 +283,6 @@ const MaterialSpecs = ({ data }) => {
           opacity: 0.7;
         }
 
-        .spec-row-single {
-          margin-bottom: 12px;
-        }
-
-        .spec-item-full {
-          display: flex;
-          align-items: center;
-          gap: 8px;
-          padding: 10px 12px;
-          background: linear-gradient(135deg, rgba(0, 188, 212, 0.1), rgba(0, 151, 167, 0.1));
-          border: 1px solid #00bcd4;
-          border-radius: 6px;
-          transition: all 0.3s ease;
-        }
-
-        .spec-item-full:hover {
-          background: linear-gradient(135deg, rgba(0, 188, 212, 0.15), rgba(0, 151, 167, 0.15));
-          border-color: #26c6da;
-          transform: translateY(-1px);
-        }
-
         .material-specs-grid {
           display: flex;
           flex-direction: column;
@@ -306,6 +293,7 @@ const MaterialSpecs = ({ data }) => {
           display: flex;
           gap: 16px;
           justify-content: space-between;
+          margin-bottom: 12px;
         }
 
         .spec-item {
@@ -506,13 +494,13 @@ function ProductionCard({ data }) {
       style={{ 
         position: 'relative',
         // 🆕 MODIFICA: Border teal quando produzione completata
-        border: isProductionComplete ? '3px solid #455a64' : undefined
+        border: isProductionComplete ? '3px solid #1565c0' : undefined
       }}
     >
       {/* Header con stato e alert - SEMPRE NORMALE */}
       <div className="card-header" style={{ 
         borderColor: stato.borderColor || stato.color,
-        background: stato.bgColor.includes('linear-gradient') ? stato.bgColor : stato.bgColor || 'transparent'
+        backgroundColor: stato.bgColor || 'transparent'
       }}>
         <h2>{data.fnt_sigla}</h2>
         
@@ -525,11 +513,9 @@ function ProductionCard({ data }) {
         )}
         
         <span 
-          className={`status ${stato.animation !== 'none' ? stato.animation : ''} ${stato.priority === 'completed' ? 'status-completed' : ''}`}
+          className={`status ${stato.animation !== 'none' ? stato.animation : ''}`}
           style={{ 
-            backgroundColor: stato.bgColor.includes('linear-gradient') ? 'transparent' : stato.color,
-            background: stato.bgColor.includes('linear-gradient') ? stato.bgColor : stato.color,
-            color: stato.color === '#ffffff' ? '#ffffff' : undefined
+            backgroundColor: stato.color
           }}
         >
           {stato.label}
@@ -546,38 +532,45 @@ function ProductionCard({ data }) {
           <MaterialSpecs data={data} />
         </div>
 
-        {/* 🎯 NUOVA SEZIONE: Avanzamento e Performance - GRIGIE SE COMPLETATA */}
-        <div className={`progress-and-kpi-container ${isProductionComplete ? 'section-completed' : ''}`}>
-          {/* Barra di avanzamento LED (larghezza ridotta) */}
-          <div className="progress-section">
+        {/* 🎯 LAYOUT OTTIMIZZATO: 2 Colonne - Bobine + Performance */}
+        <div className={`progress-and-kpi-container-optimized ${isProductionComplete ? 'section-completed' : ''}`}>
+          
+          {/* SEZIONE SINISTRA: Bobine (65%) - RIMOSSA SCRITTA */}
+          <div className="bobine-section-expanded">
+            <div className="section-title-icon-only">
+            </div>
             <LEDProgressBar 
               current={data.mntg_qta_lotti_attuale}
               total={data.mntg_qta_lotti}
               unit=""
               machineStatus={stato.label}
-              machineColor={stato.color}  // ← NUOVO: Passa il colore dello stato
+              machineColor={stato.color}
               percentage={data.mntg_qta_lotti > 0 ? (data.mntg_qta_lotti_attuale / data.mntg_qta_lotti) * 100 : 0}
             />
           </div>
 
-          {/* KPI boxes per velocità e portata (a destra, impilate verticalmente) */}
-          <div className="kpi-section">
-            <KpiBox 
-              label="Velocità" 
-              value={data.mntg_vel_ril || 0} 
-              unit="mt/min" 
-              color={getKpiColor(stato.label, 'velocity')}  // ← NUOVO: Colore condizionato
-              background="#2a2a2a"
-              border="#555"
-            />
-            <KpiBox 
-              label="Portata" 
-              value={data.mntg_portata_ril || 0} 
-              unit="Kg/h" 
-              color={getKpiColor(stato.label, 'flow')}      // ← NUOVO: Colore condizionato
-              background="#2a2a2a"
-              border="#555"
-            />
+          {/* SEZIONE DESTRA: Performance (35%) - RIMOSSA SCRITTA */}
+          <div className="performance-section-minimal">
+            <div className="section-title-icon-only">
+            </div>
+            <div className="kpi-stack-minimal">
+              <KpiBox 
+                label="Velocità" 
+                value={data.mntg_vel_ril || 0} 
+                unit="mt/min" 
+                color={getKpiColor(stato.label, 'velocity')}
+                background="#2a2a2a"
+                border="#555"
+              />
+              <KpiBox 
+                label="Portata" 
+                value={data.mntg_portata_ril || 0} 
+                unit="Kg/h" 
+                color={getKpiColor(stato.label, 'flow')}
+                background="#2a2a2a"
+                border="#555"
+              />
+            </div>
           </div>
         </div>
 
@@ -604,7 +597,7 @@ function ProductionCard({ data }) {
           </div>
         )}
 
-        {/* 🚨 CSS COMPLETO per layout + animazioni industriali + BANNER COMPLETAMENTO + STATO GRIGIO */}
+        {/* 🎨 CSS COMPLETO OTTIMIZZATO */}
         <style>{`
           /* 🎯 STATO COMPLETATO - TUTTO GRIGIO TRANNE HEADER */
           .card-completed {
@@ -657,35 +650,90 @@ function ProductionCard({ data }) {
             color: #888888 !important;
           }
 
-          .section-completed .spec-item-full {
-            background: linear-gradient(135deg, rgba(102, 102, 102, 0.1), rgba(102, 102, 102, 0.2)) !important;
-            border-color: #666666 !important;
-          }
-
           .section-completed .spec-item {
             background: rgba(102, 102, 102, 0.1) !important;
             border-color: #666666 !important;
           }
 
-          .progress-and-kpi-container {
+          /* 🆕 LAYOUT PRINCIPALE OTTIMIZZATO: 2 COLONNE */
+          .progress-and-kpi-container-optimized {
             display: flex;
-            gap: 16px;
+            gap: 20px;
             align-items: flex-start;
-            margin-top: 16px;
+            margin-top: 10px; /* Ridotto da 16px */
+            width: 100%;
+            min-height: 130px; /* Ridotto da 140px */
+          }
+          
+          /* Sezione bobine */
+          .bobine-section-expanded {
+            flex: 0 0 65%;
+            min-width: 0;
+            display: flex;
+            flex-direction: column;
+          }
+
+          /* Sezione performance */
+          .performance-section-minimal {
+            flex: 0 0 35%;
+            min-width: 0;
+            display: flex;
+            flex-direction: column;
+          }
+          
+          /* KPI stack */
+          .kpi-stack-minimal {
+            display: flex;
+            flex-direction: column;
+            gap: 6px; /* Ridotto da 8px */
             width: 100%;
           }
 
-          .progress-section {
-            flex: 0 0 65%; /* Larghezza fissa al 65% per dare più spazio al conteggio e barra */
+          /* 🎛️ SEZIONE BOBINE ESPANSA */
+          .bobine-section-expanded {
+            flex: 0 0 65%;
             min-width: 0;
+            display: flex;
+            flex-direction: column;
           }
 
-          .kpi-section {
-            flex: 1; /* Occupa il resto dello spazio disponibile (35%) */
-            display: flex;
-            flex-direction: column; /* ✅ KPI impilate verticalmente */
-            gap: 12px; /* Spazio tra velocità e portata */
+          /* ⚡ SEZIONE PERFORMANCE */
+          .performance-section-minimal {
+            flex: 0 0 35%;
             min-width: 0;
+            display: flex;
+            flex-direction: column;
+          }
+          
+          /* 🎨 TITOLI SEZIONI */
+          .section-title-large {
+            font-size: 0.9rem;
+            color: #2196f3;
+            font-weight: 800;
+            letter-spacing: 0.8px;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+            text-align: center;
+            padding-bottom: 8px;
+            border-bottom: 2px solid rgba(33, 150, 243, 0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+          }
+
+          .section-icon-large {
+            font-size: 1.5rem;
+            opacity: 0.8;
+            color: #2196f3;
+          }
+
+          /* ⚡ KPI PERFORMANCE COMPATTE */
+          .kpi-stack-minimal {
+            display: flex;
+            flex-direction: column;
+            gap: 6px; /* Ridotto da 8px */
+            width: 100%;
           }
 
           /* 🚨 CARD CRITICA: Stato FERMA - Stesso stile ma colore distintivo */
@@ -726,14 +774,6 @@ function ProductionCard({ data }) {
             letter-spacing: 1px !important;
             font-size: 1.5rem !important;
             padding: 14px 28px !important;
-          }
-
-          /* 🎯 STATO COMPLETATO HEADER - Gradiente coordinato */
-          .status-completed {
-            border: 2px solid rgba(255, 255, 255, 0.2) !important;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4) !important;
-            font-weight: 700 !important;
-            letter-spacing: 0.5px !important;
           }
 
           /* 🎯 BANNER COMPLETAMENTO - DESIGN GRANDE E PROFESSIONALE */
@@ -798,8 +838,32 @@ function ProductionCard({ data }) {
             letter-spacing: 0.5px;
           }
 
-          /* 📱 Responsive Mobile */
+          /* 📱 RESPONSIVE: Mobile */
           @media (max-width: 768px) {
+            .progress-and-kpi-container-optimized {
+              flex-direction: column;
+              gap: 16px;
+            }
+            
+            .bobine-section-expanded,
+            .performance-section-minimal {
+              flex: none;
+              width: 100%;
+            }
+
+            .pallet-gauge-xlarge {
+              width: 110px;
+              height: 110px;
+            }
+
+            .gauge-current-xlarge {
+              font-size: 2rem;
+            }
+
+            .gauge-total-xlarge {
+              font-size: 1.6rem;
+            }
+
             .completion-banner-large {
               padding: 16px 16px;
               gap: 12px;
@@ -824,8 +888,37 @@ function ProductionCard({ data }) {
             }
           }
 
-          /* 🖥️ TV 4K */
+          /* 📺 RESPONSIVE: TV 4K */
           @media (min-width: 3840px) {
+            .progress-and-kpi-container-optimized {
+              gap: 28px;
+              margin-top: 20px;
+              min-height: 180px;
+            }
+            
+            .pallet-gauge-xlarge {
+              width: 160px;
+              height: 160px;
+            }
+            
+            .gauge-current-xlarge {
+              font-size: 3rem;
+            }
+            
+            .gauge-total-xlarge {
+              font-size: 2.4rem;
+            }
+            
+            .pallet-percentage {
+              font-size: 1.8rem;
+              padding: 6px 16px;
+            }
+            
+            .section-title-large {
+              font-size: 1.1rem;
+              margin-bottom: 16px;
+            }
+
             .completion-banner-large {
               padding: 24px 28px;
               border-top: 7px solid #455a64;
@@ -852,23 +945,22 @@ function ProductionCard({ data }) {
             }
           }
 
-          /* 📺 Tablet */
-          @media (min-width: 768px) and (max-width: 1200px) {
-            .completion-banner-large {
-              padding: 18px 20px;
-              min-height: 65px;
+          /* 📺 RESPONSIVE: Tablet/Desktop intermedio */
+          @media (max-width: 1200px) and (min-width: 769px) {
+            .progress-and-kpi-container-optimized {
+              gap: 16px;
             }
             
-            .completion-status {
-              font-size: 1.2rem;
+            .bobine-section-expanded {
+              flex: 0 0 60%;
             }
             
-            .completion-datetime {
-              font-size: 1.3rem;
+            .performance-section-minimal {
+              flex: 0 0 40%;
             }
           }
 
-          /* 📱 Mobile molto piccolo - Stack verticale se necessario */
+          /* 📱 RESPONSIVE: Mobile molto piccolo - Stack verticale se necessario */
           @media (max-width: 480px) {
             .completion-single-line {
               flex-direction: column;
@@ -878,62 +970,6 @@ function ProductionCard({ data }) {
             
             .completion-datetime {
               align-self: flex-end;
-            }
-          }
-
-          /* Adattamenti per schermi più piccoli */
-          @media (max-width: 1200px) {
-            .progress-and-kpi-container {
-              flex-direction: column;
-              gap: 12px;
-            }
-            
-            .progress-section {
-              flex: none;
-              width: 100%;
-            }
-            
-            .kpi-section {
-              flex-direction: row; /* Su schermi piccoli torna orizzontale */
-              gap: 12px;
-            }
-          }
-
-          /* 📱 Responsive per mobile */
-          @media (max-width: 768px) {
-            .progress-and-kpi-container {
-              gap: 8px;
-            }
-            
-            .kpi-section {
-              gap: 8px;
-            }
-          }
-
-          /* Ottimizzazioni per TV 4K */
-          @media (min-width: 3840px) {
-            .progress-and-kpi-container {
-              gap: 24px;
-              margin-top: 20px;
-            }
-            
-            .progress-section {
-              flex: 0 0 70%; /* Su 4K diamo ancora più spazio alla sezione progress */
-            }
-            
-            .kpi-section {
-              gap: 16px; /* Più spazio tra le KPI su schermi grandi */
-            }
-          }
-
-          /* Adattamenti per schermi molto piccoli */
-          @media (max-width: 768px) {
-            .progress-and-kpi-container {
-              gap: 8px;
-            }
-            
-            .kpi-section {
-              gap: 8px;
             }
           }
         `}</style>

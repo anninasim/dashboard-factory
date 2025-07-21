@@ -1,4 +1,4 @@
-// server.js - backend REST API con SQL Server (AGGIORNATO)
+// server.js - backend REST API con SQL Server (AGGIORNATO CON DEBUG KG TOTALI)
 const express = require('express');
 const cors = require('cors');
 const sql = require('mssql');
@@ -27,7 +27,7 @@ const poolPromise = new sql.ConnectionPool(dbConfig)
   })
   .catch(err => console.error('❌ Errore SQL:', err));
 
-// 🔥 ENDPOINT AGGIORNATO: Dashboard con dati tecnici materiali
+// 🔥 ENDPOINT AGGIORNATO: Dashboard con dati tecnici materiali + DEBUG KG TOTALI
 app.get('/api/dashboard', async (req, res) => {
   try {
     const pool = await poolPromise;
@@ -39,6 +39,7 @@ app.get('/api/dashboard', async (req, res) => {
         main.mntg_rif_ordine,
         main.mntg_articolo,
         main.mntg_descr_articolo,
+        main.mntg_qta_ini,              -- 🎯 KG TOTALI (già presente)
         main.mntg_codice_ricetta,
         main.mntg_qta_lotti,
         main.mntg_qta_lotti_attuale,
@@ -70,14 +71,27 @@ app.get('/api/dashboard', async (req, res) => {
       ORDER BY main.fnt_sigla
     `);
 
-    // Log per debug: verifica i nuovi campi
+    // 🆕 LOG COMPLETO PER DEBUG: verifica i nuovi campi + KG TOTALI
     console.log(`📊 Dashboard query completata: ${result.recordset.length} records`);
-    console.log(`🔧 Primo record con dati tecnici:`, {
+    console.log(`🔧 Primo record con dati tecnici + KG:`, {
       macchina: result.recordset[0]?.fnt_sigla,
+      miscela: result.recordset[0]?.mntg_codice_ricetta,
+      kg_totali: result.recordset[0]?.mntg_qta_ini,
+      kg_tipo: typeof result.recordset[0]?.mntg_qta_ini,
       tipologia: result.recordset[0]?.tipologia,
       larghezza: result.recordset[0]?.larghezza,
       spessore: result.recordset[0]?.spessore_micron
     });
+
+    // 🆕 LOG DETTAGLIATO: KG TOTALI per tutte le macchine
+    console.log('🎯 KG TOTALI per tutte le macchine:');
+    result.recordset.forEach(record => {
+      console.log(`  ${record.fnt_sigla}: ${record.mntg_qta_ini} kg (tipo: ${typeof record.mntg_qta_ini})`);
+    });
+
+    // 🆕 LOG: Verifica se ci sono valori null
+    const nullKgCount = result.recordset.filter(r => r.mntg_qta_ini === null || r.mntg_qta_ini === undefined).length;
+    console.log(`⚠️  Macchine con kg_totali NULL: ${nullKgCount}/${result.recordset.length}`);
 
     res.json(result.recordset);
   } catch (err) {
@@ -171,4 +185,5 @@ app.get('/api/flow-data', async (req, res) => {
 app.listen(3001, () => {
   console.log('✅ Backend attivo su http://localhost:3001');
   console.log('🔧 Endpoint dashboard arricchito con dati tecnici materiali');
+  console.log('🎯 Debug attivo per kg totali (mntg_qta_ini)');
 });
