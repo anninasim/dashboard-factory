@@ -497,12 +497,12 @@ function ProductionCard({ data }) {
         border: isProductionComplete ? '3px solid #1565c0' : undefined
       }}
     >
-      {/* Header con stato e alert - SEMPRE NORMALE */}
-      <div className="card-header" style={{ 
+      {/* Header con stato e alert - DESIGN COMPATTO */}
+      <div className="card-header-compact" style={{ 
         borderColor: stato.borderColor || stato.color,
         backgroundColor: stato.bgColor || 'transparent'
       }}>
-        <h2>{data.fnt_sigla}</h2>
+        <h2 className="machine-name">{data.fnt_sigla}</h2>
         
         {/* Alert al centro se presente */}
         {messaggioAttDescr && (
@@ -513,7 +513,7 @@ function ProductionCard({ data }) {
         )}
         
         <span 
-          className={`status ${stato.animation !== 'none' ? stato.animation : ''}`}
+          className={`status-compact ${stato.animation !== 'none' ? stato.animation : ''}`}
           style={{ 
             backgroundColor: stato.color
           }}
@@ -574,7 +574,7 @@ function ProductionCard({ data }) {
           </div>
         </div>
 
-        {/* 🎯 BANNER COMPLETAMENTO - DESIGN COMPATTO SU UNA RIGA */}
+        {/* 🎯 BANNER COMPLETAMENTO - DESIGN MIGLIORATO E PIÙ VISIBILE */}
         {isProductionComplete && (
           <div className="completion-banner-large">
             <div className="completion-icon">✓</div>
@@ -599,6 +599,37 @@ function ProductionCard({ data }) {
 
         {/* 🎨 CSS COMPLETO OTTIMIZZATO */}
         <style>{`
+          /* 🎯 STATO COMPLETATO - GRADIENTE ANCORA PIÙ DELICATO PER CARD COMPLETATE */
+          .card-completed {
+            position: relative;
+            background: linear-gradient(135deg, #0a1824 0%, #0f1822 50%, #0a1824 100%); /* Colori ancora più scuri e meno saturi */
+            border: 3px solid #1565c0 !important;
+            box-shadow: 0 2px 12px rgba(21, 71, 132, 0.08); /* Ombra ancora più sottile */
+            transition: all 0.3s ease;
+          }
+
+          .card-completed:hover {
+            box-shadow: 0 4px 15px rgba(21, 101, 192, 0.15); /* Hover ancora più leggero */
+          }
+
+          /* 🆕 OVERLAY ULTRA DELICATO E TRASPARENTE PER COMPLETAMENTO */
+          .card-completed::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, 
+              rgba(21, 101, 192, 0.01) 0%, 
+              rgba(13, 71, 161, 0.02) 40%, 
+              rgba(21, 101, 192, 0.01) 100%
+            );
+            pointer-events: none;
+            z-index: 1;
+            border-radius: inherit;
+          }
+
           /* 🎯 STATO COMPLETATO - TUTTO GRIGIO TRANNE HEADER */
           .card-completed {
             position: relative;
@@ -708,21 +739,165 @@ function ProductionCard({ data }) {
             padding: 12px 16px; /* Assicura padding uniforme nel corpo */
           }
 
+          /* 🆕 HEADER COMPATTO */
+          .card-header-compact {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 8px 12px;
+            border-bottom: 3px solid;
+            margin-bottom: 12px;
+            min-height: 36px; /* Ridotta l'altezza minima */
+            position: relative;
+            overflow: hidden;
+          }
+          
+          /* Nome macchina più grande e visibile */
+          .card-header-compact h2.machine-name {
+            margin: 0;
+            font-size: 1.8rem; /* Aumentato da 1.3rem a 1.5rem */
+            font-weight: 600;
+            color: white;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+            letter-spacing: 0.5px; /* Aggiunto per migliorare la leggibilità */
+          }
+          
+          /* Stato più compatto */
+          .status-compact {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            white-space: nowrap;
+            color: white;
+            height: 24px; /* Altezza fissa ridotta */
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+          }
+          
+          /* Alert centrale più compatto */
+          .header-alert-center {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(255, 152, 0, 0.15);
+            padding: 4px 8px;
+            border-radius: 4px;
+            border: 1px solid rgba(255, 152, 0, 0.3);
+          }
+          
+          .alert-icon-small {
+            font-size: 0.9rem;
+          }
+          
+          .alert-text-small {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: #ffb74d;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+          }
+
+          /* Animazioni mantenute */
+          @keyframes slowPulse {
+            0% { opacity: 0.7; }
+            50% { opacity: 1; }
+            100% { opacity: 0.7; }
+          }
+          
+          @keyframes fastPulse {
+            0% { opacity: 0.6; }
+            50% { opacity: 1; }
+            100% { opacity: 0.6; }
+          }
+          
+          .slowPulse {
+            animation: slowPulse 2s infinite;
+          }
+          
+          .fastPulse {
+            animation: fastPulse 0.8s infinite;
+          }
+
+          /* 🆕 BANNER COMPLETAMENTO MIGLIORATO - MOLTO PIÙ VISIBILE */
+          .completion-banner-large {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 16px;
+            padding: 12px 16px;
+            background: linear-gradient(135deg, #0d47a1, #1565c0);
+            border-radius: 8px;
+            border-left: 4px solid #90caf9;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+          }
+
+          .completion-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+            background-color: #90caf9;
+            border-radius: 50%;
+            color: #0d47a1;
+            font-size: 1.2rem;
+            font-weight: bold;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+          }
+
+          .completion-info {
+            flex: 1;
+          }
+
+          .completion-single-line {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 10px;
+          }
+
+          .completion-status {
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: white;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+            letter-spacing: 0.5px;
+          }
+
+          /* Solo stile per il timestamp di completamento */
+          .completion-datetime {
+            font-weight: 600;
+            font-size: 1.5rem;     /* Aumentato da 1rem a 1.1rem */
+            color: #bbdefb;        /* Colore più chiaro e brillante (era #90caf9) */
+            background-color: rgba(13, 71, 161, 0.5);  /* Sfondo più intenso (era 0.4) */
+            padding: 4px 12px;     /* Padding orizzontale aumentato da 10px a 12px */
+            border-radius: 4px;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(144, 202, 249, 0.3); /* Aggiunto un sottile bordo */
+          }
+
           /* Responsive */
           @media (max-width: 768px) {
-            .progress-and-kpi-container-optimized {
+            .completion-single-line {
               flex-direction: column;
-              padding: 0 4px; /* Padding ridotto su mobile */
+              align-items: flex-start;
+              gap: 6px;
             }
-            
-            .metrics-box-minimalist {
-              width: 100%;
-              margin-bottom: 10px; /* Spazio tra i box impilati */
+
+            .completion-status {
+              font-size: 1rem;
             }
-            
-            .metrics-box-minimalist:first-child,
-            .metrics-box-minimalist:last-child {
-              flex: none;
+
+            .completion-datetime {
+              font-size: 0.9rem;
+              align-self: flex-end;
             }
           }
         `}</style>
