@@ -1,6 +1,6 @@
 import React from 'react';
 
-function KpiBox({ label, value, unit, color = '#00bcd4', background = '#3a3a3a', border = '#616161' }) {
+function KpiBox({ label, value, unit, icon, color = '#00bcd4', background = '#3a3a3a', border = '#616161' }) {
   // Funzione per formattare i numeri senza decimali inutili
   const formatNumber = (value) => {
     if (value === null || value === undefined || isNaN(value)) return '0';
@@ -56,7 +56,7 @@ function KpiBox({ label, value, unit, color = '#00bcd4', background = '#3a3a3a',
     textAlign: 'center'
   };
 
-  // 📺 Label ottimizzata per fit
+  // 📺 Label ottimizzata per fit CON ICONA
   const labelStyle = {
     fontSize: '0.65rem', // 📺 Compatta per fit
     textTransform: 'uppercase',
@@ -67,7 +67,11 @@ function KpiBox({ label, value, unit, color = '#00bcd4', background = '#3a3a3a',
     color: '#e0e0e0',
     textAlign: 'center',
     width: '100%',
-    lineHeight: '1'
+    lineHeight: '1',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: '0.4rem' // 🆕 ⬆️ AUMENTATO: da 0.3rem a 0.4rem per icone più grandi
   };
 
   // 📺 Unità di misura ottimizzata per fit  
@@ -79,9 +83,21 @@ function KpiBox({ label, value, unit, color = '#00bcd4', background = '#3a3a3a',
     opacity: 0.8
   };
 
+  // 🆕 STILE ICONA INDUSTRIALE - INGRANDITA
+  const iconStyle = {
+    fontSize: '1.2rem', // 📺 ⬆️ INGRANDITO: da 0.8rem a 1.2rem (+50%)
+    opacity: 0.8, // 📺 ⬆️ AUMENTATO: da 0.7 a 0.8 per più visibilità
+    filter: 'grayscale(10%)', // 📺 ⬇️ RIDOTTO: da 20% a 10% per più colore
+  };
+
   return (
     <div style={boxStyle} className="kpi-box-fit-screen">
-      <div style={labelStyle}>{label}</div>
+      {/* 🆕 LABEL CON ICONA */}
+      <div style={labelStyle}>
+        {icon && <span style={iconStyle}>{icon}</span>}
+        <span>{label}</span>
+      </div>
+      
       <div style={valueStyle} className="kpi-value-fit-screen">
         {formatNumber(value)}
         <span style={unitStyle}>{unit}</span>
@@ -98,7 +114,7 @@ function KpiBox({ label, value, unit, color = '#00bcd4', background = '#3a3a3a',
         opacity: 0.4
       }} />
 
-      {/* 📺 CSS OTTIMIZZATO PER FIT PERFETTO SCHERMO */}
+      {/* 📺 CSS OTTIMIZZATO PER FIT PERFETTO SCHERMO CON ICONE */}
       <style>{`
         /* 📺 BASE - FIT SCREEN DESIGN */
         .kpi-box-fit-screen {
@@ -125,6 +141,14 @@ function KpiBox({ label, value, unit, color = '#00bcd4', background = '#3a3a3a',
           border-color: ${color} !important;
         }
 
+        /* 🆕 HOVER ICONA - Animazione migliorata */
+        .kpi-box-fit-screen:hover span:first-child {
+          transform: scale(1.2); /* 📺 ⬆️ AUMENTATO: da 1.1 a 1.2 per più effetto */
+          opacity: 1; /* 📺 ⬆️ AGGIUNTO: Opacità piena al hover */
+          filter: grayscale(0%); /* 📺 ⬆️ AGGIUNTO: Colori pieni al hover */
+          transition: all 0.3s ease;
+        }
+
         /* 📺 TV 4K - Scaling up mantenendo fit */
         @media (min-width: 3840px) {
           .kpi-box-fit-screen {
@@ -147,6 +171,11 @@ function KpiBox({ label, value, unit, color = '#00bcd4', background = '#3a3a3a',
             font-size: 0.9rem !important;
             margin-bottom: 0.3rem !important;
           }
+
+          /* 🆕 ICONA PIÙ GRANDE SU 4K */
+          .kpi-box-fit-screen div:first-child span:first-child {
+            font-size: 1.6rem !important; /* 📺 ⬆️ INGRANDITO: da 1.1rem a 1.6rem */
+          }
         }
 
         /* 💻 DESKTOP - Scale down per fit */
@@ -168,6 +197,11 @@ function KpiBox({ label, value, unit, color = '#00bcd4', background = '#3a3a3a',
           .kpi-box-fit-screen div:first-child {
             font-size: 0.6rem !important;
             margin-bottom: 0.1rem !important;
+          }
+
+          /* 🆕 ICONA DESKTOP */
+          .kpi-box-fit-screen div:first-child span:first-child {
+            font-size: 1rem !important; /* 📺 ⬆️ INGRANDITO: da 0.7rem a 1rem */
           }
         }
 
@@ -192,6 +226,11 @@ function KpiBox({ label, value, unit, color = '#00bcd4', background = '#3a3a3a',
           .kpi-box-fit-screen div:first-child {
             font-size: 0.55rem !important;
             margin-bottom: 0.1rem !important;
+          }
+
+          /* 🆕 ICONA MOBILE */
+          .kpi-box-fit-screen div:first-child span:first-child {
+            font-size: 0.9rem !important; /* 📺 ⬆️ INGRANDITO: da 0.6rem a 0.9rem */
           }
         }
 

@@ -286,7 +286,7 @@ html, body {
 }
 
 .order-article-vertical .spec-label {
-  font-size: 0.8rem !important; /* 📺 ⬇️ RIDOTTO: da 0.9rem a 0.8rem */
+  font-size: 1rem !important; /* 📺 ⬆️ INGRANDITO: da 0.8rem a 1rem */
   color: #cccccc !important;
   font-weight: 500 !important;
   flex-shrink: 0 !important;
@@ -595,7 +595,7 @@ html, body {
   }
   
   .order-article-vertical .spec-label {
-    font-size: 1rem !important;
+    font-size: 1.2rem !important; /* 📺 ⬆️ INGRANDITO: da 1rem a 1.2rem */
   }
   
   .order-article-vertical .spec-icon {
@@ -645,7 +645,7 @@ html, body {
   }
   
   .order-article-vertical .spec-label {
-    font-size: 0.75rem !important;
+    font-size: 0.9rem !important; /* 📺 ⬆️ INGRANDITO: da 0.75rem a 0.9rem */
   }
   
   .order-article-vertical .spec-icon {
@@ -688,7 +688,7 @@ html, body {
   }
   
   .order-article-vertical .spec-label {
-    font-size: 0.7rem !important;
+    font-size: 0.85rem !important; /* 📺 ⬆️ INGRANDITO: da 0.7rem a 0.85rem */
   }
   
   .order-article-vertical .spec-icon {

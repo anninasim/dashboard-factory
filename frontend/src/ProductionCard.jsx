@@ -419,6 +419,7 @@ function ProductionCard({ data }) {
                   label="Velocità" 
                   value={data.mntg_vel_ril || 0} 
                   unit="mt/min" 
+                  icon="⚡" // 🆕 AGGIUNTA: Icona fulmine per velocità
                   color={getKpiColor(stato.label, 'velocity')}
                   background="#2a2a2a"
                   border="#555"
@@ -427,6 +428,7 @@ function ProductionCard({ data }) {
                   label="Portata" 
                   value={data.mntg_portata_ril || 0} 
                   unit="Kg/h" 
+                  icon="⚖️" // 🆕 AGGIUNTA: Icona bilancia per portata
                   color={getKpiColor(stato.label, 'flow')}
                   background="#2a2a2a"
                   border="#555"
