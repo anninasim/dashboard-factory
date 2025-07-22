@@ -439,13 +439,14 @@ function ProductionCard({ data }) {
           </div>
         </div>
 
-        {/* 🔧 FIX: SEZIONE HOPPER ORA DENTRO IL CARD-BODY */}
-        {data.stato_macchina_html && (
-          <HopperStatus 
-            htmlString={data.stato_macchina_html}
-            isCompleted={isProductionComplete}
-          />
-        )}
+{/* 🆕 SEZIONE HOPPER - SOTTO TUTTO, SEPARATA */}
+{data.stato_macchina_html && (
+  <HopperStatus 
+    htmlString={data.stato_macchina_html}
+    isCompleted={isProductionComplete}
+    machineName={data.fnt_sigla}
+  />
+)}
       </div>
 
       {/* 🎯 BANNER COMPLETAMENTO - RIMANE FUORI DAL CARD-BODY */}
