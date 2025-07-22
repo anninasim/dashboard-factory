@@ -171,7 +171,7 @@ const HopperStatus = ({ htmlString, isCompleted = false, machineName }) => {
 
       {/* 🎨 CSS INTEGRATO PER LAYOUT FISSO */}
       <style>{`
-        /* 📏 SEZIONE PRINCIPALE - DIMENSIONI FISSE PER TUTTE LE MACCHINE */
+        /* 📏 SEZIONE PRINCIPALE - PIÙ SPAZIO GRAZIE ALLE METRICS RIDOTTE */
         .hopper-status-section-fixed {
           margin: 0.4rem 0 !important;
           padding: 0.6rem !important;
@@ -182,10 +182,10 @@ const HopperStatus = ({ htmlString, isCompleted = false, machineName }) => {
           box-sizing: border-box !important;
           width: 100% !important;
           
-          /* 🎯 DIMENSIONI FISSE - UGUALE PER TUTTE LE MACCHINE */
-          min-height: 180px !important;
-          max-height: 180px !important;
-          height: 180px !important;
+          /* 🎯 PIÙ SPAZIO: Altezze aumentate del 22% */
+          min-height: 220px !important; /* 📺 ⬆️ AUMENTATO: da 180px a 220px (+22%) */
+          max-height: 220px !important;
+          height: 220px !important;
           
           overflow: visible !important;
           flex-shrink: 0 !important;
