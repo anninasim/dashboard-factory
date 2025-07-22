@@ -123,7 +123,7 @@ html, body {
   /* Font ottimizzato */
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;
   color: #ffffff !important;
-  font-size: 0.9rem !important; /* 📺 Base font size ottimizzata per fit */
+  font-size: 1.1rem !important; /* 📺 ⬆️ INGRANDITO: da 0.9rem a 1.1rem */
 }
 
 .dashboard-grid .card:hover {
@@ -215,14 +215,14 @@ html, body {
 .card-body p {
   margin: 0.4rem 0 !important;
   color: #ffffff !important;
-  font-size: 0.8rem !important;
-  line-height: 1.2 !important;
+  font-size: 1.1rem !important; /* 📺 ⬆️ INGRANDITO: da 0.8rem a 1.1rem */
+  line-height: 1.3 !important; /* 📺 ⬆️ MIGLIORATO: da 1.2 a 1.3 per leggibilità */
   box-sizing: border-box !important;
 }
 
 .card-body p strong {
   color: #cccccc !important;
-  font-size: 0.8rem !important;
+  font-size: 1.1rem !important; /* 📺 ⬆️ INGRANDITO: da 0.8rem a 1.1rem */
 }
 
 /* 📺 CONTENUTO COMPLETATO */
@@ -279,7 +279,7 @@ html, body {
 }
 
 .material-title {
-  font-size: 0.8rem !important;
+  font-size: 1.1rem !important; /* 📺 ⬆️ INGRANDITO: da 0.8rem a 1.1rem */
   font-weight: 600 !important;
   color: #ffffff !important;
   text-transform: uppercase !important;
@@ -291,7 +291,7 @@ html, body {
   padding: 0.6rem !important;
   color: #888 !important;
   font-style: italic !important;
-  font-size: 0.7rem !important;
+  font-size: 1rem !important; /* 📺 ⬆️ INGRANDITO: da 0.7rem a 1rem */
 }
 
 .material-specs-grid {
@@ -338,7 +338,7 @@ html, body {
 }
 
 .spec-label {
-  font-size: 0.65rem !important;
+  font-size: 0.9rem !important; /* 📺 ⬆️ INGRANDITO: da 0.65rem a 0.9rem */
   color: #cccccc !important;
   font-weight: 500 !important;
   flex-shrink: 0 !important;
@@ -346,7 +346,7 @@ html, body {
 }
 
 .spec-value-key {
-  font-size: 1rem !important;
+  font-size: 1.4rem !important; /* 📺 ⬆️ INGRANDITO: da 1rem a 1.4rem */
   color: #ffffff !important;
   font-weight: 700 !important;
   text-align: right !important;
@@ -459,7 +459,7 @@ html, body {
 
 .completion-status {
   font-weight: 700 !important;
-  font-size: 0.9rem !important;
+  font-size: 1.2rem !important; /* 📺 ⬆️ INGRANDITO: da 0.9rem a 1.2rem */
   color: white !important;
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3) !important;
   letter-spacing: 0.02rem !important;
@@ -467,7 +467,7 @@ html, body {
 
 .completion-datetime {
   font-weight: 600 !important;
-  font-size: 0.8rem !important;
+  font-size: 1.1rem !important; /* 📺 ⬆️ INGRANDITO: da 0.8rem a 1.1rem */
   color: #bbdefb !important;
   background-color: rgba(13, 71, 161, 0.5) !important;
   padding: 0.2rem 0.6rem !important;
@@ -500,7 +500,7 @@ html, body {
 /* 📺 TV 4K SCALING - PER SCHERMI PIÙ GRANDI */
 @media (min-width: 3840px) {
   .dashboard-grid .card {
-    font-size: 1.2rem !important;
+    font-size: 1.5rem !important; /* 📺 ⬆️ INGRANDITO: da 1.2rem a 1.5rem */
   }
   
   .machine-name {
@@ -513,11 +513,11 @@ html, body {
   }
   
   .card-body p {
-    font-size: 1.1rem !important;
+    font-size: 1.4rem !important; /* 📺 ⬆️ INGRANDITO: da 1.1rem a 1.4rem */
   }
   
   .material-title {
-    font-size: 1.1rem !important;
+    font-size: 1.4rem !important; /* 📺 ⬆️ INGRANDITO: da 1.1rem a 1.4rem */
   }
   
   .material-icon {
@@ -525,19 +525,19 @@ html, body {
   }
   
   .spec-label {
-    font-size: 0.9rem !important;
+    font-size: 1.1rem !important; /* 📺 ⬆️ INGRANDITO: da 0.9rem a 1.1rem */
   }
   
   .spec-value-key {
-    font-size: 1.4rem !important;
+    font-size: 1.8rem !important; /* 📺 ⬆️ INGRANDITO: da 1.4rem a 1.8rem */
   }
   
   .completion-status {
-    font-size: 1.2rem !important;
+    font-size: 1.5rem !important; /* 📺 ⬆️ INGRANDITO: da 1.2rem a 1.5rem */
   }
   
   .completion-datetime {
-    font-size: 1.1rem !important;
+    font-size: 1.3rem !important; /* 📺 ⬆️ INGRANDITO: da 1.1rem a 1.3rem */
   }
   
   .metrics-box:first-child {
@@ -557,7 +557,7 @@ html, body {
   }
   
   .dashboard-grid .card {
-    font-size: 0.85rem !important;
+    font-size: 1rem !important; /* 📺 ⬆️ INGRANDITO: da 0.85rem a 1rem */
     padding: 0.8rem !important;
   }
   
@@ -580,7 +580,7 @@ html, body {
   }
   
   .dashboard-grid .card {
-    font-size: 0.8rem !important;
+    font-size: 0.95rem !important; /* 📺 ⬆️ INGRANDITO: da 0.8rem a 0.95rem */
     padding: 0.6rem !important;
   }
   
