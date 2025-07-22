@@ -1,365 +1,616 @@
+/* 📺 DASHBOARD CSS - PERFETTO FIT SCHERMO TV 4K - GRIGLIA 4x2 COMPLETA VISIBILE */
 
-body {
+/* 🎯 RESET E BASE */
+* {
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  width: 100vw;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+  overflow: hidden; /* 📺 CRITICO: niente scroll */
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   background-color: #1a1a1a;
   color: #ffffff;
-  width: 100vw;
-  height: 100vh;
-  overflow: hidden;
 }
 
+/* 📺 APP CONTAINER - OCCUPA TUTTO LO SCHERMO */
+.app-container {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background-color: #1a1a1a;
+}
+
+.main-content {
+  flex: 1;
+  width: 100%;
+  height: 100%;
+  overflow: hidden; /* 📺 CRITICO: niente scroll */
+}
+
+/* 📺 GRID LAYOUT - DIMENSIONATO PER FIT PERFETTO TV 4K */
 .dashboard-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   grid-template-rows: repeat(2, 1fr);
   width: 100vw;
   height: 100vh;
-  gap: 32px; /* 👈 margine tra le card */
-  padding: 32px; /* 👈 margine attorno al bordo dello schermo */
+  gap: 1.5rem; /* 📺 Gap ridotto per far entrare tutto */
+  padding: 1.5rem; /* 📺 Padding ridotto per massimizzare spazio card */
   box-sizing: border-box;
   background-color: #1a1a1a;
-}
-
-.card {
-  width: 100%;
-  height: 100%;
-  box-sizing: border-box;
-  background: linear-gradient(145deg, #2a2a2a, #333333);
-  border: 1px solid #444;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  padding: 24px; /* 👉 puoi mantenerlo se vuoi spazio interno */
-  border-radius: 12px; /* visivamente più chiaro */
-}
-
-.card-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border-bottom: 3px solid;
-  margin-bottom: 24px;
-  padding-bottom: 16px;
-  flex-shrink: 0;
-}
-
-.card-header h2 {
-  font-size: 3.2rem;
-  font-weight: 700;
-  margin: 0;
-  letter-spacing: 1px;
-  color: #ffffff;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
-}
-
-.card-body {
-  flex: 1;
   overflow: hidden;
 }
 
-.card-body p {
-  font-size: 1.8rem;
-  font-weight: 500;
-  margin-bottom: 16px;
-  line-height: 1.3;
+/* 📺 TOGGLE PAGINA - COMPATTO */
+.page-toggle {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  z-index: 1000;
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
   align-items: center;
-  color: #ffffff;
+  gap: 0.5rem;
 }
 
-.card-body p strong {
-  font-weight: 600;
-  color: #cccccc;
-  min-width: 180px;
-  display: inline-block;
-}
-
-.card-body p:not(:has(strong)) {
-  font-size: 2rem;
-  font-weight: 600;
-  text-align: center;
-  color: #dddddd;
-  margin: 20px 0;
-}
-
-.status {
-  padding: 12px 24px;
+.toggle-button {
+  width: 3rem;
+  height: 3rem;
+  background: linear-gradient(135deg, #00cc66, #00aa55);
+  border: none;
+  border-radius: 50%;
   color: white;
-  border-radius: 8px;
-  font-size: 1.4rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-  border: 2px solid rgba(255, 255, 255, 0.1);
-}
-
-.progress-bar {
-  height: 24px;
-  background: linear-gradient(90deg, #404040, #4a4a4a);
-  border-radius: 12px;
-  margin: 20px 0;
-  overflow: hidden;
-  border: 2px solid #555555;
-  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
-}
-
-.progress-bar .fill {
-  height: 100%;
-  background: linear-gradient(90deg, #666666, #777777);
-  transition: width 0.5s ease;
-}
-
-/* Stili specifici per valori critici */
-.card-body .metric-value {
-  font-size: 2.2rem;
-  font-weight: 700;
-  color: #ffffff;
-  text-align: right;
-  min-width: 200px;
-}
-
-.card-body .warning-message {
-  background: linear-gradient(135deg, #666666, #777777);
-  padding: 16px;
-  border-radius: 8px;
-  font-size: 1.6rem;
-  font-weight: 600;
-  text-align: center;
-  margin-top: 20px;
-  border: 2px solid #888888;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
-  color: #ffffff;
-}
-
-/* Miglioramenti tipografici per leggibilità industriale */
-.card-body .unit {
-  font-size: 1.4rem;
-  color: #bbbbbb;
-  font-weight: 400;
-  margin-left: 8px;
-}
-
-.card-body .separator {
-  color: #888888;
-  margin: 0 8px;
-}
-
-/* Stati di produzione con scala di grigi */
-.status.production { 
-  background: linear-gradient(135deg, #666666, #777777);
-  color: #ffffff;
-}
-.status.restart { 
-  background: linear-gradient(135deg, #555555, #666666);
-  color: #ffffff;
-}
-.status.starting { 
-  background: linear-gradient(135deg, #777777, #888888);
-  color: #ffffff;
-}
-.status.waste { 
-  background: linear-gradient(135deg, #444444, #555555);
-  color: #ffffff;
-}
-.status.stopped { 
-  background: linear-gradient(135deg, #333333, #444444);
-  color: #cccccc;
-}
-
-/* LED Progress Bar - Ottimizzato per Card Dashboard */
-.led-progress-section {
-  margin: 16px 0;
-  padding: 16px;
-  background: rgba(255, 255, 255, 0.02);
-  border-radius: 8px;
-  border: 1px solid #444;
-}
-
-.led-header {
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 0.3rem 0.9rem rgba(0, 204, 102, 0.3);
   display: flex;
-  justify-content: space-between; /* ✅ Cambiato da flex-start */
   align-items: center;
-  gap: 6px;
-  font-size: 1.1rem;
-  font-weight: 600;
+  justify-content: center;
+}
+
+.toggle-button:hover {
+  background: linear-gradient(135deg, #00aa55, #008844);
+  transform: translateY(-0.1rem);
+  box-shadow: 0 0.4rem 1.2rem rgba(0, 204, 102, 0.4);
+}
+
+.toggle-label {
+  font-size: 0.7rem;
   color: #cccccc;
-  letter-spacing: 0.5px;
-  text-transform: uppercase;
-  margin-bottom: 12px;
-  border-bottom: 2px solid #555555;
-  padding-bottom: 6px;
+  background: rgba(0, 0, 0, 0.7);
+  padding: 0.2rem 0.5rem;
+  border-radius: 0.3rem;
+  font-weight: 500;
+  text-align: center;
+  min-width: 4rem;
+  backdrop-filter: blur(10px);
 }
 
-.led-icon {
-  font-size: 1.4rem;
-}
-
-.led-title {
-  font-size: 1.4rem;
-  font-weight: 600;
-}
-
-.led-counter {
-  display: flex;
-  justify-content: center;
-  align-items: baseline;
-  gap: 6px;
-  margin-bottom: 16px;
-}
-
-.led-current {
-  font-size: 2.2rem;
-  font-weight: 700;
-  color: #ffffff;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
-}
-
-.led-separator {
-  font-size: 1.8rem;
-  color: #888888;
-  margin: 0 4px;
-}
-
-.led-total {
-  font-size: 1.8rem;
-  font-weight: 600;
-  color: #bbbbbb;
-}
-
-.led-unit {
-  font-size: 1.1rem;
-  color: #888888;
-  margin-left: 8px;
-  text-transform: uppercase;
-  align-self: flex-end;
-}
-
-.led-bar-container {
-  display: flex;
-  gap: 2px;
-  margin-bottom: 12px;
-  padding: 4px;
-  background-color: #1a1a1a;
-  border-radius: 6px;
-  border: 1px solid #444;
-  justify-content: center;
-}
-
-.led-segment {
-  width: 12px;
-  height: 12px;
-  border-radius: 2px;
-  transition: all 0.4s ease;
-  border: 1px solid #2a2a2a;
-}
-
-.led-segment.led-off {
-  background-color: #333333;
-  opacity: 0.4;
-}
-
-.led-segment.led-red {
-  background-color: #cc4444;
-  opacity: 1;
-  box-shadow: 0 0 3px #cc444440;
-  border: 1px solid #cc444480;
-}
-
-.led-segment.led-orange {
-  background-color: #cc7700;
-  opacity: 1;
-  box-shadow: 0 0 3px #cc770040;
-  border: 1px solid #cc770080;
-}
-
-.led-segment.led-green {
-  background-color: #00cc66;
-  opacity: 1;
-  box-shadow: 0 0 3px #00cc6640;
-  border: 1px solid #00cc6680;
-}
-
-.led-indicators {
-  display: none; /* ✅ Nasconde i numeretti come richiesto */
-}
-
-/* Responsive per TV 4K */
-@media (min-width: 3840px) {
-  .led-current {
-    font-size: 2.8rem;
-  }
+/* 📺 CARD BASE - DIMENSIONATE PER FIT PERFETTO GRIGLIA 4x2 */
+.dashboard-grid .card {
+  /* Reset completo */
+  all: unset;
   
-  .led-separator {
-    font-size: 2.2rem;
-  }
+  /* Dimensioni perfette per fit schermo */
+  width: 100% !important;
+  height: 100% !important;
+  max-height: calc((100vh - 3rem) / 2) !important; /* 📺 Altezza max per entrare in 2 righe */
+  box-sizing: border-box !important;
   
-  .led-total {
-    font-size: 2.2rem;
-  }
+  /* Stili base card */
+  background: #121212 !important;
+  border: 1px solid #444 !important;
+  border-radius: 0.6rem !important;
+  padding: 1rem !important; /* 📺 Padding ottimizzato per fit */
+  display: flex !important;
+  flex-direction: column !important;
+  position: relative !important;
+  overflow: visible !important;
   
-  .led-segment {
-    width: 14px;
-    height: 14px;
-  }
+  /* Stili visuali */
+  box-shadow: 0 0.2rem 0.4rem rgba(0, 0, 0, 0.2) !important;
+  transition: transform 0.3s ease, box-shadow 0.3s ease !important;
   
-  .led-header {
-    font-size: 1.2rem;
-  }
+  /* Font ottimizzato */
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;
+  color: #ffffff !important;
+  font-size: 0.9rem !important; /* 📺 Base font size ottimizzata per fit */
+}
 
-/* Stili per alert integrato nell'header */
-.header-left {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
+.dashboard-grid .card:hover {
+  transform: translateY(-0.1rem) !important;
+  box-shadow: 0 0.3rem 0.6rem rgba(0, 0, 0, 0.3) !important;
+}
+
+/* 📺 CARD COMPLETATA */
+.dashboard-grid .card.card-completed {
+  background: linear-gradient(135deg, #0d1e2f 0%, #121f2a 50%, #0d1e2f 100%) !important;
+  border: 2px solid #1565c0 !important;
+  box-shadow: 0 0.2rem 0.6rem rgba(21, 71, 132, 0.12) !important;
+}
+
+/* 📺 HEADER CARD - COMPATTO PER FIT */
+.card-header-compact {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  padding: 0.3rem 0 0.6rem 0 !important;
+  position: relative !important;
+  border-bottom: 1px solid #333 !important;
+  margin-bottom: 0.8rem !important;
+  box-sizing: border-box !important;
+  flex-shrink: 0 !important;
+}
+
+.machine-name {
+  margin: 0 !important;
+  font-size: 1.8rem !important; /* 📺 Dimensione perfetta per leggibilità e fit */
+  font-weight: 700 !important;
+  color: white !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5) !important;
+  letter-spacing: 0.05rem !important;
+  line-height: 1 !important;
+}
+
+.status-compact {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 0.3rem 0.6rem !important;
+  border-radius: 0.3rem !important;
+  font-size: 0.7rem !important;
+  font-weight: 600 !important;
+  white-space: nowrap !important;
+  color: white !important;
+  height: auto !important;
+  min-height: 1.5rem !important;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3) !important;
+  line-height: 1 !important;
 }
 
 .header-alert-center {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  background: rgba(255, 152, 0, 0.15);
-  border: 1px solid rgba(255, 152, 0, 0.4);
-  border-radius: 6px;
-  padding: 4px 8px;
-  animation: headerFlash 1.5s ease-in-out infinite;
+  position: absolute !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 0.3rem !important;
+  background: rgba(255, 152, 0, 0.15) !important;
+  padding: 0.2rem 0.4rem !important;
+  border-radius: 0.3rem !important;
+  border: 1px solid rgba(255, 152, 0, 0.3) !important;
 }
 
 .alert-icon-small {
-  font-size: 1.3rem;
-  animation: iconPulse 1.5s ease-in-out infinite;
+  font-size: 0.8rem !important;
 }
 
 .alert-text-small {
-  color: #ffcc02;
-  font-size: 1.5rem;
-  font-weight: 600;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+  font-size: 0.6rem !important;
+  font-weight: 600 !important;
+  color: #ffb74d !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.02rem !important;
 }
 
+/* 📺 BODY CARD - OTTIMIZZATO PER FIT VERTICALE */
+.card-body {
+  flex: 1 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 0 !important;
+  overflow: visible !important;
+  min-height: 0 !important; /* 📺 Permette al contenuto di comprimersi se necessario */
+}
 
+.card-body p {
+  margin: 0.4rem 0 !important;
+  color: #ffffff !important;
+  font-size: 0.8rem !important;
+  line-height: 1.2 !important;
+  box-sizing: border-box !important;
+}
 
-@keyframes headerFlash {
-  0%, 100% { 
-    background: rgba(255, 152, 0, 0.15);
-    border-color: rgba(255, 152, 0, 0.4);
+.card-body p strong {
+  color: #cccccc !important;
+  font-size: 0.8rem !important;
+}
+
+/* 📺 CONTENUTO COMPLETATO */
+.content-completed {
+  color: #666666 !important;
+  opacity: 0.6 !important;
+  transition: all 0.3s ease !important;
+}
+
+.content-completed strong {
+  color: #777777 !important;
+}
+
+.section-completed {
+  filter: grayscale(80%) !important;
+  opacity: 0.5 !important;
+  transition: all 0.3s ease !important;
+}
+
+/* 🔬 SPECIFICHE MATERIALE - COMPATTE PER FIT */
+.material-specs-section {
+  margin: 0.6rem 0 !important;
+  padding: 0.8rem !important;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.04)) !important;
+  border: 1px solid #444 !important;
+  border-radius: 0.4rem !important;
+  backdrop-filter: blur(10px) !important;
+  box-sizing: border-box !important;
+  width: 100% !important;
+  overflow: visible !important;
+  flex-shrink: 1 !important; /* 📺 Può comprimersi se necessario */
+}
+
+.material-specs-section.completed {
+  filter: grayscale(80%) !important;
+  opacity: 0.5 !important;
+  background: linear-gradient(135deg, rgba(102, 102, 102, 0.1), rgba(102, 102, 102, 0.2)) !important;
+  border-color: #666666 !important;
+}
+
+.material-specs-header {
+  display: flex !important;
+  align-items: center !important;
+  gap: 0.5rem !important;
+  margin-bottom: 0.6rem !important;
+  padding-bottom: 0.4rem !important;
+  border-bottom: 1px solid #555 !important;
+  box-sizing: border-box !important;
+}
+
+.material-icon {
+  font-size: 1rem !important;
+  color: #00bcd4 !important;
+}
+
+.material-title {
+  font-size: 0.8rem !important;
+  font-weight: 600 !important;
+  color: #ffffff !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.02rem !important;
+}
+
+.material-no-data {
+  text-align: center !important;
+  padding: 0.6rem !important;
+  color: #888 !important;
+  font-style: italic !important;
+  font-size: 0.7rem !important;
+}
+
+.material-specs-grid {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 0.5rem !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+.spec-row {
+  display: flex !important;
+  gap: 0.5rem !important;
+  justify-content: space-between !important;
+  margin-bottom: 0.3rem !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+.spec-item {
+  display: flex !important;
+  align-items: center !important;
+  gap: 0.3rem !important;
+  flex: 1 !important;
+  min-width: 0 !important;
+  padding: 0.4rem 0.6rem !important;
+  background: rgba(255, 255, 255, 0.03) !important;
+  border: 1px solid #555 !important;
+  border-radius: 0.3rem !important;
+  transition: all 0.3s ease !important;
+  box-sizing: border-box !important;
+}
+
+.spec-item:hover {
+  background: rgba(255, 255, 255, 0.05) !important;
+  border-color: #666 !important;
+  transform: translateY(-1px) !important;
+}
+
+.spec-icon {
+  font-size: 0.9rem !important;
+  flex-shrink: 0 !important;
+  opacity: 0.8 !important;
+}
+
+.spec-label {
+  font-size: 0.65rem !important;
+  color: #cccccc !important;
+  font-weight: 500 !important;
+  flex-shrink: 0 !important;
+  min-width: 3rem !important;
+}
+
+.spec-value-key {
+  font-size: 1rem !important;
+  color: #ffffff !important;
+  font-weight: 700 !important;
+  text-align: right !important;
+  flex: 1 !important;
+  white-space: nowrap !important;
+  overflow: visible !important;
+  text-overflow: ellipsis !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3) !important;
+}
+
+/* 📺 PROGRESS E KPI CONTAINER - OTTIMIZZATI PER FIT VERTICALE */
+.progress-and-kpi-container {
+  display: flex !important;
+  gap: 0.8rem !important;
+  align-items: stretch !important;
+  margin: 0.6rem 0 !important;
+  box-sizing: border-box !important;
+  overflow: visible !important;
+  width: 100% !important;
+  flex-shrink: 1 !important;
+  min-height: 0 !important;
+}
+
+.metrics-box {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.04)) !important;
+  border: 1px solid #444 !important;
+  border-radius: 0.4rem !important;
+  padding: 0.6rem !important;
+  display: flex !important;
+  flex-direction: column !important;
+  backdrop-filter: blur(10px) !important;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2) !important;
+  overflow: visible !important;
+  height: auto !important;
+  box-sizing: border-box !important;
+  flex-shrink: 1 !important;
+}
+
+.metrics-box:first-child {
+  flex: 0 0 62% !important;
+  min-height: 6rem !important; /* 📺 Altezza compatta per fit */
+}
+
+.metrics-box:last-child {
+  flex: 0 0 32% !important;
+  min-height: 10rem !important; /* 📺 Altezza per contenere 2 KPI compatti */
+}
+
+.metrics-content {
+  flex: 1 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+  padding: 0.2rem !important;
+  overflow: visible !important;
+  height: auto !important;
+  box-sizing: border-box !important;
+}
+
+.kpi-stack {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 0.5rem !important;
+  width: 100% !important;
+  overflow: visible !important;
+  height: auto !important;
+  box-sizing: border-box !important;
+}
+
+/* 📺 BANNER COMPLETAMENTO - COMPATTO */
+.completion-banner {
+  display: flex !important;
+  align-items: center !important;
+  gap: 0.5rem !important;
+  margin-top: 0.6rem !important;
+  padding: 0.6rem 0.8rem !important;
+  background: linear-gradient(135deg, #0d47a1, #1565c0) !important;
+  border-radius: 0.4rem !important;
+  border-left: 3px solid #90caf9 !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3) !important;
+  box-sizing: border-box !important;
+  flex-shrink: 0 !important;
+}
+
+.completion-icon {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 1.5rem !important;
+  height: 1.5rem !important;
+  background-color: #90caf9 !important;
+  border-radius: 50% !important;
+  color: #0d47a1 !important;
+  font-size: 0.8rem !important;
+  font-weight: bold !important;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2) !important;
+}
+
+.completion-info {
+  flex: 1 !important;
+}
+
+.completion-single-line {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  flex-wrap: wrap !important;
+  gap: 0.5rem !important;
+}
+
+.completion-status {
+  font-weight: 700 !important;
+  font-size: 0.9rem !important;
+  color: white !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3) !important;
+  letter-spacing: 0.02rem !important;
+}
+
+.completion-datetime {
+  font-weight: 600 !important;
+  font-size: 0.8rem !important;
+  color: #bbdefb !important;
+  background-color: rgba(13, 71, 161, 0.5) !important;
+  padding: 0.2rem 0.6rem !important;
+  border-radius: 0.3rem !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3) !important;
+  border: 1px solid rgba(144, 202, 249, 0.3) !important;
+}
+
+/* 📺 ANIMAZIONI */
+@keyframes slowPulse {
+  0% { opacity: 0.7; }
+  50% { opacity: 1; }
+  100% { opacity: 0.7; }
+}
+
+@keyframes fastPulse {
+  0% { opacity: 0.6; }
+  50% { opacity: 1; }
+  100% { opacity: 0.6; }
+}
+
+.slowPulse {
+  animation: slowPulse 2s infinite;
+}
+
+.fastPulse {
+  animation: fastPulse 0.8s infinite;
+}
+
+/* 📺 TV 4K SCALING - PER SCHERMI PIÙ GRANDI */
+@media (min-width: 3840px) {
+  .dashboard-grid .card {
+    font-size: 1.2rem !important;
   }
-  50% { 
-    background: rgba(255, 152, 0, 0.25);
-    border-color: rgba(255, 152, 0, 0.6);
+  
+  .machine-name {
+    font-size: 2.4rem !important;
+  }
+  
+  .status-compact {
+    font-size: 1rem !important;
+    padding: 0.4rem 0.8rem !important;
+  }
+  
+  .card-body p {
+    font-size: 1.1rem !important;
+  }
+  
+  .material-title {
+    font-size: 1.1rem !important;
+  }
+  
+  .material-icon {
+    font-size: 1.3rem !important;
+  }
+  
+  .spec-label {
+    font-size: 0.9rem !important;
+  }
+  
+  .spec-value-key {
+    font-size: 1.4rem !important;
+  }
+  
+  .completion-status {
+    font-size: 1.2rem !important;
+  }
+  
+  .completion-datetime {
+    font-size: 1.1rem !important;
+  }
+  
+  .metrics-box:first-child {
+    min-height: 8rem !important;
+  }
+  
+  .metrics-box:last-child {
+    min-height: 14rem !important;
   }
 }
 
-@keyframes iconPulse {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.1); }
+/* 💻 DESKTOP */
+@media (max-width: 3839px) and (min-width: 1200px) {
+  .dashboard-grid {
+    gap: 1.2rem;
+    padding: 1.2rem;
+  }
+  
+  .dashboard-grid .card {
+    font-size: 0.85rem !important;
+    padding: 0.8rem !important;
+  }
+  
+  .machine-name {
+    font-size: 1.5rem !important;
+  }
+  
+  .metrics-box:last-child {
+    min-height: 8rem !important;
+  }
 }
 
-@keyframes iconPulse {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.1); }
+/* 📱 MOBILE E TABLET */
+@media (max-width: 1199px) {
+  .dashboard-grid {
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(4, 1fr);
+    gap: 0.8rem;
+    padding: 0.8rem;
+  }
+  
+  .dashboard-grid .card {
+    font-size: 0.8rem !important;
+    padding: 0.6rem !important;
+  }
+  
+  .machine-name {
+    font-size: 1.2rem !important;
+  }
+  
+  .progress-and-kpi-container {
+    flex-direction: column !important;
+    gap: 0.5rem !important;
+  }
+  
+  .metrics-box:first-child,
+  .metrics-box:last-child {
+    flex: 1 !important;
+    min-height: 4rem !important;
+  }
 }
+
+/* 📱 MOBILE PICCOLO */
+@media (max-width: 768px) {
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(8, 1fr);
+    gap: 0.5rem;
+    padding: 0.5rem;
+  }
+}
+
+/* 🎯 OVERRIDE FINALE */
+.dashboard-grid * {
+  box-sizing: border-box !important;
 }
