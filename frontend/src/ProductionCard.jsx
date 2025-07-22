@@ -139,7 +139,7 @@ const getStatus = (stato, azione, velocita, portata) => {
 };
 
 // 🎯 Componente ottimizzato per le specifiche tecniche del materiale
-const MaterialSpecs = ({ data }) => {
+const MaterialSpecs = ({ data, isCompleted }) => {
   // Verifica se abbiamo almeno un dato tecnico disponibile tra i 4 campi richiesti
   const hasTechnicalData = data.larghezza || data.spessore_micron || 
                           data.qta_uni_kg || data.qta_uni_ml;
@@ -165,7 +165,7 @@ const MaterialSpecs = ({ data }) => {
   };
 
   return (
-    <div className="material-specs-section">
+    <div className={`material-specs-section ${isCompleted ? 'completed' : ''}`}>
       {/* Header della sezione */}
       <div className="material-specs-header">
         <span className="material-icon">🔬</span>
@@ -236,158 +236,6 @@ const MaterialSpecs = ({ data }) => {
           </div>
         </div>
       )}
-
-      {/* CSS Styles per le specifiche materiale */}
-      <style>{`
-        .material-specs-section {
-          margin: 20px 0;
-          padding: 16px;
-          background: linear-gradient(135deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.04));
-          border: 1px solid #444;
-          border-radius: 8px;
-          backdrop-filter: blur(10px);
-        }
-
-        .material-specs-header {
-          display: flex;
-          align-items: center;
-          gap: 8px;
-          margin-bottom: 16px;
-          padding-bottom: 8px;
-          border-bottom: 2px solid #555;
-          justify-content: space-between;
-        }
-
-        .material-icon {
-          font-size: 1.2rem;
-          color: #00bcd4;
-        }
-
-        .material-title {
-          font-size: 1.1rem;
-          font-weight: 600;
-          color: #ffffff;
-          text-transform: uppercase;
-          letter-spacing: 0.5px;
-        }
-
-        .material-no-data {
-          text-align: center;
-          padding: 12px;
-          color: #888;
-          font-style: italic;
-        }
-
-        .no-data-message {
-          font-size: 0.9rem;
-          opacity: 0.7;
-        }
-
-        .material-specs-grid {
-          display: flex;
-          flex-direction: column;
-          gap: 12px;
-        }
-
-        .spec-row {
-          display: flex;
-          gap: 16px;
-          justify-content: space-between;
-          margin-bottom: 12px;
-        }
-
-        .spec-item {
-          display: flex;
-          align-items: center;
-          gap: 6px;
-          flex: 1;
-          min-width: 0; /* Per permettere il text truncation */
-          padding: 8px 12px;
-          background: rgba(255, 255, 255, 0.03);
-          border: 1px solid #555;
-          border-radius: 6px;
-          transition: all 0.3s ease;
-        }
-
-        .spec-item:hover {
-          background: rgba(255, 255, 255, 0.05);
-          border-color: #666;
-          transform: translateY(-1px);
-        }
-
-        .spec-icon {
-          font-size: 1.5rem;
-          flex-shrink: 0;
-          opacity: 0.8;
-        }
-
-        .spec-label {
-          font-size: 0.85rem;
-          color: #cccccc;
-          font-weight: 500;
-          flex-shrink: 0;
-          min-width: 60px;
-        }
-
-        .spec-value-key {
-          font-size: 1.4rem !important; /* ⭐ Numeri chiave più grandi */
-          color: #ffffff !important;
-          font-weight: 700 !important;
-          text-align: right;
-          flex: 1;
-          white-space: nowrap;
-          overflow: hidden;
-          text-overflow: ellipsis;
-          text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
-        }
-
-        /* Responsive per schermi più piccoli */
-        @media (max-width: 768px) {
-          .spec-row {
-            flex-direction: column;
-            gap: 8px;
-          }
-          
-          .spec-item {
-            justify-content: space-between;
-          }
-          
-          .spec-label {
-            min-width: auto;
-          }
-
-          .spec-value-key {
-            font-size: 1.2rem !important;
-          }
-        }
-
-        /* Responsive per TV 4K */
-        @media (min-width: 3840px) {
-          .material-specs-section {
-            padding: 20px;
-          }
-          
-          .material-title {
-            font-size: 1.4rem;
-          }
-          
-          .material-icon {
-            font-size: 1.5rem;
-          }
-          
-          .spec-item {
-            padding: 12px 16px;
-          }
-          
-          .spec-label {
-            font-size: 1.2rem;
-          }
-          
-          .spec-value-key {
-            font-size: 1.6rem !important; /* ⭐ Ancora più grande su 4K */
-          }
-        }
-      `}</style>
     </div>
   );
 };
@@ -527,16 +375,17 @@ function ProductionCard({ data }) {
         <p className={isProductionComplete ? 'content-completed' : ''}><strong>Ordine:</strong> {data.fp_schedula_completo}</p>
         <p className={isProductionComplete ? 'content-completed' : ''}><strong>Articolo:</strong> {articoloCompleto()}</p>
 
-        {/* 🆕 NUOVA SEZIONE: Specifiche tecniche del materiale - GRIGIE SE COMPLETATA */}
-        <div className={isProductionComplete ? 'section-completed' : ''}>
-          <MaterialSpecs data={data} />
-        </div>
+        {/* 🆕 SEZIONE SPECIFICHE MATERIALE - RIPULITA E SEMPLIFICATA */}
+        <MaterialSpecs 
+          data={data} 
+          isCompleted={isProductionComplete}
+        />
 
-        {/* 🎯 LAYOUT OTTIMIZZATO: 2 Colonne - Avanzamento + Performance - SPAZIATURA CORRETTA */}
-        <div className={`progress-and-kpi-container-optimized ${isProductionComplete ? 'section-completed' : ''}`}>
+        {/* 🎯 LAYOUT OTTIMIZZATO: 2 Colonne - Avanzamento + Performance */}
+        <div className={`progress-and-kpi-container ${isProductionComplete ? 'section-completed' : ''}`}>
           
-          {/* SEZIONE SINISTRA: Bobine (62%) - SENZA HEADER */}
-          <div className="metrics-box-minimalist">
+          {/* SEZIONE SINISTRA: Bobine (62%) */}
+          <div className="metrics-box">
             <div className="metrics-content">
               <LEDProgressBar 
                 current={data.mntg_qta_lotti_attuale || 0}
@@ -549,8 +398,8 @@ function ProductionCard({ data }) {
             </div>
           </div>
 
-          {/* SEZIONE DESTRA: Performance (32%) - SENZA HEADER */}
-          <div className="metrics-box-minimalist">
+          {/* SEZIONE DESTRA: Performance (32%) */}
+          <div className="metrics-box">
             <div className="metrics-content">
               <div className="kpi-stack">
                 <KpiBox 
@@ -574,9 +423,9 @@ function ProductionCard({ data }) {
           </div>
         </div>
 
-        {/* 🎯 BANNER COMPLETAMENTO - DESIGN MIGLIORATO E PIÙ VISIBILE */}
+        {/* 🎯 BANNER COMPLETAMENTO */}
         {isProductionComplete && (
-          <div className="completion-banner-large">
+          <div className="completion-banner">
             <div className="completion-icon">✓</div>
             <div className="completion-info">
               {(() => {
@@ -597,22 +446,39 @@ function ProductionCard({ data }) {
           </div>
         )}
 
-        {/* 🎨 CSS COMPLETO OTTIMIZZATO */}
+        {/* 🎨 CSS COMPLETO RIPULITO E SEMPLIFICATO */}
         <style>{`
-          /* 🎯 STATO COMPLETATO - GRADIENTE ANCORA PIÙ DELICATO PER CARD COMPLETATE */
-          .card-completed {
+          /* 🎯 CARD BASE */
+          .card {
+            background: #121212;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
             position: relative;
-            background: linear-gradient(135deg, #0a1824 0%, #0f1822 50%, #0a1824 100%); /* Colori ancora più scuri e meno saturi */
+            margin: 16px 0;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+          }
+          
+          .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+          }
+
+          /* 🎯 CARD COMPLETATA */
+          .card-completed {
+            background: linear-gradient(135deg, #0d1e2f 0%, #121f2a 50%, #0d1e2f 100%);
             border: 3px solid #1565c0 !important;
-            box-shadow: 0 2px 12px rgba(21, 71, 132, 0.08); /* Ombra ancora più sottile */
-            transition: all 0.3s ease;
+            box-shadow: 0 2px 12px rgba(21, 71, 132, 0.12);
           }
 
           .card-completed:hover {
-            box-shadow: 0 4px 15px rgba(21, 101, 192, 0.15); /* Hover ancora più leggero */
+            box-shadow: 0 4px 15px rgba(21, 101, 192, 0.2);
           }
 
-          /* 🆕 OVERLAY ULTRA DELICATO E TRASPARENTE PER COMPLETAMENTO */
           .card-completed::before {
             content: '';
             position: absolute;
@@ -621,148 +487,35 @@ function ProductionCard({ data }) {
             right: 0;
             bottom: 0;
             background: linear-gradient(135deg, 
-              rgba(21, 101, 192, 0.01) 0%, 
-              rgba(13, 71, 161, 0.02) 40%, 
-              rgba(21, 101, 192, 0.01) 100%
+              rgba(21, 101, 192, 0.02) 0%, 
+              rgba(13, 71, 161, 0.03) 40%, 
+              rgba(21, 101, 192, 0.02) 100%
             );
             pointer-events: none;
             z-index: 1;
             border-radius: inherit;
           }
 
-          /* 🎯 STATO COMPLETATO - TUTTO GRIGIO TRANNE HEADER */
-          .card-completed {
-            position: relative;
-          }
-
-          /* 📝 CONTENUTO TESTUALE GRIGIO */
-          .content-completed {
-            color: #666666 !important;
-            opacity: 0.6;
-            transition: all 0.3s ease;
-          }
-
-          .content-completed strong {
-            color: #777777 !important;
-          }
-
-          /* 📊 SEZIONI INTERE GRIGIE */
-          .section-completed {
-            filter: grayscale(80%);
-            opacity: 0.5;
-            transition: all 0.3s ease;
-          }
-
-          /* 🎯 EFFETTO HOVER PER RIATTIVARE TEMPORANEAMENTE */
-          .card-completed:hover .content-completed {
-            opacity: 0.8;
-          }
-
-          .card-completed:hover .section-completed {
-            filter: grayscale(60%);
-            opacity: 0.7;
-          }
-
-          /* 🎯 OVERRIDE PER MATERIAL SPECS QUANDO COMPLETATA */
-          .section-completed .material-specs-section {
-            background: linear-gradient(135deg, rgba(102, 102, 102, 0.1), rgba(102, 102, 102, 0.2)) !important;
-            border-color: #666666 !important;
-          }
-
-          .section-completed .material-title {
-            color: #888888 !important;
-          }
-
-          .section-completed .material-icon {
-            color: #666666 !important;
-          }
-
-          .section-completed .spec-value-key {
-            color: #888888 !important;
-          }
-
-          .section-completed .spec-item {
-            background: rgba(102, 102, 102, 0.1) !important;
-            border-color: #666666 !important;
-          }
-
-          /* 🆕 LAYOUT SUPER-COMPATTO SENZA HEADER */
-          .progress-and-kpi-container-optimized {
-            display: flex;
-            gap: 16px;
-            align-items: stretch;
-            margin: 12px 0; /* Aumentato da 8px a 12px */
-            width: calc(100% - 16px); /* Ridotto di 16px per dare spazio ai bordi */
-            padding: 0 8px; /* Padding orizzontale aggiunto */
-          }
-          
-          /* Box con stile unificato - SENZA HEADER */
-          .metrics-box-minimalist {
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.04));
-            border: 1px solid #444;
-            border-radius: 8px;
-            padding: 14px; /* Aumentato da 12px a 14px */
-            display: flex;
-            flex-direction: column;
-            backdrop-filter: blur(10px);
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Leggera ombra per profondità */
-          }
-          
-          /* Distribuzione spazio - MODIFICATA PER LASCIARE MARGINE */
-          .metrics-box-minimalist:first-child {
-            flex: 0 0 62%; /* Ridotto da 65% a 62% */
-          }
-          
-          .metrics-box-minimalist:last-child {
-            flex: 0 0 32%; /* Ridotto da 35% a 32% */
-          }
-          
-          /* Contenuto centrato verticalmente */
-          .metrics-content {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            padding: 2px; /* Piccolo padding interno */
-          }
-          
-          /* Stack KPI */
-          .kpi-stack {
-            display: flex;
-            flex-direction: column;
-            gap: 10px; /* Aumentato da 8px a 10px */
-            width: 100%;
-          }
-          
-          /* Miglioramento stile per card responsive */
-          .card-body {
-            padding: 12px 16px; /* Assicura padding uniforme nel corpo */
-          }
-
-          /* 🆕 HEADER COMPATTO */
+          /* 🎯 HEADER CARD */
           .card-header-compact {
             display: flex;
-            align-items: center;
             justify-content: space-between;
-            padding: 8px 12px;
-            border-bottom: 3px solid;
-            margin-bottom: 12px;
-            min-height: 36px; /* Ridotta l'altezza minima */
+            align-items: center;
+            padding: 8px 0 12px 0;
             position: relative;
-            overflow: hidden;
+            border-bottom: 1px solid #333;
+            margin-bottom: 16px;
           }
-          
-          /* Nome macchina più grande e visibile */
-          .card-header-compact h2.machine-name {
+
+          .machine-name {
             margin: 0;
-            font-size: 1.8rem; /* Aumentato da 1.3rem a 1.5rem */
+            font-size: 1.8rem;
             font-weight: 600;
             color: white;
             text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
-            letter-spacing: 0.5px; /* Aggiunto per migliorare la leggibilità */
+            letter-spacing: 0.5px;
           }
-          
-          /* Stato più compatto */
+
           .status-compact {
             display: flex;
             align-items: center;
@@ -773,11 +526,10 @@ function ProductionCard({ data }) {
             font-weight: 600;
             white-space: nowrap;
             color: white;
-            height: 24px; /* Altezza fissa ridotta */
+            height: 24px;
             box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
           }
-          
-          /* Alert centrale più compatto */
+
           .header-alert-center {
             position: absolute;
             left: 50%;
@@ -790,11 +542,11 @@ function ProductionCard({ data }) {
             border-radius: 4px;
             border: 1px solid rgba(255, 152, 0, 0.3);
           }
-          
+
           .alert-icon-small {
             font-size: 0.9rem;
           }
-          
+
           .alert-text-small {
             font-size: 0.75rem;
             font-weight: 600;
@@ -803,29 +555,217 @@ function ProductionCard({ data }) {
             letter-spacing: 0.5px;
           }
 
-          /* Animazioni mantenute */
-          @keyframes slowPulse {
-            0% { opacity: 0.7; }
-            50% { opacity: 1; }
-            100% { opacity: 0.7; }
-          }
-          
-          @keyframes fastPulse {
-            0% { opacity: 0.6; }
-            50% { opacity: 1; }
-            100% { opacity: 0.6; }
-          }
-          
-          .slowPulse {
-            animation: slowPulse 2s infinite;
-          }
-          
-          .fastPulse {
-            animation: fastPulse 0.8s infinite;
+          /* 🎯 BODY CARD */
+          .card-body {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 0;
           }
 
-          /* 🆕 BANNER COMPLETAMENTO MIGLIORATO - MOLTO PIÙ VISIBILE */
-          .completion-banner-large {
+          .card-body p {
+            margin: 8px 0;
+            color: #ffffff;
+            font-size: 0.95rem;
+          }
+
+          .card-body p strong {
+            color: #cccccc;
+          }
+
+          /* 🎯 CONTENUTO COMPLETATO */
+          .content-completed {
+            color: #666666 !important;
+            opacity: 0.6;
+            transition: all 0.3s ease;
+          }
+
+          .content-completed strong {
+            color: #777777 !important;
+          }
+
+          .section-completed {
+            filter: grayscale(80%);
+            opacity: 0.5;
+            transition: all 0.3s ease;
+          }
+
+          .card-completed:hover .content-completed {
+            opacity: 0.8;
+          }
+
+          .card-completed:hover .section-completed {
+            filter: grayscale(60%);
+            opacity: 0.7;
+          }
+
+          /* 🔬 SPECIFICHE MATERIALE - SEMPLIFICATO */
+          .material-specs-section {
+            margin: 16px 0;
+            padding: 16px;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.04));
+            border: 1px solid #444;
+            border-radius: 8px;
+            backdrop-filter: blur(10px);
+            box-sizing: border-box;
+          }
+
+          .material-specs-section.completed {
+            filter: grayscale(80%);
+            opacity: 0.5;
+            background: linear-gradient(135deg, rgba(102, 102, 102, 0.1), rgba(102, 102, 102, 0.2)) !important;
+            border-color: #666666 !important;
+          }
+
+          .material-specs-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 16px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #555;
+          }
+
+          .material-icon {
+            font-size: 1.2rem;
+            color: #00bcd4;
+          }
+
+          .material-specs-section.completed .material-icon {
+            color: #666666 !important;
+          }
+
+          .material-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #ffffff;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+          }
+
+          .material-specs-section.completed .material-title {
+            color: #888888 !important;
+          }
+
+          .material-no-data {
+            text-align: center;
+            padding: 12px;
+            color: #888;
+            font-style: italic;
+          }
+
+          .material-specs-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+          }
+
+          .spec-row {
+            display: flex;
+            gap: 16px;
+            justify-content: space-between;
+            margin-bottom: 12px;
+          }
+
+          .spec-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            flex: 1;
+            min-width: 0;
+            padding: 8px 12px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid #555;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+          }
+
+          .spec-item:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: #666;
+            transform: translateY(-1px);
+          }
+
+          .material-specs-section.completed .spec-item {
+            background: rgba(102, 102, 102, 0.1) !important;
+            border-color: #666666 !important;
+          }
+
+          .spec-icon {
+            font-size: 1.5rem;
+            flex-shrink: 0;
+            opacity: 0.8;
+          }
+
+          .spec-label {
+            font-size: 0.85rem;
+            color: #cccccc;
+            font-weight: 500;
+            flex-shrink: 0;
+            min-width: 60px;
+          }
+
+          .spec-value-key {
+            font-size: 1.4rem !important;
+            color: #ffffff !important;
+            font-weight: 700 !important;
+            text-align: right;
+            flex: 1;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+          }
+
+          .material-specs-section.completed .spec-value-key {
+            color: #888888 !important;
+          }
+
+          /* 🎯 PROGRESS E KPI CONTAINER */
+          .progress-and-kpi-container {
+            display: flex;
+            gap: 16px;
+            align-items: stretch;
+            margin: 16px 0;
+            box-sizing: border-box;
+          }
+
+          .metrics-box {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.04));
+            border: 1px solid #444;
+            border-radius: 8px;
+            padding: 14px;
+            display: flex;
+            flex-direction: column;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+          }
+
+          .metrics-box:first-child {
+            flex: 0 0 62%;
+          }
+
+          .metrics-box:last-child {
+            flex: 0 0 32%;
+          }
+
+          .metrics-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 2px;
+          }
+
+          .kpi-stack {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            width: 100%;
+          }
+
+          /* 🎯 BANNER COMPLETAMENTO */
+          .completion-banner {
             display: flex;
             align-items: center;
             gap: 10px;
@@ -871,20 +811,57 @@ function ProductionCard({ data }) {
             letter-spacing: 0.5px;
           }
 
-          /* Solo stile per il timestamp di completamento */
           .completion-datetime {
             font-weight: 600;
-            font-size: 1.5rem;     /* Aumentato da 1rem a 1.1rem */
-            color: #bbdefb;        /* Colore più chiaro e brillante (era #90caf9) */
-            background-color: rgba(13, 71, 161, 0.5);  /* Sfondo più intenso (era 0.4) */
-            padding: 4px 12px;     /* Padding orizzontale aumentato da 10px a 12px */
+            font-size: 1.5rem;
+            color: #bbdefb;
+            background-color: rgba(13, 71, 161, 0.5);
+            padding: 4px 12px;
             border-radius: 4px;
             text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(144, 202, 249, 0.3); /* Aggiunto un sottile bordo */
+            border: 1px solid rgba(144, 202, 249, 0.3);
           }
 
-          /* Responsive */
+          /* 🎯 ANIMAZIONI */
+          @keyframes slowPulse {
+            0% { opacity: 0.7; }
+            50% { opacity: 1; }
+            100% { opacity: 0.7; }
+          }
+
+          @keyframes fastPulse {
+            0% { opacity: 0.6; }
+            50% { opacity: 1; }
+            100% { opacity: 0.6; }
+          }
+
+          .slowPulse {
+            animation: slowPulse 2s infinite;
+          }
+
+          .fastPulse {
+            animation: fastPulse 0.8s infinite;
+          }
+
+          /* 🎯 RESPONSIVE */
           @media (max-width: 768px) {
+            .spec-row {
+              flex-direction: column;
+              gap: 8px;
+            }
+
+            .spec-item {
+              justify-content: space-between;
+            }
+
+            .spec-label {
+              min-width: auto;
+            }
+
+            .spec-value-key {
+              font-size: 1.2rem !important;
+            }
+
             .completion-single-line {
               flex-direction: column;
               align-items: flex-start;
@@ -898,6 +875,42 @@ function ProductionCard({ data }) {
             .completion-datetime {
               font-size: 0.9rem;
               align-self: flex-end;
+            }
+
+            .progress-and-kpi-container {
+              flex-direction: column;
+            }
+
+            .metrics-box:first-child,
+            .metrics-box:last-child {
+              flex: 1;
+            }
+          }
+
+          /* 🎯 4K TV */
+          @media (min-width: 3840px) {
+            .material-specs-section {
+              padding: 20px;
+            }
+
+            .material-title {
+              font-size: 1.4rem;
+            }
+
+            .material-icon {
+              font-size: 1.5rem;
+            }
+
+            .spec-item {
+              padding: 12px 16px;
+            }
+
+            .spec-label {
+              font-size: 1.2rem;
+            }
+
+            .spec-value-key {
+              font-size: 1.6rem !important;
             }
           }
         `}</style>
