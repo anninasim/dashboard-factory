@@ -242,6 +242,63 @@ html, body {
   transition: all 0.3s ease !important;
 }
 
+/* 📦 ORDINE E ARTICOLO - LAYOUT VERTICALE */
+.order-article-vertical {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 0.4rem !important;
+  margin: 0.6rem 0 !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+.order-article-vertical .spec-item {
+  display: flex !important;
+  align-items: center !important;
+  gap: 0.3rem !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  padding: 0.4rem 0.6rem !important;
+  background: rgba(255, 255, 255, 0.03) !important;
+  border: 1px solid #555 !important;
+  border-radius: 0.3rem !important;
+  transition: all 0.3s ease !important;
+  box-sizing: border-box !important;
+}
+
+.order-article-vertical .spec-item:hover {
+  background: rgba(255, 255, 255, 0.05) !important;
+  border-color: #666 !important;
+  transform: translateY(-1px) !important;
+}
+
+/* 📝 FONT PIÙ PICCOLO PER ORDINE/ARTICOLO */
+.order-article-vertical .spec-value-key {
+  font-size: 1rem !important; /* 📺 ⬇️ RIDOTTO: da 1.4rem a 1rem */
+  color: #ffffff !important;
+  font-weight: 600 !important; /* 📺 ⬇️ RIDOTTO: da 700 a 600 */
+  text-align: right !important;
+  flex: 1 !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3) !important;
+}
+
+.order-article-vertical .spec-label {
+  font-size: 0.8rem !important; /* 📺 ⬇️ RIDOTTO: da 0.9rem a 0.8rem */
+  color: #cccccc !important;
+  font-weight: 500 !important;
+  flex-shrink: 0 !important;
+  min-width: 3.5rem !important;
+}
+
+.order-article-vertical .spec-icon {
+  font-size: 0.85rem !important; /* 📺 ⬇️ RIDOTTO: da 0.9rem a 0.85rem */
+  flex-shrink: 0 !important;
+  opacity: 0.8 !important;
+}
+
 /* 🔬 SPECIFICHE MATERIALE - COMPATTE PER FIT */
 .material-specs-section {
   margin: 0.6rem 0 !important;
@@ -532,6 +589,19 @@ html, body {
     font-size: 1.8rem !important; /* 📺 ⬆️ INGRANDITO: da 1.4rem a 1.8rem */
   }
   
+  /* 📦 ORDINE/ARTICOLO VERTICALE - TV 4K */
+  .order-article-vertical .spec-value-key {
+    font-size: 1.3rem !important; /* 📺 Font piccolo ma leggibile su 4K */
+  }
+  
+  .order-article-vertical .spec-label {
+    font-size: 1rem !important;
+  }
+  
+  .order-article-vertical .spec-icon {
+    font-size: 1.1rem !important;
+  }
+  
   .completion-status {
     font-size: 1.5rem !important; /* 📺 ⬆️ INGRANDITO: da 1.2rem a 1.5rem */
   }
@@ -568,6 +638,19 @@ html, body {
   .metrics-box:last-child {
     min-height: 8rem !important;
   }
+  
+  /* 📦 ORDINE/ARTICOLO VERTICALE - DESKTOP */
+  .order-article-vertical .spec-value-key {
+    font-size: 0.9rem !important; /* 📺 Font intermedio per desktop */
+  }
+  
+  .order-article-vertical .spec-label {
+    font-size: 0.75rem !important;
+  }
+  
+  .order-article-vertical .spec-icon {
+    font-size: 0.8rem !important;
+  }
 }
 
 /* 📱 MOBILE E TABLET */
@@ -597,6 +680,19 @@ html, body {
   .metrics-box:last-child {
     flex: 1 !important;
     min-height: 4rem !important;
+  }
+  
+  /* 📦 ORDINE/ARTICOLO VERTICALE - MOBILE */
+  .order-article-vertical .spec-value-key {
+    font-size: 0.85rem !important; /* 📺 Ancora più piccolo su mobile */
+  }
+  
+  .order-article-vertical .spec-label {
+    font-size: 0.7rem !important;
+  }
+  
+  .order-article-vertical .spec-icon {
+    font-size: 0.75rem !important;
   }
 }
 

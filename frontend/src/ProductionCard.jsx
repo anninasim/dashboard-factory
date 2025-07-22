@@ -371,9 +371,22 @@ function ProductionCard({ data }) {
       </div>
 
       <div className="card-body">
-        {/* Informazioni operative dell'ordine - GRIGIE SE COMPLETATA */}
-        <p className={isProductionComplete ? 'content-completed' : ''}><strong>Ordine:</strong> {data.fp_schedula_completo}</p>
-        <p className={isProductionComplete ? 'content-completed' : ''}><strong>Articolo:</strong> {articoloCompleto()}</p>
+        {/* 📦 SEZIONE ORDINE E ARTICOLO - LAYOUT VERTICALE CON FONT RIDOTTO */}
+        <div className="order-article-vertical">
+          {/* Box Ordine */}
+          <div className="spec-item">
+            <span className="spec-icon">📋</span>
+            <span className="spec-label">Ordine</span>
+            <span className="spec-value-key">{data.fp_schedula_completo || '-'}</span>
+          </div>
+          
+          {/* Box Articolo */}
+          <div className="spec-item">
+            <span className="spec-icon">🏷️</span>
+            <span className="spec-label">Articolo</span>
+            <span className="spec-value-key">{articoloCompleto()}</span>
+          </div>
+        </div>
 
         {/* 🆕 SEZIONE SPECIFICHE MATERIALE - RIPULITA E SEMPLIFICATA */}
         <MaterialSpecs 

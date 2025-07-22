@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 
-// Componente Three Dots (esistente)
+// Componente Three Dots (ALLINEAMENTO SISTEMATO)
 const LoadingThreeDots = ({ color = '#00cc66', size = 14 }) => (
   <div style={{
     display: 'flex',
     justifyContent: 'center',
-    alignItems: 'center',
-    gap: '12px',
+    alignItems: 'center', // 🎯 FISSO: Allineamento verticale perfetto
+    gap: '8px', // 🎯 FISSO: Gap ridotto per compattezza
+    height: '100%', // 🎯 FISSO: Usa tutta l'altezza del container
   }}>
     {[0, 1, 2].map((i) => (
       <div
@@ -17,7 +18,11 @@ const LoadingThreeDots = ({ color = '#00cc66', size = 14 }) => (
           borderRadius: '50%',
           backgroundColor: color,
           animation: `dotPulse 1.4s infinite ease-in-out both`,
-          animationDelay: `${i * 0.16}s`
+          animationDelay: `${i * 0.16}s`,
+          // 🎯 FISSO: Assicura allineamento perfetto
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center'
         }}
       />
     ))}
@@ -115,9 +120,9 @@ const LEDProgressBar = ({ current, total, unit = "bobine", machineStatus }) => {
   
   return (
     <div className="led-progress-section">
-      {/* Header con indicatore di stato - titolo più conciso */}
-      <div className="led-header">
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+      {/* 🎯 HEADER CON ALLINEAMENTO PERFETTO - SISTEMATP */}
+      <div className="led-header-fixed">
+        <div className="led-title-container">
           <span className="led-icon">⚙️</span>
           <span className="led-title">Avanzamento</span>
           {/* 🆕 NUOVO: Indicatore stato colore */}
@@ -134,18 +139,15 @@ const LEDProgressBar = ({ current, total, unit = "bobine", machineStatus }) => {
           </span>
         </div>
         
+        {/* 🎯 CONTAINER PALLINI CON ALLINEAMENTO PERFETTO */}
         {statusIndicator.show && (
-          <div style={{ display: 'flex', alignItems: 'center' }}>
+          <div className="status-indicator-container">
             {statusIndicator.type === 'motion' ? (
-              <LoadingThreeDots color={statusIndicator.color} size={16} />
+              <LoadingThreeDots color={statusIndicator.color} size={14} />
             ) : (
-              <div style={{
-                width: '10px',
-                height: '10px',
+              <div className="status-dot" style={{
                 backgroundColor: statusIndicator.color,
-                borderRadius: '50%',
                 opacity: statusIndicator.pulse ? (pulseActive ? 1 : 0.4) : 1,
-                transition: 'opacity 0.8s ease',
                 boxShadow: `0 0 8px ${statusIndicator.color}60`,
                 border: `1px solid ${statusIndicator.color}80`
               }} />
@@ -199,7 +201,7 @@ const LEDProgressBar = ({ current, total, unit = "bobine", machineStatus }) => {
         </div>
       </div>
 
-      {/* CSS Styles per il nuovo design */}
+      {/* 🎯 CSS AGGIORNATO con allineamento perfetto */}
       <style>{`
         @keyframes dotPulse {
           0%, 80%, 100% { 
@@ -217,7 +219,54 @@ const LEDProgressBar = ({ current, total, unit = "bobine", machineStatus }) => {
           100% { background-position: 32px 0px; }
         }
 
-        /* ⭐ NUOVI STILI: Conteggio prominente per massima visibilità */
+        /* 🎯 HEADER ALLINEAMENTO PERFETTO */
+        .led-header-fixed {
+          display: flex !important;
+          justify-content: space-between !important;
+          align-items: center !important;
+          margin-bottom: 16px !important;
+          padding: 8px 0 !important;
+          min-height: 24px !important; /* 🎯 Altezza fissa per allineamento */
+        }
+
+        .led-title-container {
+          display: flex !important;
+          align-items: center !important;
+          gap: 8px !important;
+          height: 24px !important; /* 🎯 Stessa altezza del container pallini */
+        }
+
+        .led-title {
+          font-size: 0.9rem !important;
+          font-weight: 600 !important;
+          color: #ffffff !important;
+          text-transform: uppercase !important;
+          letter-spacing: 0.02rem !important;
+          line-height: 1 !important; /* 🎯 Line-height controllato */
+        }
+
+        .led-icon {
+          font-size: 1rem !important;
+          line-height: 1 !important; /* 🎯 Line-height controllato */
+        }
+
+        /* 🎯 CONTAINER PALLINI CON ALLINEAMENTO PERFETTO */
+        .status-indicator-container {
+          display: flex !important;
+          align-items: center !important;
+          justify-content: center !important;
+          height: 24px !important; /* 🎯 Stessa altezza del titolo */
+          min-width: 60px !important; /* 🎯 Larghezza minima per 3 pallini */
+        }
+
+        .status-dot {
+          width: 10px !important;
+          height: 10px !important;
+          border-radius: 50% !important;
+          transition: opacity 0.8s ease !important;
+        }
+
+        /* ⭐ CONTEGGIO PROMINENTE con colore dinamico */
         .led-counter-prominent {
           display: flex;
           justify-content: center;
@@ -231,35 +280,34 @@ const LEDProgressBar = ({ current, total, unit = "bobine", machineStatus }) => {
         }
 
         .led-current-key {
-          font-size: 3.2rem !important; /* ⭐ Ridotto per eleganza e equilibrio */
-          font-weight: 700 !important; /* ⭐ Meno bold per eleganza */
-          /* color rimosso - ora è dinamico inline */
+          font-size: 3.2rem !important;
+          font-weight: 700 !important;
           line-height: 1;
-          transition: color 0.8s cubic-bezier(0.4, 0, 0.2, 1); /* Smooth color transition */
+          transition: color 0.8s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .led-separator-key {
-          font-size: 2.2rem !important; /* ⭐ Proporzionalmente ridotto */
+          font-size: 2.2rem !important;
           color: #888888;
           margin: 0 6px;
-          font-weight: 500; /* ⭐ Più leggero */
+          font-weight: 500;
         }
 
         .led-total-key {
-          font-size: 2.2rem !important; /* ⭐ Proporzionalmente ridotto */
+          font-size: 2.2rem !important;
           font-weight: 600 !important;
           color: #cccccc !important;
           line-height: 1;
         }
 
-        /* Barra di progresso wave (senza progresso circolare) */
+        /* Barra di progresso wave */
         .wave-progress-container {
           margin: 16px 0 0 0;
         }
 
         .wave-progress-track {
           width: 100%;
-          height: 18px; /* Altezza leggermente aumentata */
+          height: 18px;
           background: linear-gradient(90deg, #2a2a2a, #333);
           border-radius: 9px;
           overflow: hidden;
@@ -289,26 +337,54 @@ const LEDProgressBar = ({ current, total, unit = "bobine", machineStatus }) => {
         /* Responsive per schermi più piccoli */
         @media (max-width: 768px) {
           .led-current-key {
-            font-size: 2.6rem !important; /* ⭐ Elegante e leggibile su mobile */
+            font-size: 2.6rem !important;
           }
 
           .led-separator-key, .led-total-key {
-            font-size: 1.8rem !important; /* ⭐ Proporzionato e pulito */
+            font-size: 1.8rem !important;
+          }
+
+          .led-header-fixed {
+            min-height: 20px !important;
+          }
+
+          .led-title-container, .status-indicator-container {
+            height: 20px !important;
+          }
+
+          .led-title {
+            font-size: 0.8rem !important;
           }
         }
 
-        /* Responsive per TV 4K - Dimensioni aumentate ma eleganti */
+        /* Responsive per TV 4K */
         @media (min-width: 3840px) {
           .led-current-key {
-            font-size: 4rem !important; /* ⭐ Grande su 4K ma non eccessivo */
+            font-size: 4rem !important;
           }
 
           .led-separator-key, .led-total-key {
-            font-size: 2.8rem !important; /* ⭐ Proporzionato per 4K */
+            font-size: 2.8rem !important;
           }
 
           .wave-progress-track {
             height: 24px;
+          }
+
+          .led-header-fixed {
+            min-height: 32px !important;
+          }
+
+          .led-title-container, .status-indicator-container {
+            height: 32px !important;
+          }
+
+          .led-title {
+            font-size: 1.2rem !important;
+          }
+
+          .led-icon {
+            font-size: 1.4rem !important;
           }
         }
       `}</style>
