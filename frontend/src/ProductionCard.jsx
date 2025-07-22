@@ -532,10 +532,10 @@ function ProductionCard({ data }) {
           <MaterialSpecs data={data} />
         </div>
 
-        {/* 🎯 LAYOUT OTTIMIZZATO: 2 Colonne - Avanzamento + Performance - HEADER MINIMO */}
+        {/* 🎯 LAYOUT OTTIMIZZATO: 2 Colonne - Avanzamento + Performance - SPAZIATURA CORRETTA */}
         <div className={`progress-and-kpi-container-optimized ${isProductionComplete ? 'section-completed' : ''}`}>
           
-          {/* SEZIONE SINISTRA: Bobine (65%) - SENZA HEADER */}
+          {/* SEZIONE SINISTRA: Bobine (62%) - SENZA HEADER */}
           <div className="metrics-box-minimalist">
             <div className="metrics-content">
               <LEDProgressBar 
@@ -549,7 +549,7 @@ function ProductionCard({ data }) {
             </div>
           </div>
 
-          {/* SEZIONE DESTRA: Performance (35%) - SENZA HEADER */}
+          {/* SEZIONE DESTRA: Performance (32%) - SENZA HEADER */}
           <div className="metrics-box-minimalist">
             <div className="metrics-content">
               <div className="kpi-stack">
@@ -660,8 +660,9 @@ function ProductionCard({ data }) {
             display: flex;
             gap: 16px;
             align-items: stretch;
-            margin: 8px 0;
-            width: 100%;
+            margin: 12px 0; /* Aumentato da 8px a 12px */
+            width: calc(100% - 16px); /* Ridotto di 16px per dare spazio ai bordi */
+            padding: 0 8px; /* Padding orizzontale aggiunto */
           }
           
           /* Box con stile unificato - SENZA HEADER */
@@ -669,19 +670,20 @@ function ProductionCard({ data }) {
             background: linear-gradient(135deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.04));
             border: 1px solid #444;
             border-radius: 8px;
-            padding: 12px;
+            padding: 14px; /* Aumentato da 12px a 14px */
             display: flex;
             flex-direction: column;
             backdrop-filter: blur(10px);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Leggera ombra per profondità */
           }
           
-          /* Distribuzione spazio */
+          /* Distribuzione spazio - MODIFICATA PER LASCIARE MARGINE */
           .metrics-box-minimalist:first-child {
-            flex: 0 0 65%;
+            flex: 0 0 62%; /* Ridotto da 65% a 62% */
           }
           
           .metrics-box-minimalist:last-child {
-            flex: 0 0 35%;
+            flex: 0 0 32%; /* Ridotto da 35% a 32% */
           }
           
           /* Contenuto centrato verticalmente */
@@ -690,24 +692,32 @@ function ProductionCard({ data }) {
             display: flex;
             flex-direction: column;
             justify-content: center;
+            padding: 2px; /* Piccolo padding interno */
           }
           
           /* Stack KPI */
           .kpi-stack {
             display: flex;
             flex-direction: column;
-            gap: 8px;
+            gap: 10px; /* Aumentato da 8px a 10px */
             width: 100%;
+          }
+          
+          /* Miglioramento stile per card responsive */
+          .card-body {
+            padding: 12px 16px; /* Assicura padding uniforme nel corpo */
           }
 
           /* Responsive */
           @media (max-width: 768px) {
             .progress-and-kpi-container-optimized {
               flex-direction: column;
+              padding: 0 4px; /* Padding ridotto su mobile */
             }
             
             .metrics-box-minimalist {
               width: 100%;
+              margin-bottom: 10px; /* Spazio tra i box impilati */
             }
             
             .metrics-box-minimalist:first-child,
