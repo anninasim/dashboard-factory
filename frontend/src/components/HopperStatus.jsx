@@ -18,21 +18,18 @@ const getGridLayout = (hopperCount) => {
     case 1: return { columns: 1, rows: 1, class: 'grid-1x1' };
     case 2: return { columns: 2, rows: 1, class: 'grid-2x1' };
     case 3: return { columns: 3, rows: 1, class: 'grid-3x1' };
-    case 4: return { columns: 2, rows: 2, class: 'grid-2x2' };
+    case 4: return { columns: 4, rows: 1, class: 'grid-4x1' }; // 🆕 COEX: 4 colonne invece di 2x2
     default: return { columns: 1, rows: 1, class: 'grid-1x1' };
   }
 };
 
-// 🧠 PARSER HOPPER HTML MIGLIORATO - GESTISCE FORMATO REALE
+// 🧠 PARSER HOPPER HTML PULITO - SENZA DEBUG
 const parseHopperHTML = (htmlString) => {
   if (!htmlString || !htmlString.trim()) {
     return {};
   }
 
   try {
-    // 🎯 DEBUG: Log dell'HTML ricevuto
-    console.log('🔍 HTML Hopper ricevuto:', htmlString.substring(0, 200) + '...');
-    
     let cleanHtml = htmlString
       .replace(/<body[^>]*>/gi, '')
       .replace(/<\/body>/gi, '')
@@ -44,51 +41,34 @@ const parseHopperHTML = (htmlString) => {
     const tdRegex = /<td[^>]*>.*?<\/td>/gi;
     const tdMatches = cleanHtml.match(tdRegex) || [];
     
-    console.log('📦 TD trovati:', tdMatches.length);
-    
     const hopperData = {};
 
-    tdMatches.forEach((td, index) => {
-      console.log(`🔧 Elaborando TD ${index + 1}:`, td.substring(0, 100) + '...');
-      
-      // 🆕 REGEX MIGLIORATO: Gestisce sia .H16.1 che H16.11
+    tdMatches.forEach((td) => {
+      // Trova nome hopper (gestisce sia .H16.1 che H16.11)
       const hopperNameMatch = td.match(/\.?H16\.?\d+/i);
-      if (!hopperNameMatch) {
-        console.log('❌ Nessun nome hopper trovato in questo TD');
-        return;
-      }
+      if (!hopperNameMatch) return;
       
-      // 🆕 NORMALIZZA IL NOME: rimuovi punto iniziale se presente
+      // Normalizza il nome: rimuovi punto iniziale se presente
       let hopperName = hopperNameMatch[0].replace(/^\./, '');
-      console.log('✅ Nome hopper trovato:', hopperName);
       
-      // 🆕 REGEX COMPONENTI MIGLIORATO: Gestisce casi complessi
-      const components = [];
+      // Estrai contenuto dalla span
+      const spanMatch = td.match(/<span class="span-silos-istruzioni"[^>]*>(.*?)<\/span>/is);
+      if (!spanMatch) return;
       
-      // Estrai tutto il contenuto dopo il nome hopper e prima della chiusura
-      const contentMatch = td.match(/<span class="span-silos-istruzioni"[^>]*>(.*?)<\/span>/is);
-      if (!contentMatch) {
-        console.log('❌ Contenuto span non trovato');
-        return;
-      }
-      
-      const content = contentMatch[1]
+      // Pulisci il contenuto HTML
+      const content = spanMatch[1]
         .replace(/<BR>/gi, '\n')
         .replace(/<br>/gi, '\n')
         .replace(/&nbsp/gi, ' ')
         .replace(/;/gi, '')
         .trim();
-        
-      console.log('📝 Contenuto estratto:', content);
       
-      // 🆕 REGEX PIÙ FLESSIBILE per diversi formati:
-      // - "S1 70 % (FF25 - FLEXIRENE FF 25)"
-      // - "VL17.2 1 % (ANTIBLOCKING - VL17.2)"  
-      // - "Magazzino TR 80 100 % (MATERBI - SACCONI)"
-      const lines = content.split('\n').filter(line => line.trim());
+      // Split in linee e processa ogni componente
+      const lines = content.split('\n').map(line => line.trim()).filter(line => line.length > 0);
+      const components = [];
       
-      lines.forEach(line => {
-        // Regex più flessibile che cattura tutto prima della percentuale
+      lines.forEach((line) => {
+        // Regex flessibile per diversi formati di componenti
         const match = line.match(/^(.+?)\s+(\d+)\s*%\s*\((.+?)\)$/);
         if (match) {
           const [, siloCode, percentage, description] = match;
@@ -97,24 +77,18 @@ const parseHopperHTML = (htmlString) => {
             percentage: parseInt(percentage),
             description: description.trim()
           });
-          console.log('✅ Componente trovato:', siloCode.trim(), percentage + '%');
-        } else {
-          console.log('❌ Linea non matchata:', line);
         }
       });
       
+      // Aggiungi hopper solo se ha componenti validi
       if (components.length > 0) {
         hopperData[hopperName] = components;
-        console.log(`🎯 Hopper ${hopperName} aggiunto con ${components.length} componenti`);
-      } else {
-        console.log(`❌ Nessun componente trovato per hopper ${hopperName}`);
       }
     });
 
-    console.log('🏁 Risultato finale parsing:', Object.keys(hopperData));
     return hopperData;
   } catch (error) {
-    console.error('❌ Errore parsing hopper:', error);
+    console.error('Errore parsing hopper:', error);
     return {};
   }
 };
@@ -297,11 +271,13 @@ const HopperStatus = ({ htmlString, isCompleted = false, machineName }) => {
           grid-template-rows: 1fr !important;
         }
 
-        /* Layout 2x2 (COEX7S) */
-        .hopper-grid.grid-2x2 {
-          grid-template-columns: 1fr 1fr !important;
-          grid-template-rows: 1fr 1fr !important;
+        /* Layout 4x1 (COEX7S - 4 hopper affiancati) */
+        .hopper-grid.grid-4x1 {
+          grid-template-columns: 1fr 1fr 1fr 1fr !important;
+          grid-template-rows: 1fr !important;
         }
+
+        /* Layout 2x2 (RIMOSSO - ora COEX usa 4x1) */
 
         /* 📦 SINGOLO HOPPER BOX */
         .hopper-box {
@@ -372,9 +348,18 @@ const HopperStatus = ({ htmlString, isCompleted = false, machineName }) => {
           color: #e0e0e0 !important;
           font-weight: 500 !important;
           flex: 1 !important;
+          
+          /* 🆕 TEXT WRAPPING per contenuti lunghi */
           overflow: hidden !important;
-          text-overflow: ellipsis !important;
-          white-space: nowrap !important;
+          word-wrap: break-word !important;
+          hyphens: auto !important;
+          line-height: 1.3 !important;
+          white-space: normal !important; /* Cambiato da nowrap */
+          
+          /* Limita a massimo 3 righe */
+          display: -webkit-box !important;
+          -webkit-line-clamp: 3 !important;
+          -webkit-box-orient: vertical !important;
         }
 
         .material-percentage-compact {
@@ -407,62 +392,74 @@ const HopperStatus = ({ htmlString, isCompleted = false, machineName }) => {
           text-align: center !important;
         }
 
-        /* 📺 RESPONSIVE TV 4K - OTTIMIZZATO COME IL RESTO DEL DASHBOARD */
+        /* 📺 RESPONSIVE TV 4K - DIMENSIONI BILANCIATE (RIDOTTE) */
         @media (min-width: 3840px) {
           .hopper-status-section-fixed {
-            min-height: 280px !important; /* 📺 ⬆️ AUMENTATO: da 220px a 280px */
-            max-height: 280px !important;
-            height: 280px !important;
-            padding: 1.2rem !important; /* 📺 ⬆️ AUMENTATO: da 0.8rem a 1.2rem */
+            min-height: 240px !important; /* 📺 ⬇️ RIDOTTO: da 280px a 240px */
+            max-height: 240px !important;
+            height: 240px !important;
+            padding: 1rem !important; /* 📺 ⬇️ RIDOTTO: da 1.2rem a 1rem */
           }
 
           .hopper-header-fixed {
-            height: 40px !important; /* 📺 ⬆️ AUMENTATO: da 30px a 40px */
-            margin-bottom: 0.8rem !important;
+            height: 35px !important; /* 📺 ⬇️ RIDOTTO: da 40px a 35px */
+            margin-bottom: 0.6rem !important;
           }
 
           .hopper-icon {
-            font-size: 1.6rem !important; /* 📺 ⬆️ MOLTO AUMENTATO: da 1.1rem a 1.6rem */
+            font-size: 1.3rem !important; /* 📺 ⬇️ RIDOTTO: da 1.6rem a 1.3rem */
           }
 
           .hopper-title {
-            font-size: 1.8rem !important; /* 📺 ⬆️ MOLTO AUMENTATO: da 1.4rem a 1.8rem */
+            font-size: 1.4rem !important; /* 📺 ⬇️ RIDOTTO: da 1.8rem a 1.4rem */
           }
 
           .hopper-count {
-            font-size: 1.3rem !important; /* 📺 ⬆️ AUMENTATO: da 1.1rem a 1.3rem */
-            padding: 0.4rem 0.6rem !important;
-          }
-
-          .hopper-tag {
-            font-size: 1.5rem !important; /* 📺 ⬆️ MOLTO AUMENTATO: da 1.2rem a 1.5rem */
-            padding: 0.4rem 0.6rem !important;
-          }
-
-          .material-component-compact {
-            font-size: 1.3rem !important; /* 📺 ⬆️ MOLTO AUMENTATO: da 1rem a 1.3rem */
+            font-size: 1.1rem !important; /* 📺 ⬇️ RIDOTTO: da 1.3rem a 1.1rem */
             padding: 0.3rem 0.5rem !important;
           }
 
+          .hopper-tag {
+            font-size: 1.2rem !important; /* 📺 ⬇️ RIDOTTO: da 1.5rem a 1.2rem */
+            padding: 0.3rem 0.5rem !important;
+          }
+
+          .material-component-compact {
+            font-size: 1rem !important; /* 📺 ⬇️ RIDOTTO: da 1.3rem a 1rem */
+            padding: 0.25rem 0.4rem !important; /* 📺 ⬇️ Padding ridotto */
+          }
+
           .material-name-compact {
-            font-size: 1.3rem !important; /* 📺 ⬆️ ESPLICITO per 4K */
+            font-size: 1rem !important; /* 📺 ⬇️ RIDOTTO per leggibilità */
+            line-height: 1.2 !important; /* 📺 Line height compatto */
           }
 
           .material-percentage-compact {
-            font-size: 1.4rem !important; /* 📺 ⬆️ MOLTO AUMENTATO per visibilità */
-            min-width: 3rem !important;
+            font-size: 1.1rem !important; /* 📺 ⬇️ RIDOTTO: da 1.4rem a 1.1rem */
+            min-width: 2.5rem !important;
           }
 
           .hopper-empty-text {
-            font-size: 1.2rem !important; /* 📺 ⬆️ AUMENTATO per 4K */
+            font-size: 1rem !important; /* 📺 ⬇️ RIDOTTO: da 1.2rem a 1rem */
           }
 
           .hopper-empty-icon {
-            font-size: 2.2rem !important; /* 📺 ⬆️ MOLTO AUMENTATO per 4K */
+            font-size: 1.8rem !important; /* 📺 ⬇️ RIDOTTO: da 2.2rem a 1.8rem */
           }
 
           .hopper-grid {
-            gap: 0.6rem !important; /* 📺 ⬆️ Gap più grande per 4K */
+            gap: 0.5rem !important; /* 📺 ⬇️ Gap ridotto per più spazio */
+          }
+
+          /* 🆕 OTTIMIZZAZIONE SPECIFICA PER COEX 4x1 SU 4K */
+          .hopper-grid.grid-4x1 .hopper-tag {
+            font-size: 1rem !important; /* Font ancora più piccolo per COEX */
+            padding: 0.2rem 0.3rem !important;
+          }
+
+          .hopper-grid.grid-4x1 .material-component-compact {
+            font-size: 0.9rem !important; /* Font ridotto per COEX */
+            padding: 0.2rem 0.3rem !important;
           }
         }
 
@@ -487,13 +484,14 @@ const HopperStatus = ({ htmlString, isCompleted = false, machineName }) => {
             height: 140px !important;
           }
 
-          /* Layout mobile: forza tutto a colonna singola per 3+ hopper */
+          /* Layout mobile: ottimizza per schermi piccoli */
           .hopper-grid.grid-3x1 {
             grid-template-columns: 1fr !important;
             grid-template-rows: repeat(3, 1fr) !important;
           }
 
-          .hopper-grid.grid-2x2 {
+          /* COEX su mobile: 2x2 invece di 4x1 */
+          .hopper-grid.grid-4x1 {
             grid-template-columns: 1fr 1fr !important;
             grid-template-rows: 1fr 1fr !important;
           }
@@ -506,6 +504,12 @@ const HopperStatus = ({ htmlString, isCompleted = false, machineName }) => {
           .hopper-tag {
             font-size: 0.85rem !important;
             padding: 0.15rem 0.3rem !important;
+          }
+
+          /* Text ancora più compatto su mobile */
+          .material-name-compact {
+            line-height: 1.2 !important;
+            -webkit-line-clamp: 2 !important; /* Solo 2 righe su mobile */
           }
         }
       `}</style>
