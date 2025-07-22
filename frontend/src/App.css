@@ -706,7 +706,7 @@ html, body {
   }
 }
 
-/* 🏭 SEZIONE HOPPER - ULTRA COMPATTA PER FIT 4K */
+/* 🏭 SEZIONE HOPPER - FONT INGRANDITI PER LEGGIBILITÀ */
 .hopper-status-section {
   margin: 0.4rem 0 !important;
   padding: 0.6rem !important;
@@ -736,7 +736,7 @@ html, body {
   opacity: 0.6 !important;
 }
 
-/* Header hopper ultra compatto */
+/* Header hopper con font ingranditi */
 .hopper-header {
   display: flex !important;
   align-items: center !important;
@@ -748,13 +748,13 @@ html, body {
 }
 
 .hopper-icon {
-  font-size: 0.9rem !important;
+  font-size: 1.1rem !important; /* 📺 ⬆️ INGRANDITO: da 0.9rem a 1.1rem */
   color: #00bcd4 !important;
   opacity: 0.9 !important;
 }
 
 .hopper-title {
-  font-size: 0.9rem !important;
+  font-size: 0.9rem !important; /* 📺 ⬆️ INGRANDITO: da 0.9rem a 1.1rem */
   font-weight: 600 !important;
   color: #ffffff !important;
   text-transform: uppercase !important;
@@ -763,7 +763,7 @@ html, body {
 }
 
 .hopper-count {
-  font-size: 0.7rem !important;
+  font-size: 0.9rem !important; /* 📺 ⬆️ INGRANDITO: da 0.7rem a 0.9rem */
   color: #4caf50 !important;
   background: rgba(76, 175, 80, 0.15) !important;
   padding: 0.2rem 0.4rem !important;
@@ -772,7 +772,7 @@ html, body {
   border: 1px solid rgba(76, 175, 80, 0.3) !important;
 }
 
-/* Lista hopper ultra compatta */
+/* Lista hopper con font ingranditi */
 .hopper-list {
   display: flex !important;
   flex-direction: column !important;
@@ -798,7 +798,7 @@ html, body {
   box-shadow: 0 0.1rem 0.3rem rgba(0, 0, 0, 0.1) !important;
 }
 
-/* Hopper name compatto */
+/* Hopper name con font ingrandito */
 .hopper-name-row {
   display: flex !important;
   align-items: center !important;
@@ -806,7 +806,7 @@ html, body {
 }
 
 .hopper-tag {
-  font-size: 0.8rem !important;
+  font-size: 0.8rem !important; /* 📺 ⬆️ INGRANDITO: da 0.8rem a 1rem */
   font-weight: 700 !important;
   color: #ffffff !important;
   background: linear-gradient(135deg, #00bcd4, #0097a7) !important;
@@ -818,7 +818,7 @@ html, body {
   box-shadow: 0 0.1rem 0.2rem rgba(0, 188, 212, 0.3) !important;
 }
 
-/* Materiali ultra compatti */
+/* Materiali con font SIGNIFICATIVAMENTE ingranditi */
 .hopper-materials {
   display: flex !important;
   flex-direction: column !important;
@@ -836,36 +836,119 @@ html, body {
 }
 
 .material-name {
-  font-size: 0.75rem !important;
+  font-size: 0.8rem !important; /* 📺 ⬆️ MOLTO INGRANDITO: da 0.75rem a 0.95rem (+27%) */
   color: #e0e0e0 !important;
   font-weight: 500 !important;
   flex: 1 !important;
 }
 
 .material-percentage {
-  font-size: 0.8rem !important;
+  font-size: 0.9rem !important; /* 📺 ⬆️ INGRANDITO: da 0.8rem a 1rem (+25%) */
   color: #00bcd4 !important;
   font-weight: 700 !important;
   min-width: 2.5rem !important;
   text-align: right !important;
 }
 
-/* Caso vuoto compatto */
+/* Caso vuoto con font ingrandito */
 .hopper-empty {
   text-align: center !important;
   padding: 1rem 0.5rem !important;
   color: #888888 !important;
   font-style: italic !important;
-  font-size: 0.8rem !important;
+  font-size: 1rem !important; /* 📺 ⬆️ INGRANDITO: da 0.8rem a 1rem */
   background: rgba(255, 255, 255, 0.02) !important;
   border: 1px dashed #555 !important;
   border-radius: 0.3rem !important;
 }
 
 .hopper-empty-icon {
-  font-size: 1.2rem !important;
+  font-size: 1.4rem !important; /* 📺 ⬆️ INGRANDITO: da 1.2rem a 1.4rem */
   margin-bottom: 0.3rem !important;
   opacity: 0.5 !important;
+}
+
+/* 📺 TV 4K - Font ancora più grandi per schermi enormi */
+@media (min-width: 3840px) {
+  .hopper-title {
+    font-size: 1.2rem !important; /* 📺 ⬆️ INGRANDITO per 4K */
+  }
+  
+  .hopper-tag {
+    font-size: 1.1rem !important; /* 📺 ⬆️ INGRANDITO per 4K */
+    padding: 0.3rem 0.6rem !important;
+  }
+  
+  .material-name {
+    font-size: 1rem !important; /* 📺 ⬆️ MOLTO INGRANDITO per 4K */
+  }
+  
+  .material-percentage {
+    font-size: 1.1rem !important; /* 📺 ⬆️ INGRANDITO per 4K */
+  }
+  
+  .hopper-count {
+    font-size: 1rem !important; /* 📺 ⬆️ INGRANDITO per 4K */
+    padding: 0.3rem 0.5rem !important;
+  }
+  
+  .hopper-icon {
+    font-size: 1.1rem !important; /* 📺 ⬆️ INGRANDITO per 4K */
+  }
+  
+  .hopper-empty {
+    font-size: 1.1rem !important; /* 📺 ⬆️ INGRANDITO per 4K */
+  }
+  
+  .hopper-empty-icon {
+    font-size: 1.1rem !important; /* 📺 ⬆️ INGRANDITO per 4K */
+  }
+}
+
+/* 💻 DESKTOP - Font medi */
+@media (max-width: 3839px) and (min-width: 1200px) {
+  .hopper-title {
+    font-size: 1rem !important;
+  }
+  
+  .hopper-tag {
+    font-size: 0.9rem !important;
+  }
+  
+  .material-name {
+    font-size: 0.85rem !important; /* 📺 ⬆️ INGRANDITO anche per desktop */
+  }
+  
+  .material-percentage {
+    font-size: 0.9rem !important; /* 📺 ⬆️ INGRANDITO anche per desktop */
+  }
+  
+  .hopper-count {
+    font-size: 0.8rem !important;
+  }
+}
+
+/* 📱 MOBILE - Font più piccoli ma comunque leggibili */
+@media (max-width: 1199px) {
+  .hopper-title {
+    font-size: 0.9rem !important;
+  }
+  
+  .hopper-tag {
+    font-size: 0.8rem !important;
+  }
+  
+  .material-name {
+    font-size: 0.8rem !important; /* 📺 ⬆️ INGRANDITO anche per mobile */
+  }
+  
+  .material-percentage {
+    font-size: 0.85rem !important; /* 📺 ⬆️ INGRANDITO anche per mobile */
+  }
+  
+  .hopper-count {
+    font-size: 0.75rem !important;
+  }
 }
 
 
