@@ -706,28 +706,27 @@ html, body {
   }
 }
 
-
-/* 🏭 SEZIONE HOPPER - DESIGN PROFESSIONALE RIDISEGNATO */
+/* 🏭 SEZIONE HOPPER - ULTRA COMPATTA PER FIT 4K */
 .hopper-status-section {
-  margin: 0.8rem 0 !important;
-  padding: 1rem !important;
+  margin: 0.4rem 0 !important;
+  padding: 0.6rem !important;
   background: linear-gradient(135deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.06)) !important;
   border: 1px solid #666 !important;
-  border-radius: 0.6rem !important;
+  border-radius: 0.4rem !important;
   backdrop-filter: blur(10px) !important;
   box-sizing: border-box !important;
   width: 100% !important;
   overflow: visible !important;
-  flex-shrink: 0 !important;
+  flex-shrink: 1 !important;
   transition: all 0.3s ease !important;
-  min-height: 4rem !important;
+  min-height: auto !important;
 }
 
 .hopper-status-section:hover {
   background: linear-gradient(135deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.09)) !important;
   border-color: #777 !important;
   transform: translateY(-1px) !important;
-  box-shadow: 0 0.3rem 0.8rem rgba(0, 0, 0, 0.2) !important;
+  box-shadow: 0 0.2rem 0.4rem rgba(0, 0, 0, 0.15) !important;
 }
 
 .hopper-status-section.completed {
@@ -737,25 +736,25 @@ html, body {
   opacity: 0.6 !important;
 }
 
-/* Header hopper professionale */
+/* Header hopper ultra compatto */
 .hopper-header {
   display: flex !important;
   align-items: center !important;
-  gap: 0.6rem !important;
-  margin-bottom: 0.8rem !important;
-  padding-bottom: 0.5rem !important;
+  gap: 0.4rem !important;
+  margin-bottom: 0.4rem !important;
+  padding-bottom: 0.3rem !important;
   border-bottom: 1px solid #555 !important;
   box-sizing: border-box !important;
 }
 
 .hopper-icon {
-  font-size: 1.2rem !important;
+  font-size: 0.9rem !important;
   color: #00bcd4 !important;
   opacity: 0.9 !important;
 }
 
 .hopper-title {
-  font-size: 1.2rem !important;
+  font-size: 0.9rem !important;
   font-weight: 600 !important;
   color: #ffffff !important;
   text-transform: uppercase !important;
@@ -764,30 +763,30 @@ html, body {
 }
 
 .hopper-count {
-  font-size: 0.85rem !important;
+  font-size: 0.7rem !important;
   color: #4caf50 !important;
   background: rgba(76, 175, 80, 0.15) !important;
-  padding: 0.3rem 0.6rem !important;
-  border-radius: 0.3rem !important;
+  padding: 0.2rem 0.4rem !important;
+  border-radius: 0.2rem !important;
   font-weight: 600 !important;
   border: 1px solid rgba(76, 175, 80, 0.3) !important;
 }
 
-/* Lista hopper ridisegnata */
+/* Lista hopper ultra compatta */
 .hopper-list {
   display: flex !important;
   flex-direction: column !important;
-  gap: 0.6rem !important;
+  gap: 0.3rem !important;
 }
 
 .hopper-item {
   display: flex !important;
   flex-direction: column !important;
-  gap: 0.4rem !important;
-  padding: 0.8rem !important;
+  gap: 0.2rem !important;
+  padding: 0.4rem !important;
   background: rgba(255, 255, 255, 0.05) !important;
   border: 1px solid #666 !important;
-  border-radius: 0.5rem !important;
+  border-radius: 0.3rem !important;
   transition: all 0.3s ease !important;
   box-sizing: border-box !important;
 }
@@ -796,76 +795,76 @@ html, body {
   background: rgba(255, 255, 255, 0.08) !important;
   border-color: #777 !important;
   transform: translateY(-1px) !important;
-  box-shadow: 0 0.2rem 0.6rem rgba(0, 0, 0, 0.15) !important;
+  box-shadow: 0 0.1rem 0.3rem rgba(0, 0, 0, 0.1) !important;
 }
 
-/* Hopper name prominente */
+/* Hopper name compatto */
 .hopper-name-row {
   display: flex !important;
   align-items: center !important;
-  gap: 0.6rem !important;
+  gap: 0.4rem !important;
 }
 
 .hopper-tag {
-  font-size: 1rem !important;
+  font-size: 0.8rem !important;
   font-weight: 700 !important;
   color: #ffffff !important;
   background: linear-gradient(135deg, #00bcd4, #0097a7) !important;
-  padding: 0.3rem 0.8rem !important;
-  border-radius: 0.4rem !important;
-  min-width: 4rem !important;
+  padding: 0.2rem 0.5rem !important;
+  border-radius: 0.3rem !important;
+  min-width: 3rem !important;
   text-align: center !important;
   flex-shrink: 0 !important;
-  box-shadow: 0 0.1rem 0.3rem rgba(0, 188, 212, 0.3) !important;
+  box-shadow: 0 0.1rem 0.2rem rgba(0, 188, 212, 0.3) !important;
 }
 
-/* Materiali formattati professionalmente */
+/* Materiali ultra compatti */
 .hopper-materials {
   display: flex !important;
   flex-direction: column !important;
-  gap: 0.3rem !important;
+  gap: 0.2rem !important;
 }
 
 .material-component {
   display: flex !important;
   justify-content: space-between !important;
   align-items: center !important;
-  padding: 0.4rem 0.6rem !important;
+  padding: 0.2rem 0.4rem !important;
   background: rgba(255, 255, 255, 0.03) !important;
-  border-radius: 0.3rem !important;
-  border-left: 3px solid #00bcd4 !important;
+  border-radius: 0.2rem !important;
+  border-left: 2px solid #00bcd4 !important;
 }
 
 .material-name {
-  font-size: 0.9rem !important;
+  font-size: 0.75rem !important;
   color: #e0e0e0 !important;
   font-weight: 500 !important;
   flex: 1 !important;
 }
 
 .material-percentage {
-  font-size: 1.1rem !important;
+  font-size: 0.8rem !important;
   color: #00bcd4 !important;
   font-weight: 700 !important;
-  min-width: 3rem !important;
+  min-width: 2.5rem !important;
   text-align: right !important;
 }
 
-/* Caso vuoto hopper elegante */
+/* Caso vuoto compatto */
 .hopper-empty {
   text-align: center !important;
-  padding: 2rem 1rem !important;
+  padding: 1rem 0.5rem !important;
   color: #888888 !important;
   font-style: italic !important;
-  font-size: 1rem !important;
+  font-size: 0.8rem !important;
   background: rgba(255, 255, 255, 0.02) !important;
-  border: 2px dashed #555 !important;
-  border-radius: 0.5rem !important;
+  border: 1px dashed #555 !important;
+  border-radius: 0.3rem !important;
 }
 
 .hopper-empty-icon {
-  font-size: 2rem !important;
-  margin-bottom: 0.5rem !important;
+  font-size: 1.2rem !important;
+  margin-bottom: 0.3rem !important;
   opacity: 0.5 !important;
 }
 
