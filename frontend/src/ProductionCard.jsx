@@ -532,44 +532,44 @@ function ProductionCard({ data }) {
           <MaterialSpecs data={data} />
         </div>
 
-        {/* 🎯 LAYOUT OTTIMIZZATO: 2 Colonne - Bobine + Performance */}
+        {/* 🎯 LAYOUT OTTIMIZZATO: 2 Colonne - Avanzamento + Performance - HEADER MINIMO */}
         <div className={`progress-and-kpi-container-optimized ${isProductionComplete ? 'section-completed' : ''}`}>
           
-          {/* SEZIONE SINISTRA: Bobine (65%) - RIMOSSA SCRITTA */}
-          <div className="bobine-section-expanded">
-            <div className="section-title-icon-only">
+          {/* SEZIONE SINISTRA: Bobine (65%) - SENZA HEADER */}
+          <div className="metrics-box-minimalist">
+            <div className="metrics-content">
+              <LEDProgressBar 
+                current={data.mntg_qta_lotti_attuale || 0}
+                total={data.mntg_qta_lotti || 0}
+                unit=""
+                machineStatus={stato.label}
+                machineColor={stato.color}
+                percentage={data.mntg_qta_lotti > 0 ? (data.mntg_qta_lotti_attuale / data.mntg_qta_lotti) * 100 : 0}
+              />
             </div>
-            <LEDProgressBar 
-              current={data.mntg_qta_lotti_attuale}
-              total={data.mntg_qta_lotti}
-              unit=""
-              machineStatus={stato.label}
-              machineColor={stato.color}
-              percentage={data.mntg_qta_lotti > 0 ? (data.mntg_qta_lotti_attuale / data.mntg_qta_lotti) * 100 : 0}
-            />
           </div>
 
-          {/* SEZIONE DESTRA: Performance (35%) - RIMOSSA SCRITTA */}
-          <div className="performance-section-minimal">
-            <div className="section-title-icon-only">
-            </div>
-            <div className="kpi-stack-minimal">
-              <KpiBox 
-                label="Velocità" 
-                value={data.mntg_vel_ril || 0} 
-                unit="mt/min" 
-                color={getKpiColor(stato.label, 'velocity')}
-                background="#2a2a2a"
-                border="#555"
-              />
-              <KpiBox 
-                label="Portata" 
-                value={data.mntg_portata_ril || 0} 
-                unit="Kg/h" 
-                color={getKpiColor(stato.label, 'flow')}
-                background="#2a2a2a"
-                border="#555"
-              />
+          {/* SEZIONE DESTRA: Performance (35%) - SENZA HEADER */}
+          <div className="metrics-box-minimalist">
+            <div className="metrics-content">
+              <div className="kpi-stack">
+                <KpiBox 
+                  label="Velocità" 
+                  value={data.mntg_vel_ril || 0} 
+                  unit="mt/min" 
+                  color={getKpiColor(stato.label, 'velocity')}
+                  background="#2a2a2a"
+                  border="#555"
+                />
+                <KpiBox 
+                  label="Portata" 
+                  value={data.mntg_portata_ril || 0} 
+                  unit="Kg/h" 
+                  color={getKpiColor(stato.label, 'flow')}
+                  background="#2a2a2a"
+                  border="#555"
+                />
+              </div>
             </div>
           </div>
         </div>
@@ -655,321 +655,64 @@ function ProductionCard({ data }) {
             border-color: #666666 !important;
           }
 
-          /* 🆕 LAYOUT PRINCIPALE OTTIMIZZATO: 2 COLONNE */
+          /* 🆕 LAYOUT SUPER-COMPATTO SENZA HEADER */
           .progress-and-kpi-container-optimized {
             display: flex;
-            gap: 20px;
-            align-items: flex-start;
-            margin-top: 10px; /* Ridotto da 16px */
-            width: 100%;
-            min-height: 130px; /* Ridotto da 140px */
-          }
-          
-          /* Sezione bobine */
-          .bobine-section-expanded {
-            flex: 0 0 65%;
-            min-width: 0;
-            display: flex;
-            flex-direction: column;
-          }
-
-          /* Sezione performance */
-          .performance-section-minimal {
-            flex: 0 0 35%;
-            min-width: 0;
-            display: flex;
-            flex-direction: column;
-          }
-          
-          /* KPI stack */
-          .kpi-stack-minimal {
-            display: flex;
-            flex-direction: column;
-            gap: 6px; /* Ridotto da 8px */
-            width: 100%;
-          }
-
-          /* 🎛️ SEZIONE BOBINE ESPANSA */
-          .bobine-section-expanded {
-            flex: 0 0 65%;
-            min-width: 0;
-            display: flex;
-            flex-direction: column;
-          }
-
-          /* ⚡ SEZIONE PERFORMANCE */
-          .performance-section-minimal {
-            flex: 0 0 35%;
-            min-width: 0;
-            display: flex;
-            flex-direction: column;
-          }
-          
-          /* 🎨 TITOLI SEZIONI */
-          .section-title-large {
-            font-size: 0.9rem;
-            color: #2196f3;
-            font-weight: 800;
-            letter-spacing: 0.8px;
-            text-transform: uppercase;
-            margin-bottom: 12px;
-            text-align: center;
-            padding-bottom: 8px;
-            border-bottom: 2px solid rgba(33, 150, 243, 0.4);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-          }
-
-          .section-icon-large {
-            font-size: 1.5rem;
-            opacity: 0.8;
-            color: #2196f3;
-          }
-
-          /* ⚡ KPI PERFORMANCE COMPATTE */
-          .kpi-stack-minimal {
-            display: flex;
-            flex-direction: column;
-            gap: 6px; /* Ridotto da 8px */
-            width: 100%;
-          }
-
-          /* 🚨 CARD CRITICA: Stato FERMA - Stesso stile ma colore distintivo */
-          .card-critical {
-            border: 3px solid #e53e3e !important;
-            background: linear-gradient(145deg, #2a1f1f, #331f1f) !important;
-            position: relative;
-          }
-
-          /* 🟡 ANIMAZIONE SLOW PULSE - Per riavvio */
-          @keyframes slowPulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.7; }
-          }
-
-          /* 🟠 ANIMAZIONE FAST PULSE - Per scarto */
-          @keyframes fastPulse {
-            0%, 100% { opacity: 1; }
-            25% { opacity: 0.6; }
-            75% { opacity: 0.9; }
-          }
-
-          /* 🎯 APPLICAZIONE ANIMAZIONI - Solo per stati attivi */
-          .status.slowPulse {
-            animation: slowPulse 3s ease-in-out infinite;
-          }
-
-          .status.fastPulse {
-            animation: fastPulse 1s ease-in-out infinite;
-          }
-
-          /* 🔴 OVERRIDE PER STATO FERMA - Elegante ma visibile */
-          .card-critical .status {
-            font-weight: 700 !important;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5) !important;
-            border: 2px solid rgba(255, 255, 255, 0.2) !important;
-            text-transform: uppercase !important;
-            letter-spacing: 1px !important;
-            font-size: 1.5rem !important;
-            padding: 14px 28px !important;
-          }
-
-          /* 🎯 BANNER COMPLETAMENTO - DESIGN GRANDE E PROFESSIONALE */
-          .completion-banner-large {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: linear-gradient(135deg, #263238, #37474f, #455a64);
-            padding: 20px 24px;
-            border-radius: 0 0 8px 8px;
-            border-top: 5px solid #455a64;
-            display: flex;
-            align-items: center;
             gap: 16px;
+            align-items: stretch;
+            margin: 8px 0;
+            width: 100%;
+          }
+          
+          /* Box con stile unificato - SENZA HEADER */
+          .metrics-box-minimalist {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.04));
+            border: 1px solid #444;
+            border-radius: 8px;
+            padding: 12px;
+            display: flex;
+            flex-direction: column;
             backdrop-filter: blur(10px);
-            min-height: 70px;
           }
-
-          .completion-icon {
-            font-size: 2.2rem;
-            color: #ffffff;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
-            flex-shrink: 0;
+          
+          /* Distribuzione spazio */
+          .metrics-box-minimalist:first-child {
+            flex: 0 0 65%;
           }
-
-          .completion-info {
+          
+          .metrics-box-minimalist:last-child {
+            flex: 0 0 35%;
+          }
+          
+          /* Contenuto centrato verticalmente */
+          .metrics-content {
             flex: 1;
             display: flex;
-            align-items: center;
+            flex-direction: column;
+            justify-content: center;
           }
-
-          .completion-single-line {
+          
+          /* Stack KPI */
+          .kpi-stack {
             display: flex;
-            align-items: center;
-            justify-content: space-between;
+            flex-direction: column;
+            gap: 8px;
             width: 100%;
-            gap: 16px;
           }
 
-          .completion-status {
-            font-size: 1.3rem;
-            color: #ffffff;
-            font-weight: 800;
-            letter-spacing: 0.5px;
-            text-transform: uppercase;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
-            flex-shrink: 0;
-          }
-
-          .completion-datetime {
-            font-size: 1.4rem;
-            color: #ffffff;
-            font-weight: 700;
-            font-family: 'Segoe UI', sans-serif;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
-            background: rgba(255, 255, 255, 0.15);
-            padding: 8px 16px;
-            border-radius: 6px;
-            border-left: 4px solid #455a64;
-            flex-shrink: 0;
-            letter-spacing: 0.5px;
-          }
-
-          /* 📱 RESPONSIVE: Mobile */
+          /* Responsive */
           @media (max-width: 768px) {
             .progress-and-kpi-container-optimized {
               flex-direction: column;
-              gap: 16px;
             }
             
-            .bobine-section-expanded,
-            .performance-section-minimal {
-              flex: none;
+            .metrics-box-minimalist {
               width: 100%;
             }
-
-            .pallet-gauge-xlarge {
-              width: 110px;
-              height: 110px;
-            }
-
-            .gauge-current-xlarge {
-              font-size: 2rem;
-            }
-
-            .gauge-total-xlarge {
-              font-size: 1.6rem;
-            }
-
-            .completion-banner-large {
-              padding: 16px 16px;
-              gap: 12px;
-              min-height: 60px;
-            }
             
-            .completion-icon {
-              font-size: 1.8rem;
-            }
-            
-            .completion-single-line {
-              gap: 12px;
-            }
-            
-            .completion-status {
-              font-size: 1.1rem;
-            }
-            
-            .completion-datetime {
-              font-size: 1.2rem;
-              padding: 6px 12px;
-            }
-          }
-
-          /* 📺 RESPONSIVE: TV 4K */
-          @media (min-width: 3840px) {
-            .progress-and-kpi-container-optimized {
-              gap: 28px;
-              margin-top: 20px;
-              min-height: 180px;
-            }
-            
-            .pallet-gauge-xlarge {
-              width: 160px;
-              height: 160px;
-            }
-            
-            .gauge-current-xlarge {
-              font-size: 3rem;
-            }
-            
-            .gauge-total-xlarge {
-              font-size: 2.4rem;
-            }
-            
-            .pallet-percentage {
-              font-size: 1.8rem;
-              padding: 6px 16px;
-            }
-            
-            .section-title-large {
-              font-size: 1.1rem;
-              margin-bottom: 16px;
-            }
-
-            .completion-banner-large {
-              padding: 24px 28px;
-              border-top: 7px solid #455a64;
-              gap: 20px;
-              min-height: 90px;
-            }
-            
-            .completion-icon {
-              font-size: 2.8rem;
-            }
-            
-            .completion-single-line {
-              gap: 20px;
-            }
-            
-            .completion-status {
-              font-size: 1.6rem;
-            }
-            
-            .completion-datetime {
-              font-size: 1.8rem;
-              padding: 10px 18px;
-              border-left: 6px solid #455a64;
-            }
-          }
-
-          /* 📺 RESPONSIVE: Tablet/Desktop intermedio */
-          @media (max-width: 1200px) and (min-width: 769px) {
-            .progress-and-kpi-container-optimized {
-              gap: 16px;
-            }
-            
-            .bobine-section-expanded {
-              flex: 0 0 60%;
-            }
-            
-            .performance-section-minimal {
-              flex: 0 0 40%;
-            }
-          }
-
-          /* 📱 RESPONSIVE: Mobile molto piccolo - Stack verticale se necessario */
-          @media (max-width: 480px) {
-            .completion-single-line {
-              flex-direction: column;
-              align-items: flex-start;
-              gap: 8px;
-            }
-            
-            .completion-datetime {
-              align-self: flex-end;
+            .metrics-box-minimalist:first-child,
+            .metrics-box-minimalist:last-child {
+              flex: none;
             }
           }
         `}</style>
