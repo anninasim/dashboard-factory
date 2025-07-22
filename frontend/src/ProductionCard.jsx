@@ -1,7 +1,7 @@
 import React from 'react';
 import LEDProgressBar from './LEDProgressBar';
 import KpiBox from './components/Kpibox';
-import HopperStatus from './components/HopperStatus'; // 🆕 AGGIUNGI QUESTA RIGA
+import HopperStatus from './components/HopperStatus';
 
 // ✅ LOGICA CORRETTA: Solo stato PLC comanda, sensori ignorati
 const getStatus = (stato, azione, velocita, portata) => {
@@ -438,17 +438,17 @@ function ProductionCard({ data }) {
             </div>
           </div>
         </div>
+
+        {/* 🔧 FIX: SEZIONE HOPPER ORA DENTRO IL CARD-BODY */}
+        {data.stato_macchina_html && (
+          <HopperStatus 
+            htmlString={data.stato_macchina_html}
+            isCompleted={isProductionComplete}
+          />
+        )}
       </div>
 
-      {/* 🆕 SEZIONE HOPPER - SOTTO TUTTO, SEPARATA */}
-      {data.stato_macchina_html && (
-        <HopperStatus 
-          htmlString={data.stato_macchina_html}
-          isCompleted={isProductionComplete}
-        />
-      )}
-
-      {/* 🎯 BANNER COMPLETAMENTO */}
+      {/* 🎯 BANNER COMPLETAMENTO - RIMANE FUORI DAL CARD-BODY */}
       {isProductionComplete && (
         <div className="completion-banner">
           <div className="completion-icon">✓</div>
