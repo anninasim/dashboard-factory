@@ -1,6 +1,7 @@
 import React from 'react';
 import LEDProgressBar from './LEDProgressBar';
 import KpiBox from './components/Kpibox';
+import HopperStatus from './components/HopperStatus'; // 🆕 AGGIUNGI QUESTA RIGA
 
 // ✅ LOGICA CORRETTA: Solo stato PLC comanda, sensori ignorati
 const getStatus = (stato, azione, velocita, portata) => {
@@ -437,32 +438,40 @@ function ProductionCard({ data }) {
             </div>
           </div>
         </div>
-
-        {/* 🎯 BANNER COMPLETAMENTO */}
-        {isProductionComplete && (
-          <div className="completion-banner">
-            <div className="completion-icon">✓</div>
-            <div className="completion-info">
-              {(() => {
-                const completion = getCompletionDateTime(data.mntg_dataril);
-                return completion.date && completion.time ? (
-                  <div className="completion-single-line">
-                    <span className="completion-status">PRODUZIONE COMPLETATA</span>
-                    <span className="completion-datetime">{completion.date} ore {completion.time}</span>
-                  </div>
-                ) : (
-                  <div className="completion-single-line">
-                    <span className="completion-status">PRODUZIONE COMPLETATA</span>
-                    <span className="completion-datetime">Completata con successo</span>
-                  </div>
-                );
-              })()}
-            </div>
-          </div>
-        )}
-
-        {/* 📺 NIENTE PIÙ CSS INLINE! Tutto controllato da App.css */}
       </div>
+
+      {/* 🆕 SEZIONE HOPPER - SOTTO TUTTO, SEPARATA */}
+      {data.stato_macchina_html && (
+        <HopperStatus 
+          htmlString={data.stato_macchina_html}
+          isCompleted={isProductionComplete}
+        />
+      )}
+
+      {/* 🎯 BANNER COMPLETAMENTO */}
+      {isProductionComplete && (
+        <div className="completion-banner">
+          <div className="completion-icon">✓</div>
+          <div className="completion-info">
+            {(() => {
+              const completion = getCompletionDateTime(data.mntg_dataril);
+              return completion.date && completion.time ? (
+                <div className="completion-single-line">
+                  <span className="completion-status">PRODUZIONE COMPLETATA</span>
+                  <span className="completion-datetime">{completion.date} ore {completion.time}</span>
+                </div>
+              ) : (
+                <div className="completion-single-line">
+                  <span className="completion-status">PRODUZIONE COMPLETATA</span>
+                  <span className="completion-datetime">Completata con successo</span>
+                </div>
+              );
+            })()}
+          </div>
+        </div>
+      )}
+
+      {/* 📺 NIENTE PIÙ CSS INLINE! Tutto controllato da App.css */}
     </div>
   );
 }

@@ -706,7 +706,172 @@ html, body {
   }
 }
 
+
+/* 🏭 SEZIONE HOPPER - DESIGN PROFESSIONALE RIDISEGNATO */
+.hopper-status-section {
+  margin: 0.8rem 0 !important;
+  padding: 1rem !important;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.06)) !important;
+  border: 1px solid #666 !important;
+  border-radius: 0.6rem !important;
+  backdrop-filter: blur(10px) !important;
+  box-sizing: border-box !important;
+  width: 100% !important;
+  overflow: visible !important;
+  flex-shrink: 0 !important;
+  transition: all 0.3s ease !important;
+  min-height: 4rem !important;
+}
+
+.hopper-status-section:hover {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.09)) !important;
+  border-color: #777 !important;
+  transform: translateY(-1px) !important;
+  box-shadow: 0 0.3rem 0.8rem rgba(0, 0, 0, 0.2) !important;
+}
+
+.hopper-status-section.completed {
+  background: linear-gradient(135deg, rgba(102, 102, 102, 0.08), rgba(102, 102, 102, 0.12)) !important;
+  border-color: #666666 !important;
+  filter: grayscale(80%) !important;
+  opacity: 0.6 !important;
+}
+
+/* Header hopper professionale */
+.hopper-header {
+  display: flex !important;
+  align-items: center !important;
+  gap: 0.6rem !important;
+  margin-bottom: 0.8rem !important;
+  padding-bottom: 0.5rem !important;
+  border-bottom: 1px solid #555 !important;
+  box-sizing: border-box !important;
+}
+
+.hopper-icon {
+  font-size: 1.2rem !important;
+  color: #00bcd4 !important;
+  opacity: 0.9 !important;
+}
+
+.hopper-title {
+  font-size: 1.2rem !important;
+  font-weight: 600 !important;
+  color: #ffffff !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.02rem !important;
+  flex: 1 !important;
+}
+
+.hopper-count {
+  font-size: 0.85rem !important;
+  color: #4caf50 !important;
+  background: rgba(76, 175, 80, 0.15) !important;
+  padding: 0.3rem 0.6rem !important;
+  border-radius: 0.3rem !important;
+  font-weight: 600 !important;
+  border: 1px solid rgba(76, 175, 80, 0.3) !important;
+}
+
+/* Lista hopper ridisegnata */
+.hopper-list {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 0.6rem !important;
+}
+
+.hopper-item {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 0.4rem !important;
+  padding: 0.8rem !important;
+  background: rgba(255, 255, 255, 0.05) !important;
+  border: 1px solid #666 !important;
+  border-radius: 0.5rem !important;
+  transition: all 0.3s ease !important;
+  box-sizing: border-box !important;
+}
+
+.hopper-item:hover {
+  background: rgba(255, 255, 255, 0.08) !important;
+  border-color: #777 !important;
+  transform: translateY(-1px) !important;
+  box-shadow: 0 0.2rem 0.6rem rgba(0, 0, 0, 0.15) !important;
+}
+
+/* Hopper name prominente */
+.hopper-name-row {
+  display: flex !important;
+  align-items: center !important;
+  gap: 0.6rem !important;
+}
+
+.hopper-tag {
+  font-size: 1rem !important;
+  font-weight: 700 !important;
+  color: #ffffff !important;
+  background: linear-gradient(135deg, #00bcd4, #0097a7) !important;
+  padding: 0.3rem 0.8rem !important;
+  border-radius: 0.4rem !important;
+  min-width: 4rem !important;
+  text-align: center !important;
+  flex-shrink: 0 !important;
+  box-shadow: 0 0.1rem 0.3rem rgba(0, 188, 212, 0.3) !important;
+}
+
+/* Materiali formattati professionalmente */
+.hopper-materials {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 0.3rem !important;
+}
+
+.material-component {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  padding: 0.4rem 0.6rem !important;
+  background: rgba(255, 255, 255, 0.03) !important;
+  border-radius: 0.3rem !important;
+  border-left: 3px solid #00bcd4 !important;
+}
+
+.material-name {
+  font-size: 0.9rem !important;
+  color: #e0e0e0 !important;
+  font-weight: 500 !important;
+  flex: 1 !important;
+}
+
+.material-percentage {
+  font-size: 1.1rem !important;
+  color: #00bcd4 !important;
+  font-weight: 700 !important;
+  min-width: 3rem !important;
+  text-align: right !important;
+}
+
+/* Caso vuoto hopper elegante */
+.hopper-empty {
+  text-align: center !important;
+  padding: 2rem 1rem !important;
+  color: #888888 !important;
+  font-style: italic !important;
+  font-size: 1rem !important;
+  background: rgba(255, 255, 255, 0.02) !important;
+  border: 2px dashed #555 !important;
+  border-radius: 0.5rem !important;
+}
+
+.hopper-empty-icon {
+  font-size: 2rem !important;
+  margin-bottom: 0.5rem !important;
+  opacity: 0.5 !important;
+}
+
+
 /* 🎯 OVERRIDE FINALE */
 .dashboard-grid * {
   box-sizing: border-box !important;
 }
+

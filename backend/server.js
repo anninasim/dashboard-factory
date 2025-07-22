@@ -49,7 +49,8 @@ app.get('/api/dashboard', async (req, res) => {
         main.mntg_stato_gruppo,
         main.mntg_azione,
         main.fp_schedula_completo,
-        main.mntg_dataril,          
+        main.mntg_dataril,
+              
         
         -- 🆕 NUOVI DATI TECNICI: Caratteristiche materiali
         tech.mntg_gruppo,          -- Per debug/verifica del join
@@ -59,8 +60,10 @@ app.get('/api/dashboard', async (req, res) => {
         tech.spessore_micron,      -- Spessore in micron
         tech.qta_uni_kg,           -- Quantità unitaria in kg
         tech.qta_uni_ml,           -- Quantità unitaria in ml
-        tech.num_bobine            -- Numero bobine
-        
+        tech.num_bobine,           -- Numero bobine
+        tech.stato_macchina_html
+
+
       FROM dbo.view_dash_react_factory_eye AS main
       
       -- JOIN con la vista tecnica usando mntg_gruppo (identificativo macchina)
