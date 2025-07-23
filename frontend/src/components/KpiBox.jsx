@@ -170,12 +170,12 @@ function KpiBox({ label, value, unit, icon, color = '#00bcd4', background = '#3a
           }
           
           .kpi-box-fit-screen .kpi-value-fit-screen span {
-            font-size: 1.1rem !important;
+            font-size: 1.5rem !important;
             margin-left: 0.4rem !important;
           }
 
           .kpi-box-fit-screen div:first-child {
-            font-size: 0.9rem !important;
+            font-size: 1rem !important;
             margin-bottom: 0.3rem !important;
           }
 
