@@ -145,29 +145,29 @@ function KpiBox({ label, value, unit, icon, color = '#00bcd4', background = '#3a
         /* 📺 TV 4K - Scaling up mantenendo fit */
         @media (min-width: 3840px) {
           .kpi-box-fit-screen {
-            min-height: 4rem !important;        /* RIDOTTO: da 5rem a 4rem */
+            min-height: 5rem !important;        /* RIDOTTO: da 5rem a 4rem */
             padding: 0.8rem 0.5rem !important;  /* RIDOTTO: da 1rem a 0.8rem */
             border-radius: 0.6rem !important;
           }
           
           .kpi-value-fit-screen {
-            font-size: 2.2rem !important;       /* RIDOTTO: da 2.5rem a 2.2rem */
+            font-size: 2.4rem !important;       /* RIDOTTO: da 2.5rem a 2.2rem */
             margin: 0.2rem 0 !important;        /* RIDOTTO: da 0.3rem a 0.2rem */
           }
           
           .kpi-box-fit-screen .kpi-value-fit-screen span {
-            font-size: 1.4rem !important;
+            font-size: 1.6rem !important;
             margin-left: 0.4rem !important;
           }
 
           .kpi-box-fit-screen div:first-child {
             font-size: 1rem !important;
-            margin-bottom: 0.3rem !important;
+            margin-bottom: 0.5rem !important;
           }
 
           /* 🆕 ICONA PIÙ GRANDE SU 4K */
           .kpi-box-fit-screen div:first-child span:first-child {
-            font-size: 1.3rem !important; /* 📺 ⬆️ INGRANDITO: da 1.1rem a 1.6rem */
+            font-size: 1.2rem !important; /* 📺 ⬆️ INGRANDITO: da 1.1rem a 1.6rem */
           }
         }
 
