@@ -75,8 +75,8 @@ function KpiBox({ label, value, unit, icon, color = '#00bcd4', background = '#3a
 
   // 🆕 STILE PER ANIMATED COUNTER
   const animatedValueStyle = {
-    fontSize: '1.6rem', // 📺 Dimensione ottimizzata per fit
-    fontWeight: '800',
+    fontSize: '2rem', // 📺 Dimensione ottimizzata per fit
+    fontWeight: '500',
     color,
     lineHeight: '1',
     margin: '0.2rem 0',
@@ -170,7 +170,7 @@ function KpiBox({ label, value, unit, icon, color = '#00bcd4', background = '#3a
           }
           
           .kpi-box-fit-screen .kpi-value-fit-screen span {
-            font-size: 1.5rem !important;
+            font-size: 1.8rem !important;
             margin-left: 0.4rem !important;
           }
 
