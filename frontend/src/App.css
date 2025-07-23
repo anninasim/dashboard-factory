@@ -272,7 +272,7 @@ html, body {
 .order-article-vertical .spec-item:last-child {
   display: flex !important;
   align-items: center !important; /* 🔄 CAMBIATO: da flex-start a center per allineamento con ordine */
-  flex: 0 0 73% !important;
+  flex: 0 0 73.5% !important;
   min-width: 0 !important;
   
   /* 🆕 PADDING OTTIMIZZATO SENZA ICONA/LABEL */
@@ -441,7 +441,7 @@ html, body {
   transform: translateY(-1px) !important;
 }
 
-/* 🔬 SPECIFICHE MATERIALE - COMPATTE PER FIT */
+/* 🔬 SPECIFICHE MATERIALE - LAYOUT 3x2 COMPATTO */
 .material-specs-section {
   margin: 0.6rem 0 !important;
   padding: 0.8rem !important;
@@ -462,6 +462,7 @@ html, body {
   border-color: #666666 !important;
 }
 
+/* 📋 HEADER - INVARIATO */
 .material-specs-header {
   display: flex !important;
   align-items: center !important;
@@ -485,38 +486,35 @@ html, body {
   letter-spacing: 0.02rem !important;
 }
 
-.material-no-data {
-  text-align: center !important;
-  padding: 0.6rem !important;
-  color: #888 !important;
-  font-style: italic !important;
-  font-size: 1rem !important; /* 📺 ⬆️ INGRANDITO: da 0.7rem a 1rem */
-}
-
-.material-specs-grid {
+/* 🆕 GRIGLIA PRINCIPALE 3x2 */
+.material-specs-grid-3x2 {
   display: flex !important;
   flex-direction: column !important;
-  gap: 0.5rem !important;
+  gap: 0.4rem !important; /* 📺 ⬇️ Gap ridotto per compattezza */
   width: 100% !important;
   box-sizing: border-box !important;
 }
 
-.spec-row {
+/* 🆕 RIGA CON 3 COLONNE */
+.spec-row-3col {
   display: flex !important;
-  gap: 0.5rem !important;
+  gap: 0.4rem !important; /* 📺 ⬇️ Gap ridotto per fit 3 colonne */
   justify-content: space-between !important;
-  margin-bottom: 0.3rem !important;
   width: 100% !important;
   box-sizing: border-box !important;
 }
 
-.spec-item {
+/* 🆕 ITEM SINGOLO IN LAYOUT 3 COLONNE */
+.spec-item-3col {
   display: flex !important;
   align-items: center !important;
-  gap: 0.3rem !important;
-  flex: 1 !important;
+  gap: 0.25rem !important; /* 📺 ⬇️ Gap interno ridotto per compattezza */
+  flex: 1 !important; /* Ogni item occupa 1/3 dello spazio */
   min-width: 0 !important;
-  padding: 0.4rem 0.6rem !important;
+  
+  /* 📺 ⬇️ PADDING RIDOTTO per fit 3 colonne */
+  padding: 0.3rem 0.4rem !important; /* Ridotto da 0.4rem 0.6rem */
+  
   background: rgba(255, 255, 255, 0.03) !important;
   border: 1px solid #555 !important;
   border-radius: 0.3rem !important;
@@ -524,37 +522,126 @@ html, body {
   box-sizing: border-box !important;
 }
 
-.spec-item:hover {
+.spec-item-3col:hover {
   background: rgba(255, 255, 255, 0.05) !important;
   border-color: #666 !important;
   transform: translateY(-1px) !important;
 }
 
-.spec-icon {
-  font-size: 0.9rem !important;
+/* 🆕 ICONE PIÙ COMPATTE */
+.spec-item-3col .spec-icon {
+  font-size: 0.8rem !important; /* 📺 ⬇️ RIDOTTO: da 0.9rem per fit */
   flex-shrink: 0 !important;
   opacity: 0.8 !important;
 }
 
-.spec-label {
-  font-size: 0.9rem !important; /* 📺 ⬆️ INGRANDITO: da 0.65rem a 0.9rem */
+/* 🆕 LABEL PIÙ COMPATTE */
+.spec-item-3col .spec-label {
+  font-size: 0.75rem !important; /* 📺 ⬇️ RIDOTTO: da 0.9rem per fit 3 colonne */
   color: #cccccc !important;
   font-weight: 500 !important;
   flex-shrink: 0 !important;
-  min-width: 3rem !important;
+  min-width: 2.5rem !important; /* 📺 ⬇️ RIDOTTO: da 3rem per spazio */
+  white-space: nowrap !important;
 }
 
-.spec-value-key {
-  font-size: 1.4rem !important; /* 📺 ⬆️ INGRANDITO: da 1rem a 1.4rem */
+/* 🆕 VALUES COMPATTI MA LEGGIBILI */
+.spec-item-3col .spec-value-key {
+  font-size: 1.1rem !important; /* 📺 ⬇️ RIDOTTO: da 1.4rem ma ancora leggibile */
   color: #ffffff !important;
   font-weight: 700 !important;
   text-align: right !important;
   flex: 1 !important;
   white-space: nowrap !important;
-  overflow: visible !important;
+  overflow: hidden !important;
   text-overflow: ellipsis !important;
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3) !important;
 }
+
+/* 🚫 RIMUOVI VECCHIE CLASSI NON UTILIZZATE */
+.material-specs-grid,
+.spec-row:not(.spec-row-3col) {
+  display: none !important; /* Nasconde le vecchie strutture se presenti */
+}
+
+/* 📺 RESPONSIVE - TV 4K */
+@media (min-width: 3840px) {
+  .material-specs-grid-3x2 {
+    gap: 0.6rem !important; /* Gap maggiore su 4K */
+  }
+  
+  .spec-row-3col {
+    gap: 0.6rem !important;
+  }
+  
+  .spec-item-3col {
+    padding: 0.4rem 0.6rem !important; /* Padding normale su 4K */
+    gap: 0.3rem !important;
+  }
+  
+  .spec-item-3col .spec-icon {
+    font-size: 1rem !important;
+  }
+  
+  .spec-item-3col .spec-label {
+    font-size: 0.9rem !important;
+    min-width: 3rem !important;
+  }
+  
+  .spec-item-3col .spec-value-key {
+    font-size: 1.4rem !important; /* Font pieno su 4K */
+  }
+}
+
+/* 💻 DESKTOP */
+@media (max-width: 3839px) and (min-width: 1200px) {
+  .spec-item-3col .spec-label {
+    font-size: 0.7rem !important;
+    min-width: 2.8rem !important;
+  }
+  
+  .spec-item-3col .spec-value-key {
+    font-size: 1rem !important;
+  }
+  
+  .spec-item-3col .spec-icon {
+    font-size: 0.75rem !important;
+  }
+}
+
+/* 📱 MOBILE - TORNA A LAYOUT VERTICALE 2x3 */
+@media (max-width: 1199px) {
+  /* Su mobile: 2 colonne x 3 righe per leggibilità */
+  .spec-row-3col {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important; /* 2 colonne su mobile */
+    gap: 0.3rem !important;
+  }
+  
+  /* Prima riga: solo primi 2 item */
+  .spec-row-3col:first-child .spec-item-3col:nth-child(3) {
+    grid-column: 1 / -1 !important; /* Terzo item va su riga successiva */
+  }
+  
+  .spec-item-3col {
+    padding: 0.35rem 0.5rem !important;
+    gap: 0.2rem !important;
+  }
+  
+  .spec-item-3col .spec-label {
+    font-size: 0.7rem !important;
+    min-width: 2.5rem !important;
+  }
+  
+  .spec-item-3col .spec-value-key {
+    font-size: 0.9rem !important;
+  }
+  
+  .spec-item-3col .spec-icon {
+    font-size: 0.7rem !important;
+  }
+}
+
 
 /* 📺 PROGRESS E KPI CONTAINER - OTTIMIZZATI PER FIT VERTICALE */
 .progress-and-kpi-container {

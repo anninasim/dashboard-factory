@@ -139,12 +139,8 @@ const getStatus = (stato, azione, velocita, portata) => {
   };
 };
 
-// 🎯 Componente ottimizzato per le specifiche tecniche del materiale
+// 🎯 Componente ottimizzato per le specifiche tecniche del materiale - LAYOUT 3x2
 const MaterialSpecs = ({ data, isCompleted }) => {
-  // Verifica se abbiamo almeno un dato tecnico disponibile tra i 4 campi richiesti
-  const hasTechnicalData = data.larghezza || data.spessore_micron || 
-                          data.qta_uni_kg || data.qta_uni_ml;
-
   // Funzione helper per formattare i valori numerici senza decimali inutili
   const formatNumber = (value) => {
     // Se il valore è null, undefined o non numerico, ritorna '-'
@@ -165,78 +161,86 @@ const MaterialSpecs = ({ data, isCompleted }) => {
     return numValue.toString();
   };
 
+  // 🆕 NUOVA LOGICA: Prepara tutti i 6 campi per layout 3x2
+  const allFields = [
+    // Prima riga (3 campi)
+    {
+      icon: '⚗️',
+      label: 'Miscela',
+      value: data.mntg_codice_ricetta || '-',
+      key: 'miscela'
+    },
+    {
+      icon: '⚖️',
+      label: 'Kg Totali',
+      value: `${formatNumber(data.mntg_qta_ini)} kg`,
+      key: 'kg_totali'
+    },
+    {
+      icon: '📏',
+      label: 'Larghezza',
+      value: data.larghezza ? `${formatNumber(data.larghezza)} mt` : '-',
+      key: 'larghezza'
+    },
+    // Seconda riga (3 campi)
+    {
+      icon: '📐',
+      label: 'Spessore',
+      value: data.spessore_micron ? `${formatNumber(data.spessore_micron)} μm` : '-',
+      key: 'spessore'
+    },
+    {
+      icon: '⚖️',
+      label: 'Kg unitari',
+      value: data.qta_uni_kg ? `${formatNumber(data.qta_uni_kg)} kg` : '-',
+      key: 'kg_unitari'
+    },
+    {
+      icon: '📏',
+      label: 'Metri unitari',
+      value: data.qta_uni_ml ? `${formatNumber(data.qta_uni_ml)} mt` : '-',
+      key: 'metri_unitari'
+    }
+  ];
+
+  // 🆕 Divide i campi in 2 righe da 3
+  const firstRow = allFields.slice(0, 3);  // Miscela, Kg Totali, Larghezza
+  const secondRow = allFields.slice(3, 6); // Spessore, Kg unitari, Metri unitari
+
   return (
     <div className={`material-specs-section ${isCompleted ? 'completed' : ''}`}>
-      {/* Header della sezione */}
+      {/* Header della sezione - INVARIATO */}
       <div className="material-specs-header">
         <span className="material-icon">🔬</span>
         <span className="material-title">Specifiche Materiale</span>
       </div>
 
-      {/* 🆕 MODIFICATO: Miscela + Kg Totali in doppia colonna */}
-      <div className="spec-row">
-        {/* Prima colonna: Miscela */}
-        <div className="spec-item">
-          <span className="spec-icon">⚗️</span>
-          <span className="spec-label">Miscela</span>
-          <span className="spec-value-key">{data.mntg_codice_ricetta || '-'}</span>
-        </div>
+      {/* 🆕 NUOVA STRUTTURA: Griglia unificata 3x2 */}
+      <div className="material-specs-grid-3x2">
         
-        {/* Seconda colonna: Kg Totali */}
-        <div className="spec-item">
-          <span className="spec-icon">⚖️</span>
-          <span className="spec-label">Kg Totali</span>
-          <span className="spec-value-key">{formatNumber(data.mntg_qta_ini)} kg</span>
+        {/* 🆕 PRIMA RIGA: Miscela, Kg Totali, Larghezza */}
+        <div className="spec-row-3col">
+          {firstRow.map((field, index) => (
+            <div key={field.key} className="spec-item-3col">
+              <span className="spec-icon">{field.icon}</span>
+              <span className="spec-label">{field.label}</span>
+              <span className="spec-value-key">{field.value}</span>
+            </div>
+          ))}
         </div>
+
+        {/* 🆕 SECONDA RIGA: Spessore, Kg unitari, Metri unitari */}
+        <div className="spec-row-3col">
+          {secondRow.map((field, index) => (
+            <div key={field.key} className="spec-item-3col">
+              <span className="spec-icon">{field.icon}</span>
+              <span className="spec-label">{field.label}</span>
+              <span className="spec-value-key">{field.value}</span>
+            </div>
+          ))}
+        </div>
+
       </div>
-
-      {/* Verifica se ci sono dati tecnici disponibili */}
-      {!hasTechnicalData ? (
-        <div className="material-no-data">
-          <span className="no-data-message">Dati tecnici materiale non disponibili</span>
-        </div>
-      ) : (
-        <div className="material-specs-grid">
-          
-          {/* Prima riga: Dimensioni fisiche del materiale */}
-          <div className="spec-row">
-            {data.larghezza && (
-              <div className="spec-item">
-                <span className="spec-icon">📏</span>
-                <span className="spec-label">Larghezza</span>
-                <span className="spec-value-key">{formatNumber(data.larghezza)} mt</span>
-              </div>
-            )}
-            
-            {data.spessore_micron && (
-              <div className="spec-item">
-                <span className="spec-icon">📐</span>
-                <span className="spec-label">Spessore</span>
-                <span className="spec-value-key">{formatNumber(data.spessore_micron)} μm</span>
-              </div>
-            )}
-          </div>
-
-          {/* Seconda riga: Quantità unitarie del materiale */}
-          <div className="spec-row">
-            {data.qta_uni_kg && (
-              <div className="spec-item">
-                <span className="spec-icon">⚖️</span>
-                <span className="spec-label">Kg unitari</span>
-                <span className="spec-value-key">{formatNumber(data.qta_uni_kg)} kg</span>
-              </div>
-            )}
-            
-            {data.qta_uni_ml && (
-              <div className="spec-item">
-                <span className="spec-icon">📏</span>
-                <span className="spec-label">Metri unitari</span>
-                <span className="spec-value-key">{formatNumber(data.qta_uni_ml)} mt</span>
-              </div>
-            )}
-          </div>
-        </div>
-      )}
     </div>
   );
 };
