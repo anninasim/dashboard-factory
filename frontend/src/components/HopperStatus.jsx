@@ -498,7 +498,7 @@ const HopperStatus = ({ htmlString, isCompleted = false, machineName }) => {
 
           .material-component-compact {
             font-size: 0.75rem !important;
-            padding: 0.1rem 0.2rem !important;
+            padding: 0.1rem 0.2rem !important;z
           }
 
           .hopper-tag {

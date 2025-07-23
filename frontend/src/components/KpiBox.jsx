@@ -22,7 +22,7 @@ function KpiBox({ label, value, unit, icon, color = '#00bcd4', background = '#3a
     background,
     border: `1px solid ${border}`,
     borderRadius: '0.4rem',
-    padding: '0.6rem 0.4rem', // 📺 Padding compatto per fit schermo
+    padding: '0.5rem 0.3rem', // RIDOTTO: da 0.6rem a 0.5rem/0.3rem
     textAlign: 'center',
     color: '#fff',
     boxShadow: '0 1px 3px rgba(0, 0, 0, 0.25)',
@@ -31,7 +31,7 @@ function KpiBox({ label, value, unit, icon, color = '#00bcd4', background = '#3a
     transition: 'all 0.3s ease',
     position: 'relative',
     overflow: 'visible',
-    minHeight: '3.5rem', // 📺 Altezza minima compatta per fit
+    minHeight: '3rem', // RIDOTTO: da 3.5rem a 3rem
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',
@@ -41,12 +41,12 @@ function KpiBox({ label, value, unit, icon, color = '#00bcd4', background = '#3a
 
   // 📺 Label ottimizzata per fit CON ICONA
   const labelStyle = {
-    fontSize: '0.65rem', // 📺 Compatta per fit
+    fontSize: '0.6rem', // RIDOTTO: da 0.65rem a 0.6rem
     textTransform: 'uppercase',
     letterSpacing: '0.02rem',
     opacity: 0.9,
     fontWeight: '600',
-    marginBottom: '0.2rem',
+    marginBottom: '0.1rem', // RIDOTTO: da 0.2rem a 0.1rem
     color: '#e0e0e0',
     textAlign: 'center',
     width: '100%',
@@ -54,7 +54,7 @@ function KpiBox({ label, value, unit, icon, color = '#00bcd4', background = '#3a
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    gap: '0.4rem' // 🆕 ⬆️ AUMENTATO: da 0.3rem a 0.4rem per icone più grandi
+    gap: '0.3rem' // RIDOTTO: da 0.4rem a 0.3rem
   };
 
   // 📺 Unità di misura ottimizzata per fit  
@@ -68,18 +68,18 @@ function KpiBox({ label, value, unit, icon, color = '#00bcd4', background = '#3a
 
   // 🆕 STILE ICONA INDUSTRIALE - INGRANDITA
   const iconStyle = {
-    fontSize: '1.2rem', // 📺 ⬆️ INGRANDITO: da 0.8rem a 1.2rem (+50%)
+    fontSize: '1rem', // RIDOTTO: da 1.2rem a 1rem
     opacity: 0.8, // 📺 ⬆️ AUMENTATO: da 0.7 a 0.8 per più visibilità
     filter: 'grayscale(10%)', // 📺 ⬇️ RIDOTTO: da 20% a 10% per più colore
   };
 
   // 🆕 STILE PER ANIMATED COUNTER
   const animatedValueStyle = {
-    fontSize: '2rem', // 📺 Dimensione ottimizzata per fit
-    fontWeight: '500',
+    fontSize: '2rem', // RIDOTTO: da 2.3rem a 2rem
+    fontWeight: '600',
     color,
     lineHeight: '1',
-    margin: '0.2rem 0',
+    margin: '0.1rem 0', // RIDOTTO: da 0.2rem a 0.1rem
     textShadow: 'none',
     display: 'flex',
     alignItems: 'center',
@@ -126,7 +126,7 @@ function KpiBox({ label, value, unit, icon, color = '#00bcd4', background = '#3a
         /* 📺 BASE - FIT SCREEN DESIGN */
         .kpi-box-fit-screen {
           overflow: visible !important;
-          min-height: 3.5rem !important;
+          min-height: 3rem !important;
           height: auto !important;
           max-height: none !important;
           box-sizing: border-box !important;
@@ -135,42 +135,28 @@ function KpiBox({ label, value, unit, icon, color = '#00bcd4', background = '#3a
         .kpi-value-fit-screen {
           overflow: visible !important;
           line-height: 1 !important;
-          font-size: 1.6rem !important;
+          font-size: 1.5rem !important;         /* RIDOTTO: da 1.6rem a 1.5rem */
           text-align: center !important;
           width: 100% !important;
           white-space: nowrap !important;
-        }
-
-        /* Effetto hover leggero */
-        .kpi-box-fit-screen:hover {
-          transform: translateY(-1px);
-          box-shadow: 0 2px 6px rgba(0, 0, 0, 0.35) !important;
-          border-color: ${color} !important;
-        }
-
-        /* 🆕 HOVER ICONA - Animazione migliorata */
-        .kpi-box-fit-screen:hover span:first-child {
-          transform: scale(1.2); /* 📺 ⬆️ AUMENTATO: da 1.1 a 1.2 per più effetto */
-          opacity: 1; /* 📺 ⬆️ AGGIUNTO: Opacità piena al hover */
-          filter: grayscale(0%); /* 📺 ⬆️ AGGIUNTO: Colori pieni al hover */
-          transition: all 0.3s ease;
+          margin: 0 !important;                 /* RIDOTTO: eliminato il margine */
         }
 
         /* 📺 TV 4K - Scaling up mantenendo fit */
         @media (min-width: 3840px) {
           .kpi-box-fit-screen {
-            min-height: 5rem !important;
-            padding: 1rem 0.6rem !important;
+            min-height: 4rem !important;        /* RIDOTTO: da 5rem a 4rem */
+            padding: 0.8rem 0.5rem !important;  /* RIDOTTO: da 1rem a 0.8rem */
             border-radius: 0.6rem !important;
           }
           
           .kpi-value-fit-screen {
-            font-size: 2.2rem !important;
-            margin: 0.3rem 0 !important;
+            font-size: 2.2rem !important;       /* RIDOTTO: da 2.5rem a 2.2rem */
+            margin: 0.2rem 0 !important;        /* RIDOTTO: da 0.3rem a 0.2rem */
           }
           
           .kpi-box-fit-screen .kpi-value-fit-screen span {
-            font-size: 1.8rem !important;
+            font-size: 1.4rem !important;
             margin-left: 0.4rem !important;
           }
 
@@ -181,7 +167,7 @@ function KpiBox({ label, value, unit, icon, color = '#00bcd4', background = '#3a
 
           /* 🆕 ICONA PIÙ GRANDE SU 4K */
           .kpi-box-fit-screen div:first-child span:first-child {
-            font-size: 1.6rem !important; /* 📺 ⬆️ INGRANDITO: da 1.1rem a 1.6rem */
+            font-size: 1.3rem !important; /* 📺 ⬆️ INGRANDITO: da 1.1rem a 1.6rem */
           }
         }
 
@@ -193,7 +179,7 @@ function KpiBox({ label, value, unit, icon, color = '#00bcd4', background = '#3a
           }
           
           .kpi-value-fit-screen {
-            font-size: 1.4rem !important;
+            font-size: 1.5rem !important;
           }
           
           .kpi-box-fit-screen .kpi-value-fit-screen span {
