@@ -242,21 +242,23 @@ html, body {
   transition: all 0.3s ease !important;
 }
 
-/* 📦 ORDINE E ARTICOLO - LAYOUT VERTICALE */
+/* 📦 ORDINE E ARTICOLO - LAYOUT ORIZZONTALE 25/75 PULITO */
 .order-article-vertical {
   display: flex !important;
-  flex-direction: column !important;
-  gap: 0.4rem !important;
+  flex-direction: row !important;
+  gap: 0.6rem !important;
   margin: 0.6rem 0 !important;
   width: 100% !important;
   box-sizing: border-box !important;
+  align-items: flex-start !important; /* 🎯 ALLINEAMENTO IN ALTO */
 }
 
-.order-article-vertical .spec-item {
+/* 🎯 SPEC-ITEM ORDINE - 25% LARGHEZZA (RIMANE INVARIATO) */
+.order-article-vertical .spec-item:first-child {
   display: flex !important;
   align-items: center !important;
   gap: 0.3rem !important;
-  width: 100% !important;
+  flex: 0 0 25% !important;
   min-width: 0 !important;
   padding: 0.4rem 0.6rem !important;
   background: rgba(255, 255, 255, 0.03) !important;
@@ -266,17 +268,63 @@ html, body {
   box-sizing: border-box !important;
 }
 
-.order-article-vertical .spec-item:hover {
-  background: rgba(255, 255, 255, 0.05) !important;
-  border-color: #666 !important;
-  transform: translateY(-1px) !important;
+/* 🆕 SPEC-ITEM ARTICOLO - SOLO TESTO, SENZA ICONA E LABEL */
+.order-article-vertical .spec-item:last-child {
+  display: flex !important;
+  align-items: center !important; /* 🔄 CAMBIATO: da flex-start a center per allineamento con ordine */
+  flex: 0 0 73% !important;
+  min-width: 0 !important;
+  
+  /* 🆕 PADDING OTTIMIZZATO SENZA ICONA/LABEL */
+  padding: 0.4rem 0.8rem !important; /* Padding laterale maggiore per compensare mancanza icona */
+  
+  /* 🔧 MARGINE DESTRO MANTENUTO */
+  margin-right: 0.6rem !important;
+  
+  background: rgba(255, 255, 255, 0.03) !important;
+  border: 1px solid #555 !important;
+  border-radius: 0.3rem !important;
+  transition: all 0.3s ease !important;
+  box-sizing: border-box !important;
+  
+  /* 🆕 PERMETTI ESPANSIONE SE TESTO MOLTO LUNGO */
+  min-height: auto !important;
+  height: auto !important;
 }
 
-/* 📝 FONT PIÙ PICCOLO PER ORDINE/ARTICOLO */
-.order-article-vertical .spec-value-key {
-  font-size: 1rem !important; /* 📺 ⬇️ RIDOTTO: da 1.4rem a 1rem */
+/* 🆕 SPEC-VALUE-KEY ARTICOLO - DIRETTO SENZA ICONA/LABEL */
+.order-article-vertical .spec-item:last-child .spec-value-key {
+  font-size: 1rem !important;
   color: #ffffff !important;
-  font-weight: 600 !important; /* 📺 ⬇️ RIDOTTO: da 700 a 600 */
+  font-weight: 600 !important;
+  text-align: left !important;
+  flex: 1 !important;
+  width: 100% !important; /* 🆕 Occupa tutto lo spazio disponibile */
+  
+  /* 🆕 TEXT WRAPPING OTTIMIZZATO */
+  white-space: normal !important;
+  overflow: visible !important;
+  text-overflow: unset !important;
+  word-wrap: break-word !important;
+  line-height: 1.3 !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3) !important;
+  
+  /* 🆕 RESET COMPLETO MARGIN/PADDING */
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* 🚫 NASCONDERE ICONA E LABEL DELLA SEZIONE ARTICOLO */
+.order-article-vertical .spec-item:last-child .spec-icon,
+.order-article-vertical .spec-item:last-child .spec-label {
+  display: none !important; /* 🆕 NASCOSTI COMPLETAMENTE */
+}
+
+/* 🎯 SEZIONE ORDINE - RIMANE INVARIATA */
+.order-article-vertical .spec-item:first-child .spec-value-key {
+  font-size: 1rem !important;
+  color: #ffffff !important;
+  font-weight: 600 !important;
   text-align: right !important;
   flex: 1 !important;
   white-space: nowrap !important;
@@ -285,18 +333,112 @@ html, body {
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3) !important;
 }
 
-.order-article-vertical .spec-label {
-  font-size: 1rem !important; /* 📺 ⬆️ INGRANDITO: da 0.8rem a 1rem */
+.order-article-vertical .spec-item:first-child .spec-label {
+  font-size: 1rem !important;
   color: #cccccc !important;
   font-weight: 500 !important;
   flex-shrink: 0 !important;
   min-width: 3.5rem !important;
 }
 
-.order-article-vertical .spec-icon {
-  font-size: 0.85rem !important; /* 📺 ⬇️ RIDOTTO: da 0.9rem a 0.85rem */
+.order-article-vertical .spec-item:first-child .spec-icon {
+  font-size: 0.85rem !important;
   flex-shrink: 0 !important;
   opacity: 0.8 !important;
+}
+
+/* 🎯 HOVER EFFECTS */
+.order-article-vertical .spec-item:hover {
+  background: rgba(255, 255, 255, 0.05) !important;
+  border-color: #666 !important;
+  transform: translateY(-1px) !important;
+}
+
+/* 📺 RESPONSIVE - TV 4K */
+@media (min-width: 3840px) {
+  .order-article-vertical {
+    gap: 0.8rem !important;
+  }
+  
+  .order-article-vertical .spec-value-key {
+    font-size: 1.3rem !important;
+  }
+  
+  .order-article-vertical .spec-label {
+    font-size: 1.2rem !important;
+  }
+  
+  .order-article-vertical .spec-icon {
+    font-size: 1.1rem !important;
+  }
+  
+  /* 🆕 PADDING MAGGIORE SU 4K */
+  .order-article-vertical .spec-item:last-child {
+    padding: 0.5rem 1rem !important;
+  }
+}
+
+/* 💻 DESKTOP */
+@media (max-width: 3839px) and (min-width: 1200px) {
+  .order-article-vertical .spec-value-key {
+    font-size: 0.9rem !important;
+  }
+  
+  .order-article-vertical .spec-label {
+    font-size: 0.9rem !important;
+  }
+  
+  .order-article-vertical .spec-icon {
+    font-size: 0.8rem !important;
+  }
+}
+
+/* 📱 MOBILE - TORNA VERTICALE */
+@media (max-width: 1199px) {
+  .order-article-vertical {
+    flex-direction: column !important;
+    gap: 0.4rem !important;
+  }
+  
+  .order-article-vertical .spec-item:first-child,
+  .order-article-vertical .spec-item:last-child {
+    flex: 1 !important;
+    margin-right: 0 !important;
+  }
+  
+  /* 🆕 SU MOBILE RIAPPARE ICONA E LABEL PER CHIAREZZA */
+  .order-article-vertical .spec-item:last-child .spec-icon,
+  .order-article-vertical .spec-item:last-child .spec-label {
+    display: inline !important; /* Riappaiono su mobile per chiarezza */
+  }
+  
+  .order-article-vertical .spec-item:last-child {
+    align-items: center !important; /* Torna centrato su mobile */
+    padding: 0.4rem 0.6rem !important; /* Padding normale su mobile */
+  }
+  
+  .order-article-vertical .spec-item:last-child .spec-value-key {
+    text-align: right !important;
+  }
+  
+  .order-article-vertical .spec-value-key {
+    font-size: 0.85rem !important;
+  }
+  
+  .order-article-vertical .spec-label {
+    font-size: 0.85rem !important;
+  }
+  
+  .order-article-vertical .spec-icon {
+    font-size: 0.75rem !important;
+  }
+}
+
+/* 🎯 HOVER EFFECTS - MANTENUTI */
+.order-article-vertical .spec-item:hover {
+  background: rgba(255, 255, 255, 0.05) !important;
+  border-color: #666 !important;
+  transform: translateY(-1px) !important;
 }
 
 /* 🔬 SPECIFICHE MATERIALE - COMPATTE PER FIT */
@@ -589,7 +731,11 @@ html, body {
     font-size: 1.8rem !important; /* 📺 ⬆️ INGRANDITO: da 1.4rem a 1.8rem */
   }
   
-  /* 📦 ORDINE/ARTICOLO VERTICALE - TV 4K */
+  /* 📦 ORDINE/ARTICOLO - TV 4K */
+  .order-article-vertical {
+    gap: 0.8rem !important; /* Gap maggiore su 4K */
+  }
+  
   .order-article-vertical .spec-value-key {
     font-size: 1.3rem !important; /* 📺 Font piccolo ma leggibile su 4K */
   }
@@ -639,7 +785,7 @@ html, body {
     min-height: 8rem !important;
   }
   
-  /* 📦 ORDINE/ARTICOLO VERTICALE - DESKTOP */
+  /* 📦 ORDINE/ARTICOLO - DESKTOP */
   .order-article-vertical .spec-value-key {
     font-size: 0.9rem !important; /* 📺 Font intermedio per desktop */
   }
@@ -682,7 +828,22 @@ html, body {
     min-height: 4rem !important;
   }
   
-  /* 📦 ORDINE/ARTICOLO VERTICALE - MOBILE */
+  /* 📦 ORDINE/ARTICOLO - MOBILE TORNA VERTICALE */
+  .order-article-vertical {
+    flex-direction: column !important; /* Torna verticale su mobile */
+    gap: 0.4rem !important;
+  }
+  
+  .order-article-vertical .spec-item:first-child,
+  .order-article-vertical .spec-item:last-child {
+    flex: 1 !important; /* Torna flessibile su mobile */
+    margin-right: 0 !important; /* Rimuovi margine su mobile */
+  }
+  
+  .order-article-vertical .spec-item:last-child .spec-value-key {
+    text-align: right !important; /* Torna allineato a destra su mobile */
+  }
+  
   .order-article-vertical .spec-value-key {
     font-size: 0.85rem !important; /* 📺 Ancora più piccolo su mobile */
   }
@@ -950,7 +1111,6 @@ html, body {
     font-size: 0.75rem !important;
   }
 }
-
 
 /* 🎯 OVERRIDE FINALE */
 .dashboard-grid * {
