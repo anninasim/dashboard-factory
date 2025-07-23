@@ -1,4 +1,5 @@
 import React from 'react';
+import AnimatedCounter from './AnimatedCounter'; // 🆕 IMPORT del nuovo componente
 
 function KpiBox({ label, value, unit, icon, color = '#00bcd4', background = '#3a3a3a', border = '#616161' }) {
   // Funzione per formattare i numeri senza decimali inutili
@@ -38,24 +39,6 @@ function KpiBox({ label, value, unit, icon, color = '#00bcd4', background = '#3a
     boxSizing: 'border-box'
   };
 
-  // 📺 Valore ottimizzato per fit schermo perfetto
-  const valueStyle = {
-    fontSize: '1.6rem', // 📺 Dimensione ottimizzata per fit (era 9.6rem)
-    fontWeight: '800',
-    color,
-    lineHeight: '1',
-    margin: '0.2rem 0',
-    textShadow: 'none',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    flexWrap: 'nowrap',
-    overflow: 'visible',
-    whiteSpace: 'nowrap',
-    width: '100%',
-    textAlign: 'center'
-  };
-
   // 📺 Label ottimizzata per fit CON ICONA
   const labelStyle = {
     fontSize: '0.65rem', // 📺 Compatta per fit
@@ -90,6 +73,24 @@ function KpiBox({ label, value, unit, icon, color = '#00bcd4', background = '#3a
     filter: 'grayscale(10%)', // 📺 ⬇️ RIDOTTO: da 20% a 10% per più colore
   };
 
+  // 🆕 STILE PER ANIMATED COUNTER
+  const animatedValueStyle = {
+    fontSize: '1.6rem', // 📺 Dimensione ottimizzata per fit
+    fontWeight: '800',
+    color,
+    lineHeight: '1',
+    margin: '0.2rem 0',
+    textShadow: 'none',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexWrap: 'nowrap',
+    overflow: 'visible',
+    whiteSpace: 'nowrap',
+    width: '100%',
+    textAlign: 'center'
+  };
+
   return (
     <div style={boxStyle} className="kpi-box-fit-screen">
       {/* 🆕 LABEL CON ICONA */}
@@ -98,10 +99,16 @@ function KpiBox({ label, value, unit, icon, color = '#00bcd4', background = '#3a
         <span>{label}</span>
       </div>
       
-      <div style={valueStyle} className="kpi-value-fit-screen">
-        {formatNumber(value)}
-        <span style={unitStyle}>{unit}</span>
-      </div>
+      {/* 🆕 ANIMATED COUNTER - SOSTITUISCE IL VALORE STATICO */}
+      <AnimatedCounter
+        value={value}
+        unit={unit}
+        formatNumber={formatNumber}
+        style={animatedValueStyle}
+        className="kpi-value-fit-screen"
+        duration={0.5} // 🎯 Animazione di 0.5s - professionale
+        ease="easeOut"
+      />
       
       {/* 📺 Elemento decorativo compatto */}
       <div style={{
