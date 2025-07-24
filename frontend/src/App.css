@@ -1,3 +1,10 @@
+/* Animazione spin lenta per icone (es. Loader2 Lucide) */
+@keyframes spin-slow {
+  100% { transform: rotate(360deg); }
+}
+.animate-spin-slow {
+  animation: spin-slow 1.2s linear infinite;
+}
 /* 📺 DASHBOARD CSS - PERFETTO FIT SCHERMO TV 4K - GRIGLIA 4x2 COMPLETA VISIBILE */
 
 /* 🎯 RESET E BASE */
@@ -45,7 +52,7 @@ html, body {
   gap: 1.5rem; /* 📺 Gap ridotto per far entrare tutto */
   padding: 1.5rem; /* 📺 Padding ridotto per massimizzare spazio card */
   box-sizing: border-box;
-  background-color: #1a1a1a;
+  background: linear-gradient(120deg, #04070d 0%, #0b101a 100%);
   overflow: hidden;
 }
 
@@ -107,8 +114,8 @@ html, body {
   box-sizing: border-box !important;
   
   /* Stili base card */
-  background: #121212 !important;
-  border: 1px solid #444 !important;
+  background: linear-gradient(120deg, #05080f 0%, #101624 100%) !important;
+  border: 2.5px solid #3a4a6a !important;
   border-radius: 0.6rem !important;
   padding: 1rem !important; /* 📺 Padding ottimizzato per fit */
   display: flex !important;
@@ -133,9 +140,9 @@ html, body {
 
 /* 📺 CARD COMPLETATA */
 .dashboard-grid .card.card-completed {
-  background: linear-gradient(135deg, #0d1e2f 0%, #121f2a 50%, #0d1e2f 100%) !important;
-  border: 2px solid #1565c0 !important;
-  box-shadow: 0 0.2rem 0.6rem rgba(21, 71, 132, 0.12) !important;
+  background: linear-gradient(135deg, #05080f 0%, #101624 100%) !important;
+  border: 2.5px solid #3a4a6a !important;
+  box-shadow: 0 0.2rem 0.6rem rgba(30,40,50,0.10) !important;
 }
 
 /* 📺 HEADER CARD - COMPATTO PER FIT */
@@ -143,22 +150,27 @@ html, body {
   display: flex !important;
   justify-content: space-between !important;
   align-items: center !important;
-  padding: 0.3rem 0 0.6rem 0 !important;
+  padding: 0.3rem 0.8rem 0.6rem 0.8rem !important;
   position: relative !important;
-  border-bottom: 1px solid #333 !important;
   margin-bottom: 0.8rem !important;
   box-sizing: border-box !important;
   flex-shrink: 0 !important;
+  background: #040509 !important;
+  border: 2.5px solid #3a4a6a !important;
+  border-radius: 0.6rem !important;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.18) !important;
+  transition: border-color 0.2s, box-shadow 0.2s !important;
 }
 
 .machine-name {
   margin: 0 !important;
   font-size: 1.8rem !important; /* 📺 Dimensione perfetta per leggibilità e fit */
   font-weight: 700 !important;
-  color: white !important;
+  color: #fff !important;
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5) !important;
   letter-spacing: 0.05rem !important;
   line-height: 1 !important;
+
 }
 
 .status-compact {

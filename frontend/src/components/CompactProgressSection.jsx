@@ -55,11 +55,11 @@ const CompactProgressSection = ({ data }) => {
                 <span className="text-sm text-slate-300 font-medium">Bobine</span>
                 <div className="flex items-center gap-2">
                   <Package className="w-4 h-4 text-cyan-400" />
-                  {/* BOBINE FATTE - PIÙ GRANDI */}
-                  <span className="text-2xl font-bold text-white">{current}</span>
-                  <span className="text-lg text-slate-400">/</span>
-                  {/* BOBINE TOTALI - GRANDI MA MENO */}
-                  <span className="text-xl font-bold text-slate-300">{total}</span>
+                  {/* BOBINE FATTE - ANCORA PIÙ GRANDI */}
+                  <span className="text-3xl font-bold text-white">{current}</span>
+                  <span className="text-xl text-slate-400">/</span>
+                  {/* BOBINE TOTALI - PIÙ GRANDI */}
+                  <span className="text-2xl font-bold text-slate-300">{total}</span>
                 </div>
               </div>
               
@@ -93,9 +93,9 @@ const CompactProgressSection = ({ data }) => {
                         <Zap className="w-4 h-4 text-blue-400" />
                         <div className="flex-1">
                           <div className="text-xs text-blue-300 font-medium mb-1">Velocità</div>
-                          <div className="text-lg font-bold text-blue-400">
-                            {velocita.toFixed(0)} <span className="text-xs text-blue-300 font-normal">m/min</span>
-                          </div>
+                  <div className="text-2xl font-bold text-blue-400 leading-tight">
+                    {velocita.toFixed(0)} <span className="text-sm text-blue-300 font-normal align-top">m/min</span>
+                  </div>
                         </div>
                       </div>
                     </div>
@@ -113,9 +113,9 @@ const CompactProgressSection = ({ data }) => {
                         <Gauge className="w-4 h-4 text-amber-400" />
                         <div className="flex-1">
                           <div className="text-xs text-amber-300 font-medium mb-1">Portata</div>
-                          <div className="text-lg font-bold text-amber-400">
-                            {portata.toFixed(0)} <span className="text-xs text-amber-300 font-normal">kg/h</span>
-                          </div>
+                  <div className="text-2xl font-bold text-amber-400 leading-tight">
+                    {portata.toFixed(0)} <span className="text-sm text-amber-300 font-normal align-top">kg/h</span>
+                  </div>
                         </div>
                       </div>
                     </div>

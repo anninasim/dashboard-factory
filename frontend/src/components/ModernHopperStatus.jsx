@@ -119,14 +119,9 @@ const ModernHopperCard = ({ hopperName, components, isEmpty = false }) => {
 
   return (
     <Card className="h-full bg-gradient-to-br from-slate-900/40 to-slate-800/40 border-slate-700/50 hover:border-slate-600/60 transition-all duration-300 hover:shadow-lg">
-      <CardHeader className="pb-3">
-        <div className="flex items-center justify-between">
-          <CardTitle className="text-sm font-bold text-white">{hopperName}</CardTitle>
-          <Badge variant="success" className="text-xs">
-            <CheckCircle className="w-3 h-3 mr-1" />
-            Attivo
-          </Badge>
-        </div>
+      <CardHeader className="pb-2">
+        <CardTitle className="text-base font-bold text-white flex items-center gap-2">{hopperName}</CardTitle>
+        <div className="border-b border-slate-600/40 mt-2" />
       </CardHeader>
       
       <CardContent className="space-y-3">
@@ -189,8 +184,8 @@ const ModernHopperStatus = ({ htmlString, isCompleted = false, machineName }) =>
       <Card className={`w-full h-80 bg-gradient-to-br from-slate-900/40 to-slate-800/40 border-slate-700/50 backdrop-blur-xl ${isCompleted ? 'opacity-60 grayscale' : ''}`}>
         <CardHeader className="pb-4">
           <div className="flex items-center justify-between">
-            <CardTitle className="text-xl font-bold text-white flex items-center gap-2">
-              <Factory className="w-5 h-5 text-cyan-400" />
+            <CardTitle className="text-sm font-bold text-white flex items-center gap-2">
+              <Factory className="w-4 h-4 text-cyan-400" />
               STATO HOPPER
             </CardTitle>
             <Tooltip>
@@ -206,7 +201,6 @@ const ModernHopperStatus = ({ htmlString, isCompleted = false, machineName }) =>
             </Tooltip>
           </div>
         </CardHeader>
-        
         <CardContent>
           <div className={`grid gap-3 h-48 ${getGridCols()}`}>
             {machineHoppers.map((hopperName, index) => {

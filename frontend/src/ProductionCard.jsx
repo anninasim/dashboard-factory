@@ -3,6 +3,7 @@ import ModernHopperStatus from './components/ModernHopperStatus';
 import CompactProgressSection from './components/CompactProgressSection';
 import ModernMaterialSpecs from './components/ModernMaterialSpecs';
 import ModernOrderInfo from './components/ModernOrderInfo';
+import { Loader2 } from 'lucide-react';
 
 // ✅ LOGICA CORRETTA: Solo stato PLC comanda, sensori ignorati
 const getStatus = (stato, azione, velocita, portata) => {
@@ -193,10 +194,27 @@ function ProductionCard({ data }) {
       {/* Header con stato e alert - DESIGN COMPATTO */}
       <div className="card-header-compact" style={{ 
         borderColor: stato.borderColor || stato.color,
-        backgroundColor: stato.bgColor || 'transparent'
+        backgroundColor: 'transparent',
+        position: 'relative',
+        overflow: 'hidden'
       }}>
-        <h2 className="machine-name">{data.fnt_sigla}</h2>
-        
+        {/* Gradient banner luminoso */}
+        <div
+          className="absolute inset-0 z-0 pointer-events-none"
+          style={{
+            background: 'linear-gradient(90deg, #00eaff 0%, #00ffd0 40%, #0a2540 100%)',
+            opacity: 0.22,
+            filter: 'blur(0.5px)'
+          }}
+        />
+        <h2 className="relative z-10 text-3xl font-extrabold tracking-tight text-cyan-200 uppercase flex-1 truncate machine-name px-3 py-1">
+          {/* Icona animata solo se IN PRODUZIONE o INIZIO PRODUZIONE */}
+          {(stato.label === '🟢 IN PRODUZIONE' || stato.label === '🔵 INIZIO PRODUZIONE') && (
+            <Loader2 className="inline-block mr-2 text-cyan-300 animate-spin-slow" style={{verticalAlign:'middle'}} size={28} />
+          )}
+          {data.fnt_sigla}
+        </h2>
+
         {/* Alert al centro se presente */}
         {messaggioAttDescr && (
           <div className="header-alert-center">
@@ -204,11 +222,17 @@ function ProductionCard({ data }) {
             <span className="alert-text-small">{messaggioAttDescr}</span>
           </div>
         )}
-        
         <span 
           className={`status-compact ${stato.animation !== 'none' ? stato.animation : ''}`}
           style={{ 
-            backgroundColor: stato.color
+            backgroundColor: 'transparent',
+            color: stato.color,
+            border: `2px solid ${stato.color}`,
+            borderRadius: '9999px',
+            fontWeight: 700,
+            padding: '0.25rem 1rem',
+            fontSize: '1rem',
+            boxShadow: 'none'
           }}
         >
           {stato.label}
