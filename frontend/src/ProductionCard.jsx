@@ -1,6 +1,6 @@
 import React from 'react';
 import ModernHopperStatus from './components/ModernHopperStatus';
-import ProgressSectionModern from './components/ProgressSectionModern';
+import CompactProgressSection from './components/CompactProgressSection';
 import ModernMaterialSpecs from './components/ModernMaterialSpecs';
 import ModernOrderInfo from './components/ModernOrderInfo';
 
@@ -215,7 +215,7 @@ function ProductionCard({ data }) {
         </span>
       </div>
 
-      <div className="card-body">
+      <div className="card-body space-y-4">
         {/* Sezione Ordine e Articolo MODERNA */}
         <ModernOrderInfo 
           data={data} 
@@ -228,8 +228,8 @@ function ProductionCard({ data }) {
           isCompleted={isProductionComplete}
         />
 
-        {/* 🆕 NUOVA SEZIONE PROGRESS MODERNA - DOPO MATERIAL SPECS */}
-        <ProgressSectionModern data={data} />
+        {/* 🆕 SEZIONE PROGRESS BILANCIATA */}
+        <CompactProgressSection data={data} />
 
         {/* Sezione Hopper MODERNA - SOTTO TUTTO */}
         <ModernHopperStatus 
