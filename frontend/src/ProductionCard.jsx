@@ -1,7 +1,6 @@
 import React from 'react';
-import LEDProgressBar from './LEDProgressBar';
-import KpiBox from './components/Kpibox';
 import HopperStatus from './components/HopperStatus';
+import ProgressSection from './components/ProgressSection';
 
 // ✅ LOGICA CORRETTA: Solo stato PLC comanda, sensori ignorati
 const getStatus = (stato, azione, velocita, portata) => {
@@ -245,42 +244,6 @@ const MaterialSpecs = ({ data, isCompleted }) => {
   );
 };
 
-// 🎨 FUNZIONE per determinare i colori KPI in base allo stato macchina
-const getKpiColor = (machineStatus, kpiType) => {
-  // Colori base per diversi tipi di KPI
-  const colorSchemes = {
-    velocity: {
-      active: '#4fc3f7',    // Azzurro per velocità attiva
-      inactive: '#666666',  // Grigio per velocità ferma
-      warning: '#ffc107',   // Giallo per velocità in allerta
-      error: '#f44336'      // Rosso per velocità in errore
-    },
-    flow: {
-      active: '#ffb74d',    // Arancione per portata attiva
-      inactive: '#666666',  // Grigio per portata ferma
-      warning: '#ffc107',   // Giallo per portata in allerta
-      error: '#f44336'      // Rosso per portata in errore
-    }
-  };
-
-  const scheme = colorSchemes[kpiType] || colorSchemes.velocity;
-
-  // Logica di colore basata sullo stato della macchina
-  if (machineStatus.includes('FERMA')) {
-    return scheme.inactive;
-  } else if (machineStatus.includes('IN PRODUZIONE')) {
-    return scheme.active;
-  } else if (machineStatus.includes('RIAVVIO')) {
-    return scheme.warning;
-  } else if (machineStatus.includes('SCARTO')) {
-    return scheme.error;
-  } else if (machineStatus.includes('INIZIO PRODUZIONE')) {
-    return scheme.active;
-  } else {
-    return scheme.inactive;  // Default per stati sconosciuti
-  }
-};
-
 function ProductionCard({ data }) {
   // ✅ STATO COMANDATO SOLO DAL PLC
   const stato = getStatus(
@@ -346,7 +309,6 @@ function ProductionCard({ data }) {
       className={`card ${stato.priority === 'critical' ? 'card-critical' : ''} ${isProductionComplete ? 'card-completed' : ''}`}
       style={{ 
         position: 'relative',
-        // 🆕 MODIFICA: Border teal quando produzione completata
         border: isProductionComplete ? '2px solid #1565c0' : undefined
       }}
     >
@@ -376,7 +338,7 @@ function ProductionCard({ data }) {
       </div>
 
       <div className="card-body">
-        {/* 📦 SEZIONE ORDINE E ARTICOLO - LAYOUT VERTICALE CON FONT RIDOTTO */}
+        {/* Sezione Ordine e Articolo */}
         <div className="order-article-vertical">
           {/* Box Ordine */}
           <div className="spec-item">
@@ -393,67 +355,24 @@ function ProductionCard({ data }) {
           </div>
         </div>
 
-        {/* 🆕 SEZIONE SPECIFICHE MATERIALE - RIPULITA E SEMPLIFICATA */}
+        {/* Sezione Specifiche Materiale */}
         <MaterialSpecs 
           data={data} 
           isCompleted={isProductionComplete}
         />
 
-        {/* 🎯 LAYOUT OTTIMIZZATO: 2 Colonne - Avanzamento + Performance */}
-        <div className={`progress-and-kpi-container ${isProductionComplete ? 'section-completed' : ''}`}>
-          
-          {/* SEZIONE SINISTRA: Bobine (62%) */}
-          <div className="metrics-box">
-            <div className="metrics-content">
-              <LEDProgressBar 
-                current={data.mntg_qta_lotti_attuale || 0}
-                total={data.mntg_qta_lotti || 0}
-                unit=""
-                machineStatus={stato.label}
-                machineColor={stato.color}
-                percentage={data.mntg_qta_lotti > 0 ? (data.mntg_qta_lotti_attuale / data.mntg_qta_lotti) * 100 : 0}
-              />
-            </div>
-          </div>
+        {/* 🆕 NUOVA SEZIONE PROGRESS - DOPO MATERIAL SPECS */}
+        <ProgressSection data={data} />
 
-          {/* SEZIONE DESTRA: Performance (32%) */}
-          <div className="metrics-box">
-            <div className="metrics-content">
-              <div className="kpi-stack">
-                <KpiBox 
-                  label="Velocità" 
-                  value={data.mntg_vel_ril || 0} 
-                  unit="mt/min" 
-                  icon="⚡" // 🆕 AGGIUNTA: Icona fulmine per velocità
-                  color={getKpiColor(stato.label, 'velocity')}
-                  background="#2a2a2a"
-                  border="#555"
-                />
-                <KpiBox 
-                  label="Portata" 
-                  value={data.mntg_portata_ril || 0} 
-                  unit="Kg/h" 
-                  icon="⚖️" // 🆕 AGGIUNTA: Icona bilancia per portata
-                  color={getKpiColor(stato.label, 'flow')}
-                  background="#2a2a2a"
-                  border="#555"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-
-{/* 🆕 SEZIONE HOPPER - SOTTO TUTTO, SEPARATA */}
-{data.stato_macchina_html && (
-  <HopperStatus 
-    htmlString={data.stato_macchina_html}
-    isCompleted={isProductionComplete}
-    machineName={data.fnt_sigla}
-  />
-)}
+        {/* Sezione Hopper - SOTTO TUTTO */}
+        <HopperStatus 
+          htmlString={data.stato_macchina_html || ''}
+          isCompleted={isProductionComplete}
+          machineName={data.fnt_sigla}
+        />
       </div>
 
-      {/* 🎯 BANNER COMPLETAMENTO - RIMANE FUORI DAL CARD-BODY */}
+      {/* Banner completamento */}
       {isProductionComplete && (
         <div className="completion-banner">
           <div className="completion-icon">✓</div>

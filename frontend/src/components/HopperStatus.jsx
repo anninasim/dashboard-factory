@@ -23,7 +23,7 @@ const getGridLayout = (hopperCount) => {
   }
 };
 
-// 🧠 PARSER HOPPER HTML PULITO - SENZA DEBUG
+// 🧠 PARSER HOPPER HTML PULITO
 const parseHopperHTML = (htmlString) => {
   if (!htmlString || !htmlString.trim()) {
     return {};
@@ -182,10 +182,10 @@ const HopperStatus = ({ htmlString, isCompleted = false, machineName }) => {
           box-sizing: border-box !important;
           width: 100% !important;
           
-          /* 🎯 PIÙ SPAZIO: Altezze aumentate del 22% */
-          min-height: 220px !important; /* 📺 ⬆️ AUMENTATO: da 180px a 220px (+22%) */
-          max-height: 220px !important;
-          height: 220px !important;
+          /* 🎯 PIÙ SPAZIO: Altezze aumentate significativamente */
+          min-height: 320px !important; /* 📺 ⬆️ AUMENTATO: da 280px a 320px (+14%) */
+          max-height: 320px !important;
+          height: 320px !important;
           
           overflow: visible !important;
           flex-shrink: 0 !important;
@@ -324,24 +324,53 @@ const HopperStatus = ({ htmlString, isCompleted = false, machineName }) => {
           color: #cccccc !important;
         }
 
-        /* 🧪 MATERIALI COMPATTI */
+        /* 🧪 MATERIALI COMPATTI CON AUTO-RESIZE INTELLIGENTE */
         .hopper-materials-compact {
           display: flex !important;
           flex-direction: column !important;
           gap: 0.2rem !important;
           flex: 1 !important;
-          overflow-y: auto !important;
+          overflow: hidden !important; /* 🚫 NASCONDE OVERFLOW */
+          max-height: calc(100% - 40px) !important; /* Calcola spazio disponibile */
+          min-height: 0 !important;
         }
 
         .material-component-compact {
           display: flex !important;
           justify-content: space-between !important;
-          align-items: center !important;
+          align-items: flex-start !important; /* Cambio da center per permettere wrap */
           padding: 0.15rem 0.3rem !important;
           background: rgba(255, 255, 255, 0.03) !important;
           border-radius: 0.2rem !important;
           border-left: 2px solid #00bcd4 !important;
           font-size: 0.85rem !important;
+          min-height: 1.2rem !important; /* Altezza minima */
+          flex-shrink: 0 !important;
+        }
+
+        /* 🎯 AUTO-RESIZE PROGRESSIVO: Riduce font quando ci sono molti componenti */
+        .hopper-materials-compact:has(.material-component-compact:nth-child(4)) .material-component-compact {
+          font-size: 0.75rem !important; /* 4+ componenti: riduci del 12% */
+          padding: 0.1rem 0.25rem !important;
+          min-height: 1rem !important;
+        }
+
+        .hopper-materials-compact:has(.material-component-compact:nth-child(6)) .material-component-compact {
+          font-size: 0.65rem !important; /* 6+ componenti: riduci del 24% */
+          padding: 0.08rem 0.2rem !important;
+          min-height: 0.9rem !important;
+        }
+
+        .hopper-materials-compact:has(.material-component-compact:nth-child(8)) .material-component-compact {
+          font-size: 0.55rem !important; /* 8+ componenti: riduci del 35% */
+          padding: 0.05rem 0.15rem !important;
+          min-height: 0.8rem !important;
+        }
+
+        .hopper-materials-compact:has(.material-component-compact:nth-child(10)) .material-component-compact {
+          font-size: 0.45rem !important; /* 10+ componenti: riduci del 47% */
+          padding: 0.03rem 0.1rem !important;
+          min-height: 0.7rem !important;
         }
 
         .material-name-compact {
@@ -349,17 +378,44 @@ const HopperStatus = ({ htmlString, isCompleted = false, machineName }) => {
           font-weight: 500 !important;
           flex: 1 !important;
           
-          /* 🆕 TEXT WRAPPING per contenuti lunghi */
+          /* 🆕 TEXT WRAPPING INTELLIGENTE */
           overflow: hidden !important;
           word-wrap: break-word !important;
           hyphens: auto !important;
-          line-height: 1.3 !important;
-          white-space: normal !important; /* Cambiato da nowrap */
+          line-height: 1.2 !important;
+          white-space: normal !important; /* ✅ PERMETTE IL WRAPPING */
+          max-width: 70% !important; /* Limita larghezza per fare spazio alla percentuale */
           
-          /* Limita a massimo 3 righe */
+          /* 📏 LIMITA A MASSIMO 3 RIGHE */
           display: -webkit-box !important;
           -webkit-line-clamp: 3 !important;
           -webkit-box-orient: vertical !important;
+        }
+
+        /* 🎯 AUTO-RESIZE per nomi materiali basato sul numero di componenti */
+        .hopper-materials-compact:has(.material-component-compact:nth-child(4)) .material-name-compact {
+          font-size: 0.7rem !important;
+          line-height: 1.1 !important;
+          -webkit-line-clamp: 2 !important; /* Riduci righe disponibili */
+        }
+
+        .hopper-materials-compact:has(.material-component-compact:nth-child(6)) .material-name-compact {
+          font-size: 0.6rem !important;
+          line-height: 1 !important;
+          -webkit-line-clamp: 2 !important;
+        }
+
+        .hopper-materials-compact:has(.material-component-compact:nth-child(8)) .material-name-compact {
+          font-size: 0.5rem !important;
+          line-height: 1 !important;
+          -webkit-line-clamp: 1 !important; /* Solo 1 riga per densità alta */
+        }
+
+        .hopper-materials-compact:has(.material-component-compact:nth-child(10)) .material-name-compact {
+          font-size: 0.4rem !important;
+          line-height: 1 !important;
+          -webkit-line-clamp: 1 !important;
+          max-width: 75% !important; /* Più spazio per testo più piccolo */
         }
 
         .material-percentage-compact {
@@ -368,6 +424,45 @@ const HopperStatus = ({ htmlString, isCompleted = false, machineName }) => {
           min-width: 2rem !important;
           text-align: right !important;
           flex-shrink: 0 !important;
+          line-height: 1.2 !important;
+        }
+
+        /* 🎯 AUTO-RESIZE per percentuali basato sul numero di componenti */
+        .hopper-materials-compact:has(.material-component-compact:nth-child(4)) .material-percentage-compact {
+          font-size: 0.7rem !important;
+          min-width: 1.8rem !important;
+        }
+
+        .hopper-materials-compact:has(.material-component-compact:nth-child(6)) .material-percentage-compact {
+          font-size: 0.6rem !important;
+          min-width: 1.5rem !important;
+        }
+
+        .hopper-materials-compact:has(.material-component-compact:nth-child(8)) .material-percentage-compact {
+          font-size: 0.5rem !important;
+          min-width: 1.2rem !important;
+        }
+
+        .hopper-materials-compact:has(.material-component-compact:nth-child(10)) .material-percentage-compact {
+          font-size: 0.4rem !important;
+          min-width: 1rem !important;
+        }
+
+        /* 🎯 AUTO-RESIZE GAP: Riduci gap verticali con l'aumentare della densità */
+        .hopper-materials-compact:has(.material-component-compact:nth-child(4)) {
+          gap: 0.15rem !important; /* Riduci gap a 4+ componenti */
+        }
+
+        .hopper-materials-compact:has(.material-component-compact:nth-child(6)) {
+          gap: 0.1rem !important; /* Riduci gap a 6+ componenti */
+        }
+
+        .hopper-materials-compact:has(.material-component-compact:nth-child(8)) {
+          gap: 0.05rem !important; /* Gap minimo a 8+ componenti */
+        }
+
+        .hopper-materials-compact:has(.material-component-compact:nth-child(10)) {
+          gap: 0.03rem !important; /* Gap ultra-minimo a 10+ componenti */
         }
 
         /* 🚫 STATO VUOTO */
@@ -395,9 +490,9 @@ const HopperStatus = ({ htmlString, isCompleted = false, machineName }) => {
         /* 📺 RESPONSIVE TV 4K - DIMENSIONI BILANCIATE (RIDOTTE) */
         @media (min-width: 3840px) {
           .hopper-status-section-fixed {
-            min-height: 240px !important; /* 📺 ⬇️ RIDOTTO: da 280px a 240px */
-            max-height: 240px !important;
-            height: 240px !important;
+            min-height: 360px !important; /* 📺 ⬆️ AUMENTATO: da 320px a 360px */
+            max-height: 360px !important;
+            height: 360px !important;
             padding: 1rem !important; /* 📺 ⬇️ RIDOTTO: da 1.2rem a 1rem */
           }
 
@@ -466,9 +561,9 @@ const HopperStatus = ({ htmlString, isCompleted = false, machineName }) => {
         /* 💻 DESKTOP */
         @media (max-width: 3839px) and (min-width: 1200px) {
           .hopper-status-section-fixed {
-            min-height: 160px !important;
-            max-height: 160px !important;
-            height: 160px !important;
+            min-height: 240px !important; /* ⬆️ AUMENTATO: da 200px a 240px */
+            max-height: 240px !important;
+            height: 240px !important;
           }
 
           .material-component-compact {
@@ -479,9 +574,9 @@ const HopperStatus = ({ htmlString, isCompleted = false, machineName }) => {
         /* 📱 MOBILE */
         @media (max-width: 1199px) {
           .hopper-status-section-fixed {
-            min-height: 140px !important;
-            max-height: 140px !important;
-            height: 140px !important;
+            min-height: 220px !important; /* ⬆️ AUMENTATO: da 180px a 220px */
+            max-height: 220px !important;
+            height: 220px !important;
           }
 
           /* Layout mobile: ottimizza per schermi piccoli */
@@ -498,7 +593,7 @@ const HopperStatus = ({ htmlString, isCompleted = false, machineName }) => {
 
           .material-component-compact {
             font-size: 0.75rem !important;
-            padding: 0.1rem 0.2rem !important;z
+            padding: 0.1rem 0.2rem !important;
           }
 
           .hopper-tag {

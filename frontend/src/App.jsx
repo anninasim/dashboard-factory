@@ -134,6 +134,7 @@ const ordinePersonalizzato = [
           flex: 1;
           overflow-y: auto;
           overflow-x: hidden;
+          position: relative;
         }
 
         /* Toggle discreto nell'angolo */
