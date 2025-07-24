@@ -1,12 +1,16 @@
 {
-  "name": "frontend",
+  "name": "dashboard-factory",
   "version": "1.0.0",
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview"
+    "start": "concurrently \"npm run backend\" \"npm run frontend\"",
+    "backend": "cd backend && npm start",
+    "frontend": "cd frontend && npm run dev",
+    "dev": "npm start",
+    "build": "cd frontend && npm run build",
+    "preview": "cd frontend && npm run preview"
   },
   "dependencies": {
+    "concurrently": "^8.2.2",
     "framer-motion": "^12.23.6",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

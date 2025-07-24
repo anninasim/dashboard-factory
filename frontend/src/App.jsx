@@ -2,27 +2,47 @@ import { useEffect, useState } from 'react';
 import './App.css';
 import ProductionCard from './ProductionCard';
 import FlowChartsPage from '../FlowChartsPage';
+// import { useApiPolling } from './hooks/useApiPolling'; // Temporaneamente disabilitato
 
 function App() {
   const [dati, setDati] = useState([]);
   const [currentPage, setCurrentPage] = useState('dashboard'); // 'dashboard' | 'flow-charts'
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [lastUpdate, setLastUpdate] = useState(null);
+  const [connectionStatus, setConnectionStatus] = useState('connecting'); // 'connecting' | 'connected' | 'error'
 
   // ⏱️ Intervallo di polling configurabile
   const POLLING_INTERVAL_MS = 30000; // 30 secondi per dashboard produzione
 
+  // 🚀 IMPLEMENTAZIONE DIRETTA (TEMPORANEA) per risolvere errori
+  // const {
+  //   data: rawData,
+  //   loading,
+  //   error,
+  //   lastUpdate,
+  //   connectionStatus,
+  //   refresh
+  // } = useApiPolling(
+  //   'http://localhost:3001/api/dashboard',
+  //   30000, // 30 secondi
+  //   currentPage === 'dashboard' // Solo quando siamo nella dashboard
+  // );
+
   // 🎯 FUNZIONE ORDINAMENTO PERSONALIZZATO per le card della dashboard
   const ordinaMacchine = (dati) => {
     // ⭐ Ordinamento personalizzato FISSO secondo la sequenza richiesta
-const ordinePersonalizzato = [
-  'TR80',       // ← fnt_ordina: 1
-  'TR100C',     // ← fnt_ordina: 2
-  'TR160',      // ← fnt_ordina: 3
-  'TR120A',     // ← fnt_ordina: 4
-  'TR120B',     // ← fnt_ordina: 5
-  'TR100B',     // ← fnt_ordina: 6
-  'TR100A',     // ← fnt_ordina: 7
-  'COEX7s'      // ← Non nella tabella, alla fine
-];
+    const ordinePersonalizzato = [
+      'TR80',       // ← fnt_ordina: 1
+      'TR100C',     // ← fnt_ordina: 2
+      'TR160',      // ← fnt_ordina: 3
+      'TR120A',     // ← fnt_ordina: 4
+      'TR120B',     // ← fnt_ordina: 5
+      'TR100B',     // ← fnt_ordina: 6
+      'TR100A',     // ← fnt_ordina: 7
+      'COEX7s'      // ← Non nella tabella, alla fine
+    ];
+
     // Funzione helper per normalizzare i nomi delle macchine
     const normalizzaNome = (nome) => {
       return nome?.toString().trim().toUpperCase() || '';
@@ -50,19 +70,41 @@ const ordinePersonalizzato = [
     });
   };
 
+  // 🎯 Applica ordinamento ai dati (ora dati è già lo stato principale)
+  // const dati = ordinaMacchine(rawData || []); // RIMOSSO: conflitto variabile
+
   useEffect(() => {
     // Fetch dati solo per la dashboard di produzione
     if (currentPage === 'dashboard') {
       const fetchData = async () => {
         try {
+          setConnectionStatus('connecting');
           const res = await fetch('http://localhost:3001/api/dashboard');
+          
+          if (!res.ok) {
+            throw new Error(`HTTP error! status: ${res.status}`);
+          }
+          
           const data = await res.json();
           
           // 🎯 APPLICA L'ORDINAMENTO PERSONALIZZATO
           const datiOrdinati = ordinaMacchine(data);
           setDati(datiOrdinati);
+          setError(null);
+          setConnectionStatus('connected');
+          setLastUpdate(new Date());
+          
+          console.log(`✅ Dati aggiornati: ${data.length} macchine`, {
+            timestamp: new Date().toLocaleTimeString(),
+            macchine: data.map(d => d.fnt_sigla)
+          });
+          
         } catch (err) {
-          console.error('Errore nel recupero dati:', err);
+          console.error('❌ Errore nel recupero dati:', err);
+          setError(err.message);
+          setConnectionStatus('error');
+        } finally {
+          setLoading(false);
         }
       };
 
@@ -72,16 +114,83 @@ const ordinePersonalizzato = [
     }
   }, [currentPage]);
 
+  // Funzione refresh manuale
+  const refresh = () => {
+    setLoading(true);
+    setError(null);
+    // Triggera il re-fetch cambiando lo stato
+    if (currentPage === 'dashboard') {
+      window.location.reload(); // Fallback temporaneo
+    }
+  };
+
   // Renderizza la pagina corrente
   const renderCurrentPage = () => {
+    // Loading state
+    if (loading && currentPage === 'dashboard') {
+      return (
+        <div className="loading-container">
+          <div className="loading-spinner"></div>
+          <div className="loading-text">Caricamento dati dashboard...</div>
+        </div>
+      );
+    }
+
+    // Error state
+    if (error && currentPage === 'dashboard') {
+      return (
+        <div className="error-container">
+          <div className="error-icon">⚠️</div>
+          <div className="error-text">Errore connessione API</div>
+          <div className="error-details">{error}</div>
+          <button 
+            onClick={refresh} 
+            className="retry-button"
+          >
+            Riprova
+          </button>
+        </div>
+      );
+    }
+
     switch (currentPage) {
       case 'dashboard':
         return (
-          <div className="dashboard-grid">
-            {dati.map((riga, i) => (
-              <ProductionCard key={i} data={riga} />
-            ))}
-          </div>
+          <>
+            {/* Status Header */}
+            <div className="status-header">
+              <div className="status-left">
+                <div className="connection-indicator">
+                  <div className={`connection-dot ${connectionStatus}`}></div>
+                  <span className="connection-text">
+                    {connectionStatus === 'connected' && '✅ Connesso'}
+                    {connectionStatus === 'connecting' && '🔄 Connessione...'}
+                    {connectionStatus === 'error' && '❌ Errore'}
+                  </span>
+                </div>
+                <div className="machine-count">
+                  {dati.length} macchine monitorate
+                </div>
+              </div>
+              <div className="status-right">
+                {lastUpdate && (
+                  <div className="last-update">
+                    Ultimo aggiornamento: {lastUpdate.toLocaleTimeString()}
+                  </div>
+                )}
+                <div className="auto-refresh">
+                  🔄 Auto-refresh ogni 30s
+                </div>
+              </div>
+            </div>
+
+            {/* Dashboard Grid */}
+            <div className="dashboard-grid">
+              {dati.map((riga, i) => (
+                <ProductionCard key={i} data={riga} />
+              ))}
+            </div>
+          </>
         );
       
       case 'flow-charts':
@@ -258,6 +367,192 @@ const ordinePersonalizzato = [
           .toggle-label {
             font-size: 0.75rem;
             padding: 3px 6px;
+          }
+        }
+
+        /* ✨ NUOVI STILI: Status Header e Indicatori */
+        .status-header {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding: 16px 32px;
+          background: linear-gradient(135deg, rgba(30, 30, 30, 0.9), rgba(40, 40, 40, 0.9));
+          border-bottom: 1px solid #333;
+          backdrop-filter: blur(10px);
+          color: white;
+          font-size: 0.9rem;
+        }
+
+        .status-left {
+          display: flex;
+          align-items: center;
+          gap: 24px;
+        }
+
+        .status-right {
+          display: flex;
+          align-items: center;
+          gap: 24px;
+          font-size: 0.8rem;
+          color: #ccc;
+        }
+
+        .connection-indicator {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+        }
+
+        .connection-dot {
+          width: 8px;
+          height: 8px;
+          border-radius: 50%;
+          animation: pulse 2s infinite;
+        }
+
+        .connection-dot.connected {
+          background: #4caf50;
+          box-shadow: 0 0 8px rgba(76, 175, 80, 0.6);
+        }
+
+        .connection-dot.connecting {
+          background: #ff9800;
+          box-shadow: 0 0 8px rgba(255, 152, 0, 0.6);
+        }
+
+        .connection-dot.error {
+          background: #f44336;
+          box-shadow: 0 0 8px rgba(244, 67, 54, 0.6);
+          animation: blink 1s infinite;
+        }
+
+        .machine-count {
+          background: rgba(0, 188, 212, 0.2);
+          padding: 4px 12px;
+          border-radius: 12px;
+          border: 1px solid rgba(0, 188, 212, 0.3);
+          color: #00bcd4;
+          font-weight: 600;
+        }
+
+        .last-update {
+          color: #4caf50;
+        }
+
+        .auto-refresh {
+          color: #00bcd4;
+        }
+
+        /* Loading State */
+        .loading-container {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          height: 50vh;
+          color: white;
+        }
+
+        .loading-spinner {
+          width: 40px;
+          height: 40px;
+          border: 4px solid #333;
+          border-top: 4px solid #00bcd4;
+          border-radius: 50%;
+          animation: spin 1s linear infinite;
+          margin-bottom: 16px;
+        }
+
+        .loading-text {
+          font-size: 1.1rem;
+          color: #ccc;
+        }
+
+        /* Error State */
+        .error-container {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          height: 50vh;
+          color: white;
+          text-align: center;
+        }
+
+        .error-icon {
+          font-size: 3rem;
+          margin-bottom: 16px;
+        }
+
+        .error-text {
+          font-size: 1.2rem;
+          color: #f44336;
+          margin-bottom: 8px;
+        }
+
+        .error-details {
+          font-size: 0.9rem;
+          color: #ccc;
+          margin-bottom: 24px;
+          max-width: 500px;
+        }
+
+        .retry-button {
+          background: linear-gradient(135deg, #f44336, #d32f2f);
+          color: white;
+          border: none;
+          padding: 12px 24px;
+          border-radius: 6px;
+          cursor: pointer;
+          font-size: 1rem;
+          transition: all 0.3s ease;
+        }
+
+        .retry-button:hover {
+          background: linear-gradient(135deg, #d32f2f, #c62828);
+          transform: translateY(-2px);
+        }
+
+        /* Animations */
+        @keyframes pulse {
+          0% {
+            transform: scale(1);
+            opacity: 1;
+          }
+          50% {
+            transform: scale(1.2);
+            opacity: 0.7;
+          }
+          100% {
+            transform: scale(1);
+            opacity: 1;
+          }
+        }
+
+        @keyframes blink {
+          0%, 50% {
+            opacity: 1;
+          }
+          51%, 100% {
+            opacity: 0.3;
+          }
+        }
+
+        @keyframes spin {
+          0% { transform: rotate(0deg); }
+          100% { transform: rotate(360deg); }
+        }
+
+        /* Responsive Status Header */
+        @media (max-width: 768px) {
+          .status-header {
+            padding: 12px 16px;
+            flex-direction: column;
+            gap: 12px;
+          }
+
+          .status-left, .status-right {
+            gap: 16px;
           }
         }
       `}</style>

@@ -1,6 +1,6 @@
 import React from 'react';
-import HopperStatus from './components/HopperStatus';
-import ProgressSection from './components/ProgressSection';
+import ModernHopperStatus from './components/ModernHopperStatus';
+import ProgressSectionModern from './components/ProgressSectionModern';
 
 // ✅ LOGICA CORRETTA: Solo stato PLC comanda, sensori ignorati
 const getStatus = (stato, azione, velocita, portata) => {
@@ -361,11 +361,11 @@ function ProductionCard({ data }) {
           isCompleted={isProductionComplete}
         />
 
-        {/* 🆕 NUOVA SEZIONE PROGRESS - DOPO MATERIAL SPECS */}
-        <ProgressSection data={data} />
+        {/* 🆕 NUOVA SEZIONE PROGRESS MODERNA - DOPO MATERIAL SPECS */}
+        <ProgressSectionModern data={data} />
 
-        {/* Sezione Hopper - SOTTO TUTTO */}
-        <HopperStatus 
+        {/* Sezione Hopper MODERNA - SOTTO TUTTO */}
+        <ModernHopperStatus 
           htmlString={data.stato_macchina_html || ''}
           isCompleted={isProductionComplete}
           machineName={data.fnt_sigla}
