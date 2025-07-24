@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Manuale Dashboard Industriale</title>
+  <style>
+    body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #101624; color: #fff; margin: 0; padding: 0; }
+    .container { max-width: 900px; margin: 0 auto; padding: 2rem; background: #181f2b; border-radius: 1rem; box-shadow: 0 2px 16px #0008; }
+    h1, h2, h3 { color: #90caf9; }
+    h1 { border-bottom: 2px solid #3a4a6a; padding-bottom: 0.5rem; }
+    code, pre { background: #232b3a; color: #90caf9; border-radius: 0.3rem; padding: 0.2rem 0.4rem; }
+    ul, ol { margin-left: 1.5rem; }
+    .section { margin-bottom: 2.5rem; }
+    .tip { background: #22304a; color: #ffb74d; padding: 0.5rem 1rem; border-left: 4px solid #ffb74d; border-radius: 0.3rem; margin: 1rem 0; }
+    a { color: #90caf9; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Manuale di Manutenzione e Modifica<br>Dashboard Industriale</h1>
+    <div class="section">
+      <h2>1. Architettura del Progetto</h2>
+      <ul>
+        <li><b>frontend/</b>: Tutto il codice React, CSS, componenti UI.</li>
+        <li><b>backend/</b>: API Node.js (se usate), gestione dati.</li>
+        <li><b>App.css</b>: Regole di stile globali e industriali.</li>
+        <li><b>Componenti principali:</b> <code>ProductionCard.jsx</code>, <code>Navigation.jsx</code>, <code>LEDProgressBar.jsx</code>, <code>components/</code> (KPI, HopperStatus, ecc).</li>
+      </ul>
+    </div>
+    <div class="section">
+      <h2>2. Struttura della Dashboard</h2>
+      <ul>
+        <li>Layout a <b>griglia 4x2</b> (8 card visibili su TV 4K).</li>
+        <li>Ogni <b>card</b> rappresenta una macchina, linea o sezione.</li>
+        <li>Header compatto (<code>.card-header-compact</code>) con nome macchina, stato, alert.</li>
+        <li>Body (<code>.card-body</code>) con KPI, progressi, dati produzione.</li>
+      </ul>
+    </div>
+    <div class="section">
+      <h2>3. Regole di Stile e Palette</h2>
+      <ul>
+        <li>Palette <b>industriale</b>: blu/grigio molto scuri, bordi visibili ma sobri.</li>
+        <li>Usa <code>App.css</code> per modificare colori, spaziature, bordi.</li>
+        <li>Header card: <code>background: #040509</code>, <b>niente gradienti</b>, bordo <code>#3a4a6a</code>, radius 0.6rem.</li>
+        <li>Font: <b>Segoe UI</b> per leggibilità su grandi schermi.</li>
+        <li>Evita colori accesi o effetti "gaming".</li>
+      </ul>
+    </div>
+    <div class="section">
+      <h2>4. Componenti React: Dove e Come Modificare</h2>
+      <ul>
+        <li><b>ProductionCard.jsx</b>: logica e layout di ogni card.<br>
+          <b>Props principali:</b> dati macchina, KPI, stato, alert.<br>
+          <b>State:</b> solo per gestire animazioni/transizioni locali.<br>
+          <b>Esempio aggiunta KPI:</b><br>
+          <code>{`{/* Nel body della card */}`}</code><br>
+          <code>{`<div className="kpi-item-clean">Velocità: {props.velocita} m/min</div>`}</code>
+        </li>
+        <li><b>LEDProgressBar.jsx</b>: barra di avanzamento industriale.<br>
+          <b>Props:</b> percentuale, colore, stato.<br>
+          <b>Modifica:</b> Cambia la logica di calcolo o lo stile della barra.</li>
+        <li><b>AnimatedCounter.jsx</b>: (se presente) per contatori animati.<br>
+          <b>Props:</b> value (numero da animare), duration (ms).<br>
+          <b>Esempio:</b> <code>{`<AnimatedCounter value={props.velocita} duration={800} />`}</code></li>
+        <li><b>KpiBox.jsx</b>: box KPI compatti.<br>
+          <b>Props:</b> label, value, unit.</li>
+        <li>Per aggiungere un nuovo KPI, modifica <code>ProductionCard.jsx</code> e aggiungi il dato nel body.<br>
+          <b>Consiglio:</b> Usa sempre le classi <code>kpi-item-clean</code> o <code>kpi-value-industrial</code> per coerenza.</li>
+        <li>Per cambiare la disposizione, agisci su <code>dashboard-grid</code> in <code>App.css</code>.<br>
+          <b>Esempio:</b> <code>grid-template-columns: repeat(4, 1fr);</code></li>
+      </ul>
+      <div class="tip">Tip: Se aggiungi un nuovo KPI, aggiorna anche la logica di calcolo dei dati in React e verifica che il CSS sia coerente.</div>
+      <h3>Glossario Classi CSS Principali</h3>
+      <ul>
+        <li><code>.dashboard-grid</code>: layout principale a griglia</li>
+        <li><code>.card</code>: contenitore base di ogni sezione</li>
+        <li><code>.card-header-compact</code>: header scuro, bordo visibile, layout compatto</li>
+        <li><code>.machine-name</code>: nome macchina, testo grande e leggibile</li>
+        <li><code>.kpi-item-clean</code>: box KPI pulito</li>
+        <li><code>.progress-bar-industrial</code>: barra avanzamento industriale</li>
+        <li><code>.status-compact</code>: badge stato macchina</li>
+      </ul>
+      <h3>FAQ e Problemi Comuni</h3>
+      <ul>
+        <li><b>Non vedo le modifiche CSS:</b> Forza il refresh del browser (Ctrl+F5) e controlla che il file <code>App.css</code> sia importato in <code>main.jsx</code>.</li>
+        <li><b>Un KPI non si aggiorna:</b> Verifica che il dato sia passato come prop e che non ci siano errori di sintassi.</li>
+        <li><b>La dashboard non si adatta allo schermo:</b> Controlla <code>dashboard-grid</code> e le media query in <code>App.css</code>.</li>
+        <li><b>Un'animazione non parte:</b> Verifica che la classe CSS sia applicata o che il componente animato riceva i dati corretti.</li>
+      </ul>
+      <h3>Esempi Pratici di Modifica</h3>
+      <ul>
+        <li><b>Aggiungere un nuovo KPI:</b><br>
+          <code>{`<div className="kpi-item-clean">Nuovo KPI: {props.nuovoKpi}</div>`}</code></li>
+        <li><b>Cambiare colore header card:</b><br>
+          Modifica <code>background</code> in <code>.card-header-compact</code> su <code>App.css</code>.</li>
+        <li><b>Modificare la progress bar:</b><br>
+          Cambia <code>background</code> o <code>border</code> in <code>.progress-bar-industrial</code>.</li>
+      </ul>
+    </div>
+    <div class="section">
+      <h2>5. Best Practice di Modifica</h2>
+      <ul>
+        <li>Usa sempre <b>classi CSS già esistenti</b> per coerenza visiva.</li>
+        <li>Per nuovi effetti, mantieni <b>sobrietà</b> e <b>leggibilità</b>.</li>
+        <li>Testa le modifiche su schermi grandi (TV 4K) e piccoli.</li>
+        <li>Per animazioni, preferisci <b>CSS keyframes</b> o <b>Framer Motion</b> solo se necessario.</li>
+        <li>Commenta sempre le modifiche importanti nel codice.</li>
+      </ul>
+      <div class="tip">Tip: Per cambiare i colori di una card, modifica solo le proprietà <code>background</code> e <code>border</code> della relativa classe in <b>App.css</b>.</div>
+    </div>
+    <div class="section">
+      <h2>6. Dove trovare e modificare le animazioni</h2>
+      <ul>
+        <li>Animazioni base: <code>@keyframes</code> in <b>App.css</b> (es. <code>spin-slow</code>, <code>slowPulse</code>).</li>
+        <li>Per aggiungere animazioni a numeri/KPI: crea o modifica <code>AnimatedCounter.jsx</code>.</li>
+        <li>Per effetti "pulse" su icone: usa la classe <code>.slowPulse</code> o <code>.fastPulse</code>.</li>
+      </ul>
+    </div>
+    <div class="section">
+      <h2>7. Debug e Manutenzione</h2>
+      <ul>
+        <li>Se la dashboard non si aggiorna, controlla i dati in ingresso e lo stato dei componenti React.</li>
+        <li>Per problemi di stile, verifica <code>App.css</code> e le classi usate nei componenti.</li>
+        <li>Usa <b>console.log</b> per il debug di dati e props.</li>
+        <li>Per errori di build, controlla <code>package.json</code> e le dipendenze.</li>
+      </ul>
+    </div>
+    <div class="section">
+      <h2>8. Consigli per Estendere la Dashboard</h2>
+      <ul>
+        <li>Per aggiungere nuove card: duplica e adatta <code>ProductionCard.jsx</code>.</li>
+        <li>Per nuovi KPI: aggiungi la logica nel componente e lo stile in <code>App.css</code>.</li>
+        <li>Per cambiare la palette: modifica solo i colori principali in <code>App.css</code>.</li>
+        <li>Per mantenere performance: evita animazioni pesanti e troppe immagini.</li>
+      </ul>
+    </div>
+    <div class="section">
+      <h2>9. Riferimenti Utili</h2>
+      <ul>
+        <li><a href="https://react.dev/" target="_blank">Documentazione React</a></li>
+        <li><a href="https://tailwindcss.com/docs" target="_blank">Tailwind CSS</a></li>
+        <li><a href="https://lucide.dev/icons/" target="_blank">Lucide Icons</a></li>
+        <li><a href="https://ui.shadcn.com/" target="_blank">shadcn/ui</a></li>
+      </ul>
+    </div>
+    <div class="section">
+      <h2>10. Contatti e Supporto</h2>
+      <p>Per domande o manutenzione avanzata, contatta il tuo sviluppatore di fiducia o consulta la documentazione ufficiale delle librerie usate.</p>
+    </div>
+  </div>
+</body>
+</html>
