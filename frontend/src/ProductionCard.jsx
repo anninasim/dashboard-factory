@@ -1,6 +1,8 @@
 import React from 'react';
 import ModernHopperStatus from './components/ModernHopperStatus';
 import ProgressSectionModern from './components/ProgressSectionModern';
+import ModernMaterialSpecs from './components/ModernMaterialSpecs';
+import ModernOrderInfo from './components/ModernOrderInfo';
 
 // ✅ LOGICA CORRETTA: Solo stato PLC comanda, sensori ignorati
 const getStatus = (stato, azione, velocita, portata) => {
@@ -138,112 +140,6 @@ const getStatus = (stato, azione, velocita, portata) => {
   };
 };
 
-// 🎯 Componente ottimizzato per le specifiche tecniche del materiale - LAYOUT 3x2
-const MaterialSpecs = ({ data, isCompleted }) => {
-  // Funzione helper per formattare i valori numerici senza decimali inutili
-  const formatNumber = (value) => {
-    // Se il valore è null, undefined o non numerico, ritorna '-'
-    if (value === null || value === undefined || isNaN(value)) return '-';
-    
-    // Converte in numero se è una stringa numerica
-    const numValue = typeof value === 'string' ? parseFloat(value) : value;
-    
-    // Se è NaN dopo la conversione, ritorna '-'
-    if (isNaN(numValue)) return '-';
-    
-    // Se è un numero intero, mostralo senza decimali
-    if (Number.isInteger(numValue)) {
-      return numValue.toString();
-    }
-    
-    // Se ha decimali, rimuovi gli zeri finali inutili
-    return numValue.toString();
-  };
-
-  // 🆕 NUOVA LOGICA: Prepara tutti i 6 campi per layout 3x2
-  const allFields = [
-    // Prima riga (3 campi)
-    {
-      icon: '⚗️',
-      label: 'Miscela',
-      value: data.mntg_codice_ricetta || '-',
-      key: 'miscela'
-    },
-    {
-      icon: '⚖️',
-      label: 'Kg Totali',
-      value: `${formatNumber(data.mntg_qta_ini)} kg`,
-      key: 'kg_totali'
-    },
-    {
-      icon: '📏',
-      label: 'Larghezza',
-      value: data.larghezza ? `${formatNumber(data.larghezza)} mt` : '-',
-      key: 'larghezza'
-    },
-    // Seconda riga (3 campi)
-    {
-      icon: '📐',
-      label: 'Spessore',
-      value: data.spessore_micron ? `${formatNumber(data.spessore_micron)} μm` : '-',
-      key: 'spessore'
-    },
-    {
-      icon: '⚖️',
-      label: 'Kg unitari',
-      value: data.qta_uni_kg ? `${formatNumber(data.qta_uni_kg)} kg` : '-',
-      key: 'kg_unitari'
-    },
-    {
-      icon: '📏',
-      label: 'Metri unitari',
-      value: data.qta_uni_ml ? `${formatNumber(data.qta_uni_ml)} mt` : '-',
-      key: 'metri_unitari'
-    }
-  ];
-
-  // 🆕 Divide i campi in 2 righe da 3
-  const firstRow = allFields.slice(0, 3);  // Miscela, Kg Totali, Larghezza
-  const secondRow = allFields.slice(3, 6); // Spessore, Kg unitari, Metri unitari
-
-  return (
-    <div className={`material-specs-section ${isCompleted ? 'completed' : ''}`}>
-      {/* Header della sezione - INVARIATO */}
-      <div className="material-specs-header">
-        <span className="material-icon">🔬</span>
-        <span className="material-title">Specifiche Materiale</span>
-      </div>
-
-      {/* 🆕 NUOVA STRUTTURA: Griglia unificata 3x2 */}
-      <div className="material-specs-grid-3x2">
-        
-        {/* 🆕 PRIMA RIGA: Miscela, Kg Totali, Larghezza */}
-        <div className="spec-row-3col">
-          {firstRow.map((field, index) => (
-            <div key={field.key} className="spec-item-3col">
-              <span className="spec-icon">{field.icon}</span>
-              <span className="spec-label">{field.label}</span>
-              <span className="spec-value-key">{field.value}</span>
-            </div>
-          ))}
-        </div>
-
-        {/* 🆕 SECONDA RIGA: Spessore, Kg unitari, Metri unitari */}
-        <div className="spec-row-3col">
-          {secondRow.map((field, index) => (
-            <div key={field.key} className="spec-item-3col">
-              <span className="spec-icon">{field.icon}</span>
-              <span className="spec-label">{field.label}</span>
-              <span className="spec-value-key">{field.value}</span>
-            </div>
-          ))}
-        </div>
-
-      </div>
-    </div>
-  );
-};
-
 function ProductionCard({ data }) {
   // ✅ STATO COMANDATO SOLO DAL PLC
   const stato = getStatus(
@@ -280,24 +176,6 @@ function ProductionCard({ data }) {
     } catch (error) {
       return { date: '', time: '' };
     }
-  };
-
-  // ⭐ Combina articolo e descrizione in un unico campo
-  const articoloCompleto = () => {
-    const articolo = data.mntg_articolo || '';
-    const descrizione = data.mntg_descr_articolo 
-      ? data.mntg_descr_articolo.split('*')[0].trim() 
-      : '';
-    
-    // Se abbiamo entrambi, li combiniamo con un trattino
-    if (articolo && descrizione) {
-      return `${articolo} - ${descrizione}`;
-    }
-    // Se abbiamo solo uno dei due, mostriamo quello disponibile
-    if (articolo) return articolo;
-    if (descrizione) return descrizione;
-    // Se non abbiamo nessuno dei due, mostriamo un placeholder
-    return '-';
   };
 
   const messaggioAttDescr = data.att_descr
@@ -338,25 +216,14 @@ function ProductionCard({ data }) {
       </div>
 
       <div className="card-body">
-        {/* Sezione Ordine e Articolo */}
-        <div className="order-article-vertical">
-          {/* Box Ordine */}
-          <div className="spec-item">
-            <span className="spec-icon">📋</span>
-            <span className="spec-label">Ordine</span>
-            <span className="spec-value-key">{data.fp_schedula_completo || '-'}</span>
-          </div>
-          
-          {/* Box Articolo */}
-          <div className="spec-item">
-            <span className="spec-icon">🏷️</span>
-            <span className="spec-label">Articolo</span>
-            <span className="spec-value-key">{articoloCompleto()}</span>
-          </div>
-        </div>
+        {/* Sezione Ordine e Articolo MODERNA */}
+        <ModernOrderInfo 
+          data={data} 
+          isCompleted={isProductionComplete}
+        />
 
-        {/* Sezione Specifiche Materiale */}
-        <MaterialSpecs 
+        {/* Sezione Specifiche Materiale MODERNA */}
+        <ModernMaterialSpecs 
           data={data} 
           isCompleted={isProductionComplete}
         />

@@ -156,41 +156,11 @@ function App() {
     switch (currentPage) {
       case 'dashboard':
         return (
-          <>
-            {/* Status Header */}
-            <div className="status-header">
-              <div className="status-left">
-                <div className="connection-indicator">
-                  <div className={`connection-dot ${connectionStatus}`}></div>
-                  <span className="connection-text">
-                    {connectionStatus === 'connected' && '✅ Connesso'}
-                    {connectionStatus === 'connecting' && '🔄 Connessione...'}
-                    {connectionStatus === 'error' && '❌ Errore'}
-                  </span>
-                </div>
-                <div className="machine-count">
-                  {dati.length} macchine monitorate
-                </div>
-              </div>
-              <div className="status-right">
-                {lastUpdate && (
-                  <div className="last-update">
-                    Ultimo aggiornamento: {lastUpdate.toLocaleTimeString()}
-                  </div>
-                )}
-                <div className="auto-refresh">
-                  🔄 Auto-refresh ogni 30s
-                </div>
-              </div>
-            </div>
-
-            {/* Dashboard Grid */}
-            <div className="dashboard-grid">
-              {dati.map((riga, i) => (
-                <ProductionCard key={i} data={riga} />
-              ))}
-            </div>
-          </>
+          <div className="dashboard-grid">
+            {dati.map((riga, i) => (
+              <ProductionCard key={i} data={riga} />
+            ))}
+          </div>
         );
       
       case 'flow-charts':
