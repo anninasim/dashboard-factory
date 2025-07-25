@@ -33,7 +33,7 @@ const ModernOrderInfo = ({ data, isCompleted }) => {
         <div className="flex items-center justify-between px-3 py-1.5">
           <div className="flex items-center gap-1.5">
             <ClipboardList className="w-3.5 h-3.5 text-blue-400" />
-            <span className="text-xs font-bold text-white">ORDINE</span>
+            <span className="text-base font-bold text-white">ORDINE</span>
           </div>
           
           {/* ORDINE E ARTICOLO TUTTO INLINE */}
@@ -43,7 +43,7 @@ const ModernOrderInfo = ({ data, isCompleted }) => {
               <TooltipTrigger asChild>
                 <div className="flex items-center gap-1 bg-slate-800/50 rounded border border-slate-600/30 hover:border-blue-400/50 transition-all duration-200 px-2 py-0.5">
                   <ClipboardList className="w-3 h-3 text-blue-400" />
-                  <span className="text-xs font-bold text-blue-300">{ordineValue}</span>
+                  <span className="text-base font-bold text-blue-300">{ordineValue}</span>
                 </div>
               </TooltipTrigger>
               <TooltipContent>
@@ -59,7 +59,7 @@ const ModernOrderInfo = ({ data, isCompleted }) => {
               <TooltipTrigger asChild>
                 <div className="flex items-center gap-1 bg-slate-800/50 rounded border border-slate-600/30 hover:border-green-400/50 transition-all duration-200 px-2 py-0.5 max-w-xs">
                   <Package className="w-3 h-3 text-green-400" />
-                  <span className="text-xs font-bold text-green-300 truncate">{articoloValue}</span>
+                  <span className="text-base font-bold text-green-300 truncate">{articoloValue}</span>
                 </div>
               </TooltipTrigger>
               <TooltipContent>

@@ -68,7 +68,7 @@ const ModernMaterialSpecs = ({ data, isCompleted }) => {
         <div className="flex items-center justify-between px-3 py-1.5 border-b border-slate-600/30">
           <div className="flex items-center gap-1.5">
             <Beaker className="w-3.5 h-3.5 text-purple-400" />
-            <span className="text-xs font-bold text-white">SPECIFICHE MATERIALE</span>
+            <span className="text-base font-bold text-white">SPECIFICHE MATERIALE</span>
           </div>
           <div className="flex items-center gap-2">
             {/* MISCELA NEL HEADER */}
@@ -76,12 +76,12 @@ const ModernMaterialSpecs = ({ data, isCompleted }) => {
               <TooltipTrigger asChild>
                 <div className="flex items-center gap-1.5 bg-slate-800/50 rounded border border-slate-600/30 hover:border-purple-400/50 transition-all duration-200 px-2 py-1">
                   <Beaker className="w-3 h-3 text-purple-400" />
-                  <span className="text-xs font-medium text-slate-400">Miscela:</span>
-                  <span className="text-xs font-bold text-purple-300">{miscelaData.value}</span>
+                  <span className="text-base font-medium text-slate-400">Miscela:</span>
+                  <span className="text-base font-bold text-purple-300">{miscelaData.value}</span>
                 </div>
               </TooltipTrigger>
               <TooltipContent>
-                <p className="text-xs">Miscela: {miscelaData.value}</p>
+                <p className="text-base">Miscela: {miscelaData.value}</p>
               </TooltipContent>
             </Tooltip>
             {isCompleted && (
@@ -105,7 +105,7 @@ const ModernMaterialSpecs = ({ data, isCompleted }) => {
                     <div className="text-xs font-medium text-slate-400 uppercase tracking-wide leading-tight truncate w-full">
                       {field.label}
                     </div>
-                    <div className={`text-xs font-bold ${field.color} group-hover:text-white transition-colors duration-200 leading-tight truncate w-full text-center`}>
+                    <div className={`text-base font-bold ${field.color} group-hover:text-white transition-colors duration-200 leading-tight truncate w-full text-center`}>
                       {field.value}
                     </div>
                   </div>

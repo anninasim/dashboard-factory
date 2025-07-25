@@ -38,7 +38,9 @@ const CompactProgressSection = ({ data }) => {
         <div className="flex items-center justify-between px-4 py-3 border-b border-slate-600/30">
           <div className="flex items-center gap-2">
             <TrendingUp className="w-4 h-4 text-cyan-400" />
-            <span className="text-sm font-bold text-white">Progresso Produzione</span>
+            <span className="font-bold text-white uppercase" style={{ fontSize: '1rem' }}>
+  PROGRESSO PRODUZIONE
+</span>
           </div>
           {/* PERCENTUALE NELL'HEADER */}
           <div className="text-xl font-bold text-cyan-400">{percentage.toFixed(0)}%</div>

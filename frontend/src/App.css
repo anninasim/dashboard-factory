@@ -114,7 +114,7 @@ html, body {
   box-sizing: border-box !important;
   
   /* Stili base card */
-  background: linear-gradient(120deg, #05080f 0%, #101624 100%) !important;
+  background: linear-gradient(120deg, #020a1a 0%, #010713 100%) !important;
   border: 2.5px solid #3a4a6a !important;
   border-radius: 0.6rem !important;
   padding: 1rem !important; /* 📺 Padding ottimizzato per fit */
@@ -306,7 +306,7 @@ html, body {
 
 /* 🆕 SPEC-VALUE-KEY ARTICOLO - DIRETTO SENZA ICONA/LABEL */
 .order-article-vertical .spec-item:last-child .spec-value-key {
-  font-size: 1rem !important;
+  font-size: 1.18rem !important;
   color: #ffffff !important;
   font-weight: 600 !important;
   text-align: left !important;
@@ -334,7 +334,7 @@ html, body {
 
 /* 🎯 SEZIONE ORDINE - RIMANE INVARIATA */
 .order-article-vertical .spec-item:first-child .spec-value-key {
-  font-size: 1rem !important;
+  font-size: 1.18rem !important;
   color: #ffffff !important;
   font-weight: 600 !important;
   text-align: right !important;
@@ -346,7 +346,7 @@ html, body {
 }
 
 .order-article-vertical .spec-item:first-child .spec-label {
-  font-size: 1rem !important;
+  font-size: 1.18rem !important;
   color: #cccccc !important;
   font-weight: 500 !important;
   flex-shrink: 0 !important;

@@ -32,7 +32,7 @@ const ProgressSection = ({ data }) => {
       <Card className="w-full h-80 bg-gradient-to-br from-slate-900/40 to-slate-800/40 border-slate-700/50 backdrop-blur-xl">
         <CardHeader className="pb-4">
           <div className="flex items-center justify-between">
-            <CardTitle className="text-xl font-bold text-white flex items-center gap-2">
+            <CardTitle className="text-4xl font-bold text-white flex items-center gap-2 uppercase not-italic">
               <TrendingUp className="w-5 h-5 text-cyan-400" />
               PROGRESSO PRODUZIONE
             </CardTitle>
