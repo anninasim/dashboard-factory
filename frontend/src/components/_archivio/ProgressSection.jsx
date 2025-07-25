@@ -1,7 +1,7 @@
 import React from 'react';
-import { Progress } from './ui/Progress';
-import { Card, CardContent, CardHeader, CardTitle } from './ui/Card';
-import { Badge } from './ui/BadgeFixed';
+import { Progress } from '../ui/Progress';
+import { Card, CardContent, CardHeader, CardTitle } from '../ui/Card';
+import { Badge } from '../ui/BadgeFixed';
 import { TrendingUp, Gauge, Zap, Package } from 'lucide-react';
 
 // Componente Progress Section PROFESSIONALE con shadcn/ui
