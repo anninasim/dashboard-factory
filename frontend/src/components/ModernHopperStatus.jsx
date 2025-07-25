@@ -119,7 +119,7 @@ const ModernHopperCard = ({ hopperName, components, isEmpty = false }) => {
 
   return (
     <Card className="h-full bg-gradient-to-br from-slate-900/40 to-slate-800/40 border-slate-700/50 hover:border-slate-600/60 transition-all duration-300 hover:shadow-lg">
-      <CardHeader className="pt-2">
+      <CardHeader className="pt-3">
         <CardTitle className="text-base font-bold text-white flex items-center gap-2">
           {/* Pulsing dot for active hopper */}
           <span className="relative flex items-center">

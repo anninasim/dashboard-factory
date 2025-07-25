@@ -243,20 +243,22 @@ function ProductionCard({ data, estrusori, estrusoriMiscele }) {
       </div>
 
       <div className="card-body space-y-4">
-        {/* Sezione Ordine e Articolo MODERNA */}
-        <ModernOrderInfo 
-          data={data} 
-          isCompleted={isProductionComplete}
-        />
 
-        {/* Sezione Specifiche Materiale MODERNA */}
-        <ModernMaterialSpecs 
-          data={data} 
-          isCompleted={isProductionComplete}
-        />
+      {/* Sezione Ordine e Articolo MODERNA */}
+      <ModernOrderInfo 
+        data={data} 
+        isCompleted={isProductionComplete}
+      />
 
-        {/* 🆕 SEZIONE PROGRESS BILANCIATA */}
-        <CompactProgressSection data={data} />
+      {/* Sezione Specifiche Materiale MODERNA */}
+      <ModernMaterialSpecs 
+        data={data} 
+        isCompleted={isProductionComplete}
+      />
+
+
+      {/* 🆕 SEZIONE PROGRESS BILANCIATA */}
+      <CompactProgressSection data={data} />
 
         {/* Sezione Hopper MODERNA - SOTTO TUTTO */}
         <ModernHopperStatus 

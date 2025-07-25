@@ -96,7 +96,8 @@ const CompactProgressSection = ({ data }) => {
                         <div className="flex-1">
                           <div className="text-xs text-blue-300 font-medium mb-1">Velocità</div>
                   <div className="text-2xl font-bold text-blue-400 leading-tight">
-                    {velocita.toFixed(0)} <span className="text-sm text-blue-300 font-normal align-top">m/min</span>
+                    <span style={{ fontSize: '1.6rem', fontWeight: 700, color: '#60a5fa', lineHeight: 1 }}>{velocita.toFixed(0)}</span>
+                    <span style={{ fontSize: '0.9rem', color: '#60a5fa', fontWeight: 500, marginLeft: '0.2rem', verticalAlign: 'top' }}>m/min</span>
                   </div>
                         </div>
                       </div>
@@ -116,7 +117,8 @@ const CompactProgressSection = ({ data }) => {
                         <div className="flex-1">
                           <div className="text-xs text-amber-300 font-medium mb-1">Portata</div>
                   <div className="text-2xl font-bold text-amber-400 leading-tight">
-                    {portata.toFixed(0)} <span className="text-sm text-amber-300 font-normal align-top">kg/h</span>
+                    <span style={{ fontSize: '1.6rem', fontWeight: 700, color: '#fbbf24', lineHeight: 1 }}>{portata.toFixed(0)}</span>
+                    <span style={{ fontSize: '0.9rem', color: '#fbbf24', fontWeight: 500, marginLeft: '0.2rem', verticalAlign: 'top' }}>kg/h</span>
                   </div>
                         </div>
                       </div>
