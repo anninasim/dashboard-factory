@@ -39,9 +39,9 @@ const getStatus = (stato, azione, velocita, portata) => {
       };
       case 'SCR': return { 
         label: '🟠 SCARTO', 
-        color: '#ff5722',           // Arancione/rosso per scarto
+        color: '#ff9800',           // Arancione per scarto
         bgColor: '#2a1f1f',
-        borderColor: '#ff5722',
+        borderColor: '#ff9800',
         animation: 'fastPulse',
         priority: 'high'
       };
@@ -92,9 +92,9 @@ const getStatus = (stato, azione, velocita, portata) => {
       };
       case 'SCR': return { 
         label: '🟠 SCARTO', 
-        color: '#ff5722',           // Arancione/rosso per scarto
+        color: '#ff9800',           // Arancione per scarto
         bgColor: '#2a1f1f',
-        borderColor: '#ff5722',
+        borderColor: '#ff9800',
         animation: 'fastPulse',
         priority: 'high'
       };
@@ -189,7 +189,9 @@ function ProductionCard({ data, estrusori, estrusoriMiscele }) {
       className={`card ${stato.priority === 'critical' ? 'card-critical' : ''} ${isProductionComplete ? 'card-completed' : ''}`}
       style={{ 
         position: 'relative',
-        border: isProductionComplete ? '2px solid #1565c0' : undefined
+        borderColor: stato.borderColor,
+        boxShadow: `0 0 0 2px ${stato.borderColor}22`,
+        transition: 'border-color 0.3s, box-shadow 0.3s',
       }}
     >
       {/* Header con stato e alert - DESIGN COMPATTO */}

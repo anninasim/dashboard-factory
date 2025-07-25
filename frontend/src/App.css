@@ -115,7 +115,8 @@ html, body {
   
   /* Stili base card */
   background: linear-gradient(120deg, #020a1a 0%, #010713 100%) !important;
-  border: 2.5px solid #3a4a6a !important;
+  border-width: 3px !important;
+  border-style: solid !important;
   border-radius: 0.6rem !important;
   padding: 1rem !important; /* 📺 Padding ottimizzato per fit */
   display: flex !important;

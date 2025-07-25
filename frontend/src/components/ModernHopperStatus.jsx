@@ -120,7 +120,15 @@ const ModernHopperCard = ({ hopperName, components, isEmpty = false }) => {
   return (
     <Card className="h-full bg-gradient-to-br from-slate-900/40 to-slate-800/40 border-slate-700/50 hover:border-slate-600/60 transition-all duration-300 hover:shadow-lg">
       <CardHeader className="pt-2">
-        <CardTitle className="text-base font-bold text-white flex items-center gap-2">{hopperName}</CardTitle>
+        <CardTitle className="text-base font-bold text-white flex items-center gap-2">
+          {/* Pulsing dot for active hopper */}
+          <span className="relative flex items-center">
+            <span className="mr-2">{hopperName}</span>
+            <span className="ml-1">
+              <span className="inline-block w-2 h-2 rounded-full bg-green-400 animate-pulse" style={{ boxShadow: '0 0 6px 2px #22c55e55' }}></span>
+            </span>
+          </span>
+        </CardTitle>
         <div className="border-b border-slate-600/40 mt-2" />
       </CardHeader>
 
@@ -132,7 +140,7 @@ const ModernHopperCard = ({ hopperName, components, isEmpty = false }) => {
                 <span className="text-slate-300 truncate flex-1 mr-2">
                   {comp.silo} - {comp.description}
                 </span>
-                <span className={`font-semibold ${getComponentColor(comp.percentage)}`}>
+                <span className={`font-semibold ${getComponentColor(comp.percentage)}`}> 
                   {comp.percentage}%
                 </span>
               </div>
