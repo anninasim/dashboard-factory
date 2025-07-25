@@ -162,10 +162,8 @@ function App() {
             ))}
           </div>
         );
-      
       case 'flow-charts':
         return <FlowChartsPage />;
-      
       default:
         return (
           <div className="dashboard-grid">

@@ -119,12 +119,12 @@ const ModernHopperCard = ({ hopperName, components, isEmpty = false }) => {
 
   return (
     <Card className="h-full bg-gradient-to-br from-slate-900/40 to-slate-800/40 border-slate-700/50 hover:border-slate-600/60 transition-all duration-300 hover:shadow-lg">
-      <CardHeader className="pb-2">
+      <CardHeader className="pt-2">
         <CardTitle className="text-base font-bold text-white flex items-center gap-2">{hopperName}</CardTitle>
         <div className="border-b border-slate-600/40 mt-2" />
       </CardHeader>
-      
-      <CardContent className="space-y-3">
+
+      <CardContent className="p-3 space-y-3">
         <div className="space-y-2">
           {components.slice(0, 6).map((comp, index) => (
             <div key={index} className="space-y-1">
