@@ -102,11 +102,19 @@ const ModernMaterialSpecs = ({ data, isCompleted }) => {
                     <div className="group-hover:scale-110 transition-transform duration-200 text-sm opacity-80">
                       {field.icon}
                     </div>
-                    <div className="text-xs font-medium text-slate-400 uppercase tracking-wide leading-tight truncate w-full">
+                    <div className="text-[0.75rem] font-medium text-slate-400 uppercase tracking-wide leading-tight truncate w-full">
                       {field.label}
                     </div>
-                    <div className={`text-base font-bold ${field.color} group-hover:text-white transition-colors duration-200 leading-tight truncate w-full text-center`}>
+                    <div className={`text-2xl font-extrabold ${field.color} group-hover:text-white transition-colors duration-200 leading-tight truncate w-full text-center`}>
+                    <div className={`text-2xl font-semibold ${field.color} group-hover:text-white transition-colors duration-200 leading-tight truncate w-full text-center`}>
+                    <div className={`text-xl font-semibold ${field.color} group-hover:text-white transition-colors duration-200 leading-tight truncate w-full text-center`}>
+                    <div className={`text-lg font-semibold ${field.color} group-hover:text-white transition-colors duration-200 leading-tight truncate w-full text-center`}>
+                    <div className={`text-xl font-semibold ${field.color} group-hover:text-white transition-colors duration-200 leading-tight truncate w-full text-center`}>
                       {field.value}
+                    </div>
+                    </div>
+                    </div>
+                    </div>
                     </div>
                   </div>
                 </div>
