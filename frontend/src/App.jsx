@@ -25,6 +25,23 @@ function App() {
   //   refresh
   // } = useApiPolling(
   //   'http://localhost:3001/api/dashboard',
+  // Parser minimale per estrusori da additivazione_html
+  // Parser che estrae le coppie (lettera, miscela) per ogni estrusore
+  const estrusoriMiscele = (html) => {
+    if (!html || typeof html !== 'string') return [];
+    // Trova tutte le righe <tr> (o sequenze di <td>)
+    const righe = [];
+    // Regex per trovare tutte le coppie <td> (lettera, miscela)
+    const tdRegex = /<td[^>]*>\s*<b><font[^>]*size=["']5px["'][^>]*>([A-Z])<\/font><\/b><\/td>\s*<td[^>]*>\s*<b><font[^>]*size=["']2px["'][^>]*>([^<]+)<\/font><\/b><\/td>/gi;
+    let match;
+    while ((match = tdRegex.exec(html)) !== null) {
+      righe.push({
+        lettera: match[1],
+        miscela: match[2].trim()
+      });
+    }
+    return righe;
+  };
   //   30000, // 30 secondi
   //   currentPage === 'dashboard' // Solo quando siamo nella dashboard
   // );
@@ -98,9 +115,18 @@ function App() {
             timestamp: new Date().toLocaleTimeString(),
             macchine: data.map(d => d.fnt_sigla)
           });
+
+          // DEBUG: Mostra esempio di additivazione_html
+          if (data && data.length > 0) {
+            console.log('Esempio additivazione_html:', data[0].additivazione_html);
+          }
           
         } catch (err) {
-          console.error('❌ Errore nel recupero dati:', err);
+              <ProductionCard 
+                key={i} 
+                data={riga} 
+                estrusori={estraiEstrusori(riga.additivazione_html)} // Passa estrusori come prop
+              />
           setError(err.message);
           setConnectionStatus('error');
         } finally {
@@ -158,7 +184,11 @@ function App() {
         return (
           <div className="dashboard-grid">
             {dati.map((riga, i) => (
-              <ProductionCard key={i} data={riga} />
+              <ProductionCard 
+                key={i} 
+                data={riga} 
+                estrusoriMiscele={estrusoriMiscele(riga.additivazione_html)}
+              />
             ))}
           </div>
         );
@@ -168,7 +198,11 @@ function App() {
         return (
           <div className="dashboard-grid">
             {dati.map((riga, i) => (
-              <ProductionCard key={i} data={riga} />
+              <ProductionCard 
+                key={i} 
+                data={riga} 
+                estrusoriMiscele={estrusoriMiscele(riga.additivazione_html)}
+              />
             ))}
           </div>
         );

@@ -3,6 +3,7 @@ import ModernHopperStatus from './components/ModernHopperStatus';
 import CompactProgressSection from './components/CompactProgressSection';
 import ModernMaterialSpecs from './components/ModernMaterialSpecs';
 import ModernOrderInfo from './components/ModernOrderInfo';
+import ModernEstrusoriSection from './components/ModernEstrusoriSection';
 import { Loader2 } from 'lucide-react';
 
 // ✅ LOGICA CORRETTA: Solo stato PLC comanda, sensori ignorati
@@ -141,7 +142,7 @@ const getStatus = (stato, azione, velocita, portata) => {
   };
 };
 
-function ProductionCard({ data }) {
+function ProductionCard({ data, estrusori, estrusoriMiscele }) {
   // ✅ STATO COMANDATO SOLO DAL PLC
   const stato = getStatus(
     data.mntg_stato_gruppo, 
@@ -261,6 +262,8 @@ function ProductionCard({ data }) {
           isCompleted={isProductionComplete}
           machineName={data.fnt_sigla}
         />
+      {/* Sezione compatta estrusori/miscele - modulare */}
+      <ModernEstrusoriSection estrusoriMiscele={estrusoriMiscele} />
       </div>
 
       {/* Banner completamento */}
@@ -285,6 +288,8 @@ function ProductionCard({ data }) {
           </div>
         </div>
       )}
+
+      {/* Footer compatto estrusori - facilmente rimovibile */}
 
       {/* 📺 NIENTE PIÙ CSS INLINE! Tutto controllato da App.css */}
     </div>
