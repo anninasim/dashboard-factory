@@ -516,15 +516,6 @@ html, body {
     padding: 0.5rem 1rem !important;
   }
   
-  /* COMPLETION BANNER */
-  .completion-status {
-    font-size: 1.5rem !important;
-  }
-  
-  .completion-datetime {
-    font-size: 1.3rem !important;
-  }
-  
   /* 🆕 COMPACT PROGRESS */
   .compact-progress-and-kpi {
     max-height: 100px !important;
@@ -738,7 +729,7 @@ html, body {
 
 .completion-status {
   font-weight: 800 !important;
-  font-size: 1.3rem !important;
+  font-size: 2rem !important;
   color: #ffffff !important;
   text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5) !important;
   letter-spacing: 0.02rem !important;
@@ -746,7 +737,7 @@ html, body {
 
 .completion-datetime {
   font-weight: 700 !important;
-  font-size: 1.1rem !important;
+  font-size: 1.8rem !important;
   color: #d9f99d !important;
   background-color: rgba(45, 80, 22, 0.6) !important;
   padding: 0.2rem 0.6rem !important;
