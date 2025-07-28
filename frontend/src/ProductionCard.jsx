@@ -192,8 +192,16 @@ function ProductionCard({ data, estrusori, estrusoriMiscele }) {
         borderColor: stato.borderColor,
         boxShadow: `0 0 0 2px ${stato.borderColor}22`,
         transition: 'border-color 0.3s, box-shadow 0.3s',
+        overflow: 'hidden',
       }}
     >
+      {/* Overlay rosso pulsante se FERMA (o stato critico) */}
+      {(stato.label === '🔴 FERMA' || stato.priority === 'critical') && (
+        <div className="card-overlay-ferma">
+          {/* DEBUG: Overlay visibile */}
+          {/* <div style={{position:'absolute',top:8,left:8,color:'#fff',zIndex:30,fontWeight:700}}>FERMA</div> */}
+        </div>
+      )}
       {/* Header con stato e alert - DESIGN COMPATTO */}
       <div className="card-header-compact" style={{ 
         borderColor: stato.borderColor || stato.color,

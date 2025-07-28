@@ -1,3 +1,4 @@
+// ...existing code...
 import { useEffect, useState } from 'react';
 import './App.css';
 import ProductionCard from './ProductionCard';
@@ -232,6 +233,23 @@ function App() {
       
       {/* CSS aggiuntivo per la nuova struttura */}
       <style>{`
+        /* Overlay rosso pulsante per card FERMA */
+        .card-overlay-ferma {
+          position: absolute;
+          inset: 0;
+          z-index: 20;
+          background: rgba(229, 62, 62, 0.22);
+          pointer-events: none;
+          border: 3px solid #e57373;
+          box-shadow: 0 0 18px 4px #e5737355;
+          animation: fermaPulse 1.5s infinite alternate;
+        }
+
+        @keyframes fermaPulse {
+          0% { opacity: 0.22; border-width: 2px; }
+          50% { opacity: 0.32; border-width: 5px; }
+          100% { opacity: 0.22; border-width: 2px; }
+        }
         .app-container {
           width: 100vw;
           height: 100vh;
