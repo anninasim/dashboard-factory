@@ -1,5 +1,4 @@
 // ...existing code...
-// ...existing code...
 import { useEffect, useState } from 'react';
 import './App.css';
 import ProductionCard from './ProductionCard';
@@ -234,7 +233,6 @@ function App() {
       
       {/* CSS aggiuntivo per la nuova struttura */}
       <style>{`
-        // ...existing code...
         /* Overlay rosso pulsante per card FERMA */
         .card-overlay-ferma {
           position: absolute;
