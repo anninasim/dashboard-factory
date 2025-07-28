@@ -139,11 +139,56 @@ html, body {
   box-shadow: 0 0.3rem 0.6rem rgba(0, 0, 0, 0.3) !important;
 }
 
-/* 📺 CARD COMPLETATA */
+/* 🥇 CARD COMPLETATA - VERDE MILITARE + PATTERN INDUSTRIALE */
 .dashboard-grid .card.card-completed {
-  background: linear-gradient(135deg, #05080f 0%, #101624 100%) !important;
-  border: 2.5px solid #3a4a6a !important;
-  box-shadow: 0 0.2rem 0.6rem rgba(30,40,50,0.10) !important;
+  background: linear-gradient(135deg, #1a2e05 0%, #2d501660 100%) !important;
+  border: 4px solid #2d5016 !important;
+  box-shadow: 0 0 30px rgba(45, 80, 22, 0.4) !important;
+  position: relative !important;
+  overflow: hidden !important;
+  transition: all 0.5s ease !important;
+}
+
+/* 📐 PATTERN A STRISCE DIAGONALI INDUSTRIALE */
+.dashboard-grid .card.card-completed::before {
+  content: '' !important;
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  background: repeating-linear-gradient(
+    45deg,
+    transparent,
+    transparent 12px,
+    rgba(45, 80, 22, 0.15) 12px,
+    rgba(45, 80, 22, 0.15) 24px
+  ) !important;
+  pointer-events: none !important;
+  z-index: 1 !important;
+}
+
+/* 🆕 ACCENTO LATERALE VERDE CON GLOW */
+.dashboard-grid .card.card-completed::after {
+  content: '' !important;
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 6px !important;
+  height: 100% !important;
+  background: linear-gradient(180deg, #83cc163c, #65a30d, #84cc16) !important;
+  z-index: 3 !important;
+  box-shadow: 0 0 15px rgba(131, 204, 22, 0.415) !important;
+  animation: sideGlow 3s ease-in-out infinite !important;
+}
+
+@keyframes sideGlow {
+  0%, 100% { 
+    box-shadow: 0 0 15px rgba(132, 204, 22, 0.6);
+  }
+  50% { 
+    box-shadow: 0 0 25px rgba(132, 204, 22, 0.8);
+  }
 }
 
 /* 📺 HEADER CARD - COMPATTO PER FIT */
@@ -156,11 +201,12 @@ html, body {
   margin-bottom: 0.8rem !important;
   box-sizing: border-box !important;
   flex-shrink: 0 !important;
-  background: #040509 !important;
-  border: 2.5px solid #3a4a6a !important;
+  background: #dcdbdb1f !important;
+  border: 3px solid #454545 !important;
   border-radius: 0.6rem !important;
   box-shadow: 0 1px 3px rgba(0,0,0,0.18) !important;
   transition: border-color 0.2s, box-shadow 0.2s !important;
+  z-index: 2 !important; /* Sopra il pattern */
 }
 
 .machine-name {
@@ -171,7 +217,6 @@ html, body {
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5) !important;
   letter-spacing: 0.05rem !important;
   line-height: 1 !important;
-
 }
 
 .status-compact {
@@ -188,6 +233,16 @@ html, body {
   min-height: 1.5rem !important;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3) !important;
   line-height: 1 !important;
+}
+
+/* 🏷️ STATUS BADGE VERDE MILITARE per card completate */
+.dashboard-grid .card.card-completed .status-compact {
+  background: linear-gradient(135deg, #2d5016, #3f6e20) !important;
+  color: #ffffff !important;
+  border: 2px solid #84cc16 !important;
+  box-shadow: 0 0 20px rgba(45, 80, 22, 0.6) !important;
+  font-weight: 800 !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5) !important;
 }
 
 .header-alert-center {
@@ -223,6 +278,8 @@ html, body {
   gap: 0 !important;
   overflow: visible !important;
   min-height: 0 !important; /* 📺 Permette al contenuto di comprimersi se necessario */
+  position: relative !important;
+  z-index: 2 !important; /* Sopra il pattern */
 }
 
 .card-body p {
@@ -238,6 +295,16 @@ html, body {
   font-size: 1.1rem !important; /* 📺 ⬆️ INGRANDITO: da 0.8rem a 1.1rem */
 }
 
+/* 🎨 CONTENT STYLING VERDE - PIÙ LEGGIBILE per card completate */
+.dashboard-grid .card.card-completed .card-body p {
+  color: #e5f3e5 !important; /* Verde molto chiaro per leggibilità */
+  opacity: 0.9 !important;
+}
+
+.dashboard-grid .card.card-completed .card-body p strong {
+  color: #d9f99d !important; /* Verde lime per le label */
+}
+
 /* 📺 CONTENUTO COMPLETATO */
 .content-completed {
   color: #666666 !important;
@@ -249,10 +316,16 @@ html, body {
   color: #777777 !important;
 }
 
+/* 🏭 SEZIONI COMPLETATE - MENO AGGRESSIVE */
 .section-completed {
-  filter: grayscale(80%) !important;
-  opacity: 0.5 !important;
+  filter: grayscale(50%) !important; /* Ridotto da 80% a 50% */
+  opacity: 0.75 !important; /* Aumentato da 0.5 a 0.75 */
   transition: all 0.3s ease !important;
+}
+
+.dashboard-grid .card.card-completed .section-completed {
+  filter: grayscale(50%) !important; /* Ridotto da 80% a 50% */
+  opacity: 0.75 !important; /* Aumentato da 0.5 a 0.75 */
 }
 
 /* 📦 ORDINE E ARTICOLO - LAYOUT ORIZZONTALE 25/75 PULITO */
@@ -607,33 +680,48 @@ html, body {
   display: none !important; /* Nasconde le vecchie strutture se presenti */
 }
 
-/* 📺 BANNER COMPLETAMENTO - COMPATTO */
+/* 🥇 BANNER COMPLETAMENTO - VERDE MILITARE */
 .completion-banner {
   display: flex !important;
   align-items: center !important;
   gap: 0.5rem !important;
   margin-top: 0.6rem !important;
   padding: 0.6rem 0.8rem !important;
-  background: linear-gradient(135deg, #0d47a1, #1565c0) !important;
+  background: linear-gradient(135deg, #2d5016, #3f6e20) !important;
   border-radius: 0.4rem !important;
-  border-left: 3px solid #90caf9 !important;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3) !important;
+  border-left: 4px solid #84cc16 !important;
+  box-shadow: 0 4px 15px rgba(45, 80, 22, 0.3) !important;
   box-sizing: border-box !important;
   flex-shrink: 0 !important;
+  position: relative !important;
+  z-index: 2 !important;
 }
 
 .completion-icon {
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
-  width: 1.5rem !important;
-  height: 1.5rem !important;
-  background-color: #90caf9 !important;
+  width: 2rem !important;
+  height: 2rem !important;
+  background-color: rgba(132, 204, 22, 0.2) !important;
+  border: 2px solid #84cc16 !important;
   border-radius: 50% !important;
-  color: #0d47a1 !important;
-  font-size: 0.8rem !important;
+  color: #84cc16 !important;
+  font-size: 1rem !important;
   font-weight: bold !important;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2) !important;
+  text-shadow: 0 0 10px rgba(132, 204, 22, 0.8) !important;
+  animation: checkmarkGlow 2s ease-in-out infinite !important;
+}
+
+@keyframes checkmarkGlow {
+  0%, 100% { 
+    box-shadow: 0 0 10px rgba(132, 204, 22, 0.5);
+    text-shadow: 0 0 10px rgba(132, 204, 22, 0.8);
+  }
+  50% { 
+    box-shadow: 0 0 20px rgba(132, 204, 22, 0.8);
+    text-shadow: 0 0 15px rgba(132, 204, 22, 1);
+  }
 }
 
 .completion-info {
@@ -649,22 +737,22 @@ html, body {
 }
 
 .completion-status {
-  font-weight: 700 !important;
-  font-size: 1.2rem !important; /* 📺 ⬆️ INGRANDITO: da 0.9rem a 1.2rem */
-  color: white !important;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3) !important;
+  font-weight: 800 !important;
+  font-size: 1.3rem !important;
+  color: #ffffff !important;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5) !important;
   letter-spacing: 0.02rem !important;
 }
 
 .completion-datetime {
-  font-weight: 600 !important;
-  font-size: 1.1rem !important; /* 📺 ⬆️ INGRANDITO: da 0.8rem a 1.1rem */
-  color: #bbdefb !important;
-  background-color: rgba(13, 71, 161, 0.5) !important;
+  font-weight: 700 !important;
+  font-size: 1.1rem !important;
+  color: #d9f99d !important;
+  background-color: rgba(45, 80, 22, 0.6) !important;
   padding: 0.2rem 0.6rem !important;
   border-radius: 0.3rem !important;
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3) !important;
-  border: 1px solid rgba(144, 202, 249, 0.3) !important;
+  border: 1px solid rgba(132, 204, 22, 0.4) !important;
 }
 
 /* 📺 ANIMAZIONI */
@@ -1347,4 +1435,3 @@ html, body {
     box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.2);
   }
 }
-

@@ -114,7 +114,7 @@ const getStatus = (stato, azione, velocita, portata) => {
     switch (azione) {
       case 'FIN': return { 
         label: '🔵 PRODUZIONE TERMINATA', 
-        color: '#1565c0',           // Blu industrial scuro
+        color: '#92D050',           // Blu industrial scuro
         bgColor: '#0d1b2a',
         borderColor: '#1565c0',
         animation: 'none',
@@ -203,51 +203,74 @@ function ProductionCard({ data, estrusori, estrusoriMiscele }) {
         </div>
       )}
       {/* Header con stato e alert - DESIGN COMPATTO */}
-      <div className="card-header-compact" style={{ 
+      <div className="card-header-compact" style={{
         borderColor: stato.borderColor || stato.color,
-        backgroundColor: 'transparent',
+        backgroundColor: 'rgba(20, 24, 28, 0.96)',
         position: 'relative',
-        overflow: 'hidden'
+        overflow: 'hidden',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        padding: '0.4rem 1.2rem 0.4rem 1.2rem',
+        minHeight: '3.2rem',
+        boxShadow: '0 2px 8px rgba(0,0,0,0.18)',
+        zIndex: 2
       }}>
-        {/* Gradient banner luminoso */}
-        <div
-          className="absolute inset-0 z-0 pointer-events-none"
-          style={{
-            background: 'linear-gradient(90deg, #00eaff 0%, #00ffd0 40%, #0a2540 100%)',
-            opacity: 0.22,
-            filter: 'blur(0.5px)'
-          }}
-        />
-        <h2 className="relative z-10 text-3xl font-extrabold tracking-tight text-cyan-200 uppercase flex-1 truncate machine-name px-3 py-1">
+        {/* Titolo macchina con rotella a sinistra e stato a destra (struttura classica separata) */}
+        <h2 className="machine-name" style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          fontSize: '2.1rem',
+          fontWeight: 800,
+          color: '#f8ffe0',
+          letterSpacing: '0.04em',
+          textShadow: '0 2px 8px #000, 0 1px 2px #2d5016',
+          padding: '0.1em 0.7em',
+          borderRadius: '0.35em',
+          border: `2.5px solid ${isProductionComplete ? '#84cc16' : stato.borderColor || stato.color}`,
+          background: isProductionComplete ? 'rgba(40,60,20,0.92)' : 'rgba(20,24,28,0.92)',
+          boxShadow: isProductionComplete ? '0 0 12px #84cc1633' : '0 2px 8px rgba(0,0,0,0.18)',
+          minWidth: 0,
+          overflow: 'hidden',
+          whiteSpace: 'nowrap',
+          textOverflow: 'ellipsis',
+          margin: 0,
+        }}>
           {/* Icona animata solo se IN PRODUZIONE o INIZIO PRODUZIONE */}
           {(stato.label === '🟢 IN PRODUZIONE' || stato.label === '🔵 INIZIO PRODUZIONE') && (
-            <Loader2 className="inline-block mr-2 text-cyan-300 animate-spin-slow" style={{verticalAlign:'middle'}} size={28} />
+            <Loader2 className="mr-2 text-cyan-300 animate-spin-slow" style={{verticalAlign:'middle', flexShrink:0}} size={28} />
           )}
-          {data.fnt_sigla}
+          <span style={{flex: 1, minWidth: 0, textAlign: 'center'}}>{data.fnt_sigla}</span>
         </h2>
-
-        {/* Alert al centro se presente */}
-        {messaggioAttDescr && (
-          <div className="header-alert-center">
-            <span className="alert-icon-small">⚠️</span>
-            <span className="alert-text-small">{messaggioAttDescr}</span>
-          </div>
-        )}
-        <span 
+        <span
           className={`status-compact ${stato.animation !== 'none' ? stato.animation : ''}`}
-          style={{ 
-            backgroundColor: 'transparent',
-            color: stato.color,
-            border: `2px solid ${stato.color}`,
+          style={{
+            background: isProductionComplete ? 'linear-gradient(135deg, #2d5016, #3f6e20)' : 'rgba(30,40,30,0.92)',
+            color: isProductionComplete ? '#d9f99d' : stato.color,
+            border: `2px solid ${isProductionComplete ? '#84cc16' : stato.color}`,
             borderRadius: '9999px',
-            fontWeight: 700,
-            padding: '0.25rem 1rem',
-            fontSize: '1rem',
-            boxShadow: 'none'
+            fontWeight: 800,
+            padding: '0.32rem 1.1rem',
+            fontSize: '1.08rem',
+            boxShadow: isProductionComplete ? '0 0 12px #84cc1633' : 'none',
+            textShadow: '0 1px 2px #000, 0 1px 2px #2d5016',
+            flexShrink: 0,
+            marginLeft: '1.2rem',
+            marginTop: '0.2rem',
+            display: 'inline-block',
+            verticalAlign: 'middle'
           }}
         >
           {stato.label}
         </span>
+        {/* Alert centrale se presente */}
+        {messaggioAttDescr && (
+          <div className="header-alert-center" style={{position:'absolute',left:'50%',top:'100%',transform:'translate(-50%,0)',marginTop:'0.2rem',zIndex:10}}>
+            <span className="alert-icon-small">⚠️</span>
+            <span className="alert-text-small">{messaggioAttDescr}</span>
+          </div>
+        )}
       </div>
 
       <div className="card-body space-y-4">
