@@ -5,16 +5,16 @@ import { Tooltip, TooltipContent, TooltipTrigger, TooltipProvider } from './ui/T
 import { TrendingUp, Package, Zap, Gauge } from 'lucide-react';
 
 // Componente Progress Section BILANCIATO
-const CompactProgressSection = ({ data }) => {
-  const current = data.mntg_qta_lotti_attuale || 0;  
-  const total = data.mntg_qta_lotti || 0;    
-  const status = data.stato_desc || '';     
+const CompactProgressSection = ({ data, fontSizeRem }) => {
+  const current = data.mntg_qta_lotti_attuale || 0;
+  const total = data.mntg_qta_lotti || 0;
+  const status = data.stato_desc || '';
 
   const velocita = data.mntg_vel_ril || 0;
   const portata = data.mntg_portata_ril || 0;
 
   const percentage = total > 0 ? Math.min((current / total) * 100, 100) : 0;
-  
+
   const getStatusBadge = () => {
     if (status?.includes('FERMA')) return { variant: 'secondary', label: 'FERMA' };
     if (status?.includes('SCARTO')) return { variant: 'warning', label: 'SCARTO' };
@@ -39,8 +39,8 @@ const CompactProgressSection = ({ data }) => {
           <div className="flex items-center gap-2">
             <TrendingUp className="w-4 h-4 text-cyan-400" />
             <span className="font-bold text-white uppercase" style={{ fontSize: '1rem' }}>
-  PROGRESSO PRODUZIONE
-</span>
+              PROGRESSO PRODUZIONE
+            </span>
           </div>
           {/* PERCENTUALE NELL'HEADER */}
           <div className="text-xl font-bold text-cyan-400">{percentage.toFixed(0)}%</div>
@@ -49,30 +49,38 @@ const CompactProgressSection = ({ data }) => {
         {/* CONTENUTO BILANCIATO: PROGRESSO A SINISTRA, INDICATORI A DESTRA */}
         <div className="p-4">
           <div className="flex gap-6 items-start">
-            
+
             {/* SEZIONE PROGRESSO - OCCUPA MENO DELLA METÀ */}
             <div className="flex-1 max-w-[40%] space-y-3">
               {/* CONTEGGIO BOBINE SOPRA LA BARRA CON CARATTERI PIÙ GRANDI */}
               <div className="flex justify-between items-center">
-                <span className="text-sm text-slate-300 font-medium">Bobine</span>
+                <span
+                  className="text-slate-300 font-medium"
+                  style={{
+                    fontSize: '1.3rem', // Carattere più piccolo fisso
+                    ...(fontSizeRem && { fontSize: fontSizeRem + 'rem' })
+                  }}
+                >
+                  Bobine
+                </span>
                 <div className="flex items-center gap-2">
-                  <Package className="w-4 h-4 text-cyan-400" />
+                  <Package className="w-6 h-6 text-cyan-400" />
                   {/* BOBINE FATTE - ANCORA PIÙ GRANDI */}
-                  <span className="text-3xl font-bold text-white">{current}</span>
+                  <span className="text-4xl font-bold text-white">{current}</span>
                   <span className="text-xl text-slate-400">/</span>
                   {/* BOBINE TOTALI - PIÙ GRANDI */}
                   <span className="text-2xl font-bold text-slate-300">{total}</span>
                 </div>
               </div>
-              
+
               <div className="space-y-2">
                 {/* SOLO BARRA DI PROGRESSO SENZA PERCENTUALE */}
                 <Tooltip>
                   <TooltipTrigger asChild>
                     <div>
-                      <Progress 
-                        value={percentage} 
-                        className="h-4 bg-slate-800/60 border border-slate-700/50" 
+                      <Progress
+                        value={percentage}
+                        className="h-4 bg-slate-800/60 border border-slate-700/50"
                       />
                     </div>
                   </TooltipTrigger>
@@ -92,13 +100,13 @@ const CompactProgressSection = ({ data }) => {
                   <TooltipTrigger asChild>
                     <div className="bg-slate-800/50 rounded-lg border border-slate-600/30 hover:border-blue-400/50 transition-all duration-200 p-3">
                       <div className="flex items-center gap-2">
-                        <Zap className="w-4 h-4 text-blue-400" />
+                        <Zap className="w-6 h-6 text-blue-400" />
                         <div className="flex-1">
-                          <div className="text-xs text-blue-300 font-medium mb-1">Velocità</div>
-                  <div className="text-2xl font-bold text-blue-400 leading-tight">
-                    <span style={{ fontSize: '1.6rem', fontWeight: 700, color: '#60a5fa', lineHeight: 1 }}>{velocita.toFixed(0)}</span>
-                    <span style={{ fontSize: '0.9rem', color: '#60a5fa', fontWeight: 500, marginLeft: '0.2rem', verticalAlign: 'top' }}>m/min</span>
-                  </div>
+                          <div className="text-xl text-blue-300 font-medium mb-1">Velocità</div>
+                          <div className="text-2xl font-bold text-blue-400 leading-tight">
+                            <span style={{ fontSize: '2.3rem', fontWeight: 700, color: '#60a5fa', lineHeight: 1 }}>{velocita.toFixed(0)}</span>
+                            <span style={{ fontSize: '1rem', color: '#60a5fa', fontWeight: 500, marginLeft: '0.2rem', verticalAlign: 'top' }}>m/min</span>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -113,13 +121,13 @@ const CompactProgressSection = ({ data }) => {
                   <TooltipTrigger asChild>
                     <div className="bg-slate-800/50 rounded-lg border border-slate-600/30 hover:border-amber-400/50 transition-all duration-200 p-3">
                       <div className="flex items-center gap-2">
-                        <Gauge className="w-4 h-4 text-amber-400" />
+                        <Gauge className="w-6 h-6 text-amber-400" />
                         <div className="flex-1">
-                          <div className="text-xs text-amber-300 font-medium mb-1">Portata</div>
-                  <div className="text-2xl font-bold text-amber-400 leading-tight">
-                    <span style={{ fontSize: '1.6rem', fontWeight: 700, color: '#fbbf24', lineHeight: 1 }}>{portata.toFixed(0)}</span>
-                    <span style={{ fontSize: '0.9rem', color: '#fbbf24', fontWeight: 500, marginLeft: '0.2rem', verticalAlign: 'top' }}>kg/h</span>
-                  </div>
+                          <div className="text-xl text-amber-300 font-medium mb-1">Portata</div>
+                          <div className="text-2xl font-bold text-amber-400 leading-tight">
+                            <span style={{ fontSize: '2.3rem', fontWeight: 700, color: '#fbbf24', lineHeight: 1 }}>{portata.toFixed(0)}</span>
+                            <span style={{ fontSize: '1rem', color: '#fbbf24', fontWeight: 500, marginLeft: '0.2rem', verticalAlign: 'top' }}>kg/h</span>
+                          </div>
                         </div>
                       </div>
                     </div>
