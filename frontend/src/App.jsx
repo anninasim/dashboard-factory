@@ -298,58 +298,43 @@ function App() {
           backdrop-filter: blur(10px);
         }
 
-        /* Dashboard-grid utilizza tutto lo spazio disponibile */
+        /* Dashboard-grid: griglia 4x2 fissa, sempre su schermi grandi */
         .dashboard-grid {
           display: grid;
           grid-template-columns: repeat(4, 1fr);
           grid-template-rows: repeat(2, 1fr);
-          width: 100%;
-          height: 100vh; /* Ora utilizza tutto lo schermo */
-          gap: 32px;
-          padding: 32px;
+          width: 100vw;
+          height: 100vh;
+          gap: 16px;
+          padding: 16px;
           box-sizing: border-box;
           background-color: #1a1a1a;
         }
 
-        /* Responsive per schermi più piccoli */
+        /* Le card riempiono la cella, senza overflow */
+        .dashboard-grid > * {
+          width: 100%;
+          height: 100%;
+          min-width: 0;
+          min-height: 0;
+          display: flex;
+        }
+
+        /* Responsive SOLO per schermi piccoli */
         @media (max-width: 1200px) {
           .dashboard-grid {
             grid-template-columns: repeat(2, 1fr);
             grid-template-rows: repeat(4, 1fr);
+            gap: 12px;
+            padding: 8px;
           }
         }
-
         @media (max-width: 768px) {
           .dashboard-grid {
             grid-template-columns: 1fr;
             grid-template-rows: repeat(8, 1fr);
-            gap: 16px;
-            padding: 16px;
-          }
-        }
-
-        /* Responsive per TV 4K */
-        @media (min-width: 3840px) {
-          .dashboard-grid {
-            height: 100vh; /* Utilizza tutto lo schermo */
-            gap: 48px;
-            padding: 48px;
-          }
-
-          .page-toggle {
-            top: 32px;
-            right: 32px;
-          }
-
-          .toggle-button {
-            width: 60px;
-            height: 60px;
-            font-size: 1.6rem;
-          }
-
-          .toggle-label {
-            font-size: 1rem;
-            padding: 6px 12px;
+            gap: 8px;
+            padding: 4px;
           }
         }
 
