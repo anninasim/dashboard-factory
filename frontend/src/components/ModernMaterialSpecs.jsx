@@ -118,19 +118,18 @@ const ModernMaterialSpecs = ({ data, isCompleted }) => {
                   className="bg-slate-800/50 rounded border border-slate-600/30 transition-all duration-200 group px-1.5 py-1.5"
                   style={isCompleted ? { filter: 'grayscale(1)', opacity: 0.6 } : {}}
                 >
-                  <div className="flex flex-col items-center text-center space-y-1">
-                    {/* 🆕 ICONA + TITOLO SULLA STESSA RIGA */}
+                  <div className="flex flex-col items-center text-center space-y-1.5">
+                    {/* ICONA + LABEL */}
                     <div className="flex items-center gap-1 justify-center">
-                      <div className="text-sm opacity-80">
+                      <div className="text-lg opacity-90">
                         {React.cloneElement(field.icon, { style: isCompleted ? { color: '#b0b0b0' } : {} })}
                       </div>
-                      <div className="text-[0.75rem] font-medium uppercase tracking-wide leading-tight" style={{ color: isCompleted ? '#b0b0b0' : '#94a3b8' }}>
+                      <div className="text-sm font-semibold uppercase tracking-wide leading-tight" style={{ color: isCompleted ? '#b0b0b0' : '#94a3b8' }}>
                         {field.label}
                       </div>
                     </div>
-                    
-                    {/* 🆕 VALORE SOTTO */}
-                    <div className="text-xl font-semibold w-full text-center" style={{ color: isCompleted ? '#b0b0b0' : undefined }}>
+                    {/* VALORE */}
+                    <div className={`text-2xl font-bold w-full text-center ${!isCompleted ? field.color : ''}`} style={isCompleted ? { color: '#b0b0b0' } : {}}>
                       {field.value}
                     </div>
                   </div>
