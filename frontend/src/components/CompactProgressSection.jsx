@@ -51,10 +51,10 @@ const CompactProgressSection = ({ data, fontSizeRem, isCompleted }) => {
         {/* HEADER CON PERCENTUALE */}
         <div className="flex items-center justify-between px-4 py-3 border-b border-slate-600/30">
           <div className="flex items-center gap-2">
-            <TrendingUp className="w-4 h-4" style={isCompleted ? { color: '#b0b0b0' } : { color: '#67e8f9' }} />
+            <TrendingUp className="w-5 h-5" style={isCompleted ? { color: '#b0b0b0' } : { color: '#67e8f9' }} />
             <span
-              className="font-bold uppercase"
-              style={{ fontSize: '1rem', color: isCompleted ? '#b0b0b0' : '#fff' }}
+              className="text-lg font-bold uppercase"
+              style={{ color: isCompleted ? '#b0b0b0' : '#fff', lineHeight: 1.1 }}
             >
               PROGRESSO PRODUZIONE
             </span>

@@ -2,10 +2,11 @@
 import React from 'react';
 import { Card, CardHeader, CardTitle, CardContent } from './ui/Card';
 import { Badge } from './ui/Badge';
+import { FlaskRound } from 'lucide-react';
 
 // Sezione compatta e pulita per estrusori/miscele
 
-function ModernEstrusoriSection({ estrusoriMiscele }) {
+function ModernEstrusoriSection({ estrusoriMiscele, isCompleted }) {
   if (!estrusoriMiscele || estrusoriMiscele.length === 0) return null;
   const colClass = estrusoriMiscele.length <= 4 ? 'grid-cols-1' : 'grid-cols-2';
   // Pastel color palette for extruder badges
@@ -18,10 +19,24 @@ function ModernEstrusoriSection({ estrusoriMiscele }) {
     'bg-blue-100 text-blue-700 border-blue-200',
     'bg-orange-100 text-orange-700 border-orange-200',
   ];
+  // Stile grigio per stato completato
+  const completedStyle = isCompleted
+    ? {
+        color: '#b0b0b0',
+        filter: 'grayscale(0.7)',
+        opacity: 0.7,
+        pointerEvents: 'none',
+        background: 'linear-gradient(135deg, #232323 60%, #2d2d2d 100%)',
+      }
+    : {};
   return (
-    <Card className="w-full h-56 bg-slate-900/40 border-slate-700/50 backdrop-blur-xl">
+    <Card className="w-full h-56 bg-slate-900/40 border-slate-700/50 backdrop-blur-xl" style={isCompleted ? { ...completedStyle } : {}}>
       <CardHeader className="pb-2 pt-2">
-        <CardTitle className="text-sm font-bold text-white flex items-center gap-2">
+        <CardTitle
+          className="text-lg font-bold flex items-center gap-2"
+          style={{ color: isCompleted ? '#b0b0b0' : '#fff', lineHeight: 1.1 }}
+        >
+          <FlaskRound className="w-5 h-5" style={{ color: isCompleted ? '#b0b0b0' : '#f472b6' }} />
           DOSAGGIO ADDITIVI
         </CardTitle>
         <div className="border-b border-slate-600/40 mt-2" />

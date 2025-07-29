@@ -81,8 +81,8 @@ const ModernMaterialSpecs = ({ data, isCompleted }) => {
         {/* HEADER CON MISCELA A DESTRA */}
         <div className="flex items-center justify-between px-3 py-1.5 border-b border-slate-600/30">
           <div className="flex items-center gap-1.5">
-            <Beaker className="w-3.5 h-3.5" style={{ color: isCompleted ? '#b0b0b0' : '#a78bfa' }} />
-            <span className="text-base font-bold" style={{ color: isCompleted ? '#b0b0b0' : '#fff' }}>SPECIFICHE MATERIALE</span>
+            <Beaker className="w-5 h-5" style={{ color: isCompleted ? '#b0b0b0' : '#a78bfa' }} />
+            <span className="text-lg font-bold" style={{ color: isCompleted ? '#b0b0b0' : '#fff', lineHeight: 1.1 }}>SPECIFICHE MATERIALE</span>
           </div>
           <div className="flex items-center gap-2">
             {/* MISCELA NEL HEADER */}

@@ -46,7 +46,7 @@ const ModernOrderInfo = ({ data, isCompleted }) => {
         {/* HEADER ULTRA-COMPATTO CON TUTTO INLINE */}
         <div className="flex items-center justify-between px-3 py-1.5">
         <div className="flex items-center gap-1.5">
-          <ClipboardList className="w-4 h-4" style={{ color: isCompleted ? '#b0b0b0' : '#60a5fa' }} />
+          <ClipboardList className="w-5 h-5" style={{ color: isCompleted ? '#b0b0b0' : '#60a5fa' }} />
           <span className="text-lg font-bold" style={{ color: isCompleted ? '#b0b0b0' : '#fff', lineHeight: 1.1 }}>ORDINE</span>
         </div>
           

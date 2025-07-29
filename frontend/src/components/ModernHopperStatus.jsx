@@ -192,8 +192,8 @@ const ModernHopperStatus = ({ htmlString, isCompleted = false, machineName }) =>
       <Card className={`w-full h-80 bg-gradient-to-br from-slate-900/40 to-slate-800/40 border-slate-700/50 backdrop-blur-xl ${isCompleted ? 'opacity-60 grayscale' : ''}`}>
         <CardHeader className="pb-4">
           <div className="flex items-center justify-between">
-            <CardTitle className="text-sm font-bold text-white flex items-center gap-2">
-              <Factory className="w-4 h-4 text-cyan-400" />
+            <CardTitle className="text-lg font-bold text-white flex items-center gap-2" style={{lineHeight: 1.1}}>
+              <Factory className="w-5 h-5 text-cyan-400" />
               STATO HOPPER
             </CardTitle>
             <Tooltip>
