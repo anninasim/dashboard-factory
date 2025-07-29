@@ -1,1 +1,5 @@
 node_modules
+frontend/src/components/ModernDashboardDemo.jsx
+frontend/src/components/ProgressSection.jsx
+frontend/src/components/ProgressSectionModern.jsx
+frontend/src/components/UnifiedProductionCard.jsx
