@@ -75,15 +75,15 @@ const ModernOrderInfo = ({ data, isCompleted }) => {
             <Tooltip>
               <TooltipTrigger asChild>
                 <div
-                  className="flex items-center gap-1 bg-slate-800/50 rounded border border-slate-600/30 transition-all duration-200 px-2 py-0.5 max-w-xs"
+                  className="flex items-center gap-1 bg-slate-800/50 rounded border border-slate-600/30 transition-all duration-200 px-2 py-0.5 max-w-md"
                   style={isCompleted ? { filter: 'grayscale(1)', opacity: 0.6 } : {}}
                 >
                   <Package className="w-4 h-4" style={{ color: isCompleted ? '#b0b0b0' : '#4ade80' }} />
-                  <span className="text-lg font-bold truncate" style={{ color: isCompleted ? '#b0b0b0' : '#4ade80', lineHeight: 1.1 }}>{articoloValue}</span>
+                  <span className="text-xl font-bold truncate" style={{ color: isCompleted ? '#b0b0b0' : '#4ade80', lineHeight: 1.1 }}>{articoloValue}</span>
                 </div>
               </TooltipTrigger>
               <TooltipContent>
-                <div className="text-xs max-w-xs">
+                <div className="text-xs max-w-md">
                   <div className="font-semibold mb-1">Articolo:</div>
                   <div className="whitespace-pre-wrap">{articoloValue}</div>
                 </div>
