@@ -119,28 +119,28 @@ const ModernHopperCard = ({ hopperName, components, isEmpty = false }) => {
 
   return (
     <Card className="h-full bg-gradient-to-br from-slate-900/40 to-slate-800/40 border-slate-700/50 hover:border-slate-600/60 transition-all duration-300 hover:shadow-lg">
-      <CardHeader className="pt-3">
-        <CardTitle className="text-base font-bold text-white flex items-center gap-2">
+      <CardHeader className="pt-2 pb-1">
+        <CardTitle className="text-lg font-bold text-white flex items-center gap-2">
           {/* Pulsing dot for active hopper */}
           <span className="relative flex items-center">
-            <span className="mr-2">{hopperName}</span>
+            <span className="mr-2 font-semibold" style={{fontSize: '1.14rem'}}>{hopperName}</span>
             <span className="ml-1">
-              <span className="inline-block w-2 h-2 rounded-full bg-green-400 animate-pulse" style={{ boxShadow: '0 0 6px 2px #22c55e55' }}></span>
+              <span className="inline-block w-3 h-3 rounded-full bg-green-400 animate-pulse" style={{ boxShadow: '0 0 6px 2px #22c55e55' }}></span>
             </span>
           </span>
         </CardTitle>
         <div className="border-b border-slate-600/40 mt-2" />
       </CardHeader>
 
-      <CardContent className="p-3 space-y-3">
-        <div className="space-y-2">
+      <CardContent className="p-2 space-y-2">
+        <div className="space-y-1.5">
           {components.slice(0, 6).map((comp, index) => (
             <div key={index} className="space-y-1">
-              <div className="flex items-center justify-between text-xs">
-                <span className="text-slate-300 truncate flex-1 mr-2">
-                  {comp.silo} - {comp.description}
+              <div className="flex items-center justify-between text-sm">
+                <span className="text-slate-300 truncate flex-1 mr-2 text-base">
+                  {comp.silo} - <span className="text-[1rem]">{comp.description}</span>
                 </span>
-                <span className={`font-semibold ${getComponentColor(comp.percentage)}`}> 
+                <span className={`font-bold text-lg ${getComponentColor(comp.percentage)}`}> 
                   {comp.percentage}%
                 </span>
               </div>
@@ -150,9 +150,8 @@ const ModernHopperCard = ({ hopperName, components, isEmpty = false }) => {
               />
             </div>
           ))}
-          
           {components.length > 6 && (
-            <div className="text-xs text-slate-400 text-center pt-1">
+            <div className="text-sm text-slate-400 text-center pt-0.5">
               +{components.length - 6} altri componenti
             </div>
           )}
