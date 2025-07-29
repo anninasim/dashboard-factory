@@ -46,8 +46,8 @@ const ModernOrderInfo = ({ data, isCompleted }) => {
         {/* HEADER ULTRA-COMPATTO CON TUTTO INLINE */}
         <div className="flex items-center justify-between px-3 py-1.5">
         <div className="flex items-center gap-1.5">
-          <ClipboardList className="w-3.5 h-3.5" style={{ color: isCompleted ? '#b0b0b0' : '#60a5fa' }} />
-          <span className="text-base font-bold" style={{ color: isCompleted ? '#b0b0b0' : '#fff' }}>ORDINE</span>
+          <ClipboardList className="w-4 h-4" style={{ color: isCompleted ? '#b0b0b0' : '#60a5fa' }} />
+          <span className="text-lg font-bold" style={{ color: isCompleted ? '#b0b0b0' : '#fff', lineHeight: 1.1 }}>ORDINE</span>
         </div>
           
           {/* ORDINE E ARTICOLO TUTTO INLINE */}
@@ -59,8 +59,8 @@ const ModernOrderInfo = ({ data, isCompleted }) => {
                   className="flex items-center gap-1 bg-slate-800/50 rounded border border-slate-600/30 transition-all duration-200 px-2 py-0.5"
                   style={isCompleted ? { filter: 'grayscale(1)', opacity: 0.6 } : {}}
                 >
-                  <ClipboardList className="w-3 h-3" style={{ color: isCompleted ? '#b0b0b0' : '#60a5fa' }} />
-                  <span className="text-base font-bold" style={{ color: isCompleted ? '#b0b0b0' : '#38bdf8' }}>{ordineValue}</span>
+                  <ClipboardList className="w-4 h-4" style={{ color: isCompleted ? '#b0b0b0' : '#60a5fa' }} />
+                  <span className="text-lg font-bold" style={{ color: isCompleted ? '#b0b0b0' : '#38bdf8', lineHeight: 1.1 }}>{ordineValue}</span>
                 </div>
               </TooltipTrigger>
               <TooltipContent>
@@ -78,8 +78,8 @@ const ModernOrderInfo = ({ data, isCompleted }) => {
                   className="flex items-center gap-1 bg-slate-800/50 rounded border border-slate-600/30 transition-all duration-200 px-2 py-0.5 max-w-xs"
                   style={isCompleted ? { filter: 'grayscale(1)', opacity: 0.6 } : {}}
                 >
-                  <Package className="w-3 h-3" style={{ color: isCompleted ? '#b0b0b0' : '#4ade80' }} />
-                  <span className="text-base font-bold truncate" style={{ color: isCompleted ? '#b0b0b0' : '#4ade80' }}>{articoloValue}</span>
+                  <Package className="w-4 h-4" style={{ color: isCompleted ? '#b0b0b0' : '#4ade80' }} />
+                  <span className="text-lg font-bold truncate" style={{ color: isCompleted ? '#b0b0b0' : '#4ade80', lineHeight: 1.1 }}>{articoloValue}</span>
                 </div>
               </TooltipTrigger>
               <TooltipContent>
