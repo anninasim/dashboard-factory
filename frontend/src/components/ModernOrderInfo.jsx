@@ -26,24 +26,41 @@ const ModernOrderInfo = ({ data, isCompleted }) => {
   const ordineValue = data.fp_schedula_completo || '-';
   const articoloValue = articoloCompleto();
 
+  // Stile grigio per stato completato
+  const completedStyle = isCompleted
+    ? {
+        color: '#b0b0b0',
+        filter: 'grayscale(0.7)',
+        opacity: 0.7,
+        pointerEvents: 'none',
+        background: 'linear-gradient(135deg, #232323 60%, #2d2d2d 100%)',
+      }
+    : {};
+
   return (
     <TooltipProvider>
-      <div className="w-full bg-gradient-to-br from-slate-900/40 to-slate-800/40 border border-slate-700/50 backdrop-blur-xl rounded-lg">
+      <div
+        className="w-full bg-gradient-to-br from-slate-900/40 to-slate-800/40 border border-slate-700/50 backdrop-blur-xl rounded-lg"
+        style={isCompleted ? { ...completedStyle } : {}}
+      >
         {/* HEADER ULTRA-COMPATTO CON TUTTO INLINE */}
         <div className="flex items-center justify-between px-3 py-1.5">
-          <div className="flex items-center gap-1.5">
-            <ClipboardList className="w-3.5 h-3.5 text-blue-400" />
-            <span className="text-base font-bold text-white">ORDINE</span>
-          </div>
+        <div className="flex items-center gap-1.5">
+          <ClipboardList className="w-3.5 h-3.5" style={{ color: isCompleted ? '#b0b0b0' : '#60a5fa' }} />
+          <span className="text-base font-bold" style={{ color: isCompleted ? '#b0b0b0' : '#fff' }}>ORDINE</span>
+        </div>
           
           {/* ORDINE E ARTICOLO TUTTO INLINE */}
           <div className="flex items-center gap-2 flex-1 justify-end">
             {/* ORDINE COMPATTO */}
             <Tooltip>
               <TooltipTrigger asChild>
-                <div className="flex items-center gap-1 bg-slate-800/50 rounded border border-slate-600/30 hover:border-blue-400/50 transition-all duration-200 px-2 py-0.5">
-                  <ClipboardList className="w-3 h-3 text-blue-400" />
-                  <span className="text-base font-bold text-blue-300">{ordineValue}</span>
+                <div
+                  className="flex items-center gap-1 bg-slate-800/50 rounded border border-slate-600/30 transition-all duration-200 px-2 py-0.5"
+                  style={isCompleted ? { filter: 'grayscale(1)', opacity: 0.6 } : {}}
+                >
+                  <ClipboardList className="w-3 h-3" style={{ color: isCompleted ? '#b0b0b0' : '#60a5fa' }} />
+                  <span className="text-base font-bold" style={{ color: isCompleted ? '#b0b0b0' : '#38bdf8' }}>{ordineValue}</span>
                 </div>
               </TooltipTrigger>
               <TooltipContent>
@@ -57,9 +74,12 @@ const ModernOrderInfo = ({ data, isCompleted }) => {
             {/* ARTICOLO COMPATTO */}
             <Tooltip>
               <TooltipTrigger asChild>
-                <div className="flex items-center gap-1 bg-slate-800/50 rounded border border-slate-600/30 hover:border-green-400/50 transition-all duration-200 px-2 py-0.5 max-w-xs">
-                  <Package className="w-3 h-3 text-green-400" />
-                  <span className="text-base font-bold text-green-300 truncate">{articoloValue}</span>
+                <div
+                  className="flex items-center gap-1 bg-slate-800/50 rounded border border-slate-600/30 transition-all duration-200 px-2 py-0.5 max-w-xs"
+                  style={isCompleted ? { filter: 'grayscale(1)', opacity: 0.6 } : {}}
+                >
+                  <Package className="w-3 h-3" style={{ color: isCompleted ? '#b0b0b0' : '#4ade80' }} />
+                  <span className="text-base font-bold truncate" style={{ color: isCompleted ? '#b0b0b0' : '#4ade80' }}>{articoloValue}</span>
                 </div>
               </TooltipTrigger>
               <TooltipContent>

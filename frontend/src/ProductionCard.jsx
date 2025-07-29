@@ -287,18 +287,17 @@ function ProductionCard({ data, estrusori, estrusoriMiscele }) {
         isCompleted={isProductionComplete}
       />
 
-
       {/* 🆕 SEZIONE PROGRESS BILANCIATA */}
-      <CompactProgressSection data={data} />
+      <CompactProgressSection data={data} isCompleted={isProductionComplete} />
 
-        {/* Sezione Hopper MODERNA - SOTTO TUTTO */}
-        <ModernHopperStatus 
-          htmlString={data.stato_macchina_html || ''}
-          isCompleted={isProductionComplete}
-          machineName={data.fnt_sigla}
-        />
+      {/* Sezione Hopper MODERNA - SOTTO TUTTO */}
+      <ModernHopperStatus 
+        htmlString={data.stato_macchina_html || ''}
+        isCompleted={isProductionComplete}
+        machineName={data.fnt_sigla}
+      />
       {/* Sezione compatta estrusori/miscele - modulare */}
-      <ModernEstrusoriSection estrusoriMiscele={estrusoriMiscele} />
+      <ModernEstrusoriSection estrusoriMiscele={estrusoriMiscele} isCompleted={isProductionComplete} />
       </div>
 
       {/* Banner completamento */}

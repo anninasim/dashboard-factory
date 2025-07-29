@@ -61,23 +61,40 @@ const ModernMaterialSpecs = ({ data, isCompleted }) => {
     }
   ];
 
+  // Stile grigio per stato completato
+  const completedStyle = isCompleted
+    ? {
+        color: '#b0b0b0',
+        filter: 'grayscale(0.7)',
+        opacity: 0.7,
+        pointerEvents: 'none',
+        background: 'linear-gradient(135deg, #232323 60%, #2d2d2d 100%)',
+      }
+    : {};
+
   return (
     <TooltipProvider>
-      <div className="w-full bg-gradient-to-br from-slate-900/40 to-slate-800/40 border border-slate-700/50 backdrop-blur-xl rounded-lg">
+      <div
+        className="w-full bg-gradient-to-br from-slate-900/40 to-slate-800/40 border border-slate-700/50 backdrop-blur-xl rounded-lg"
+        style={isCompleted ? { ...completedStyle } : {}}
+      >
         {/* HEADER CON MISCELA A DESTRA */}
         <div className="flex items-center justify-between px-3 py-1.5 border-b border-slate-600/30">
           <div className="flex items-center gap-1.5">
-            <Beaker className="w-3.5 h-3.5 text-purple-400" />
-            <span className="text-base font-bold text-white">SPECIFICHE MATERIALE</span>
+            <Beaker className="w-3.5 h-3.5" style={{ color: isCompleted ? '#b0b0b0' : '#a78bfa' }} />
+            <span className="text-base font-bold" style={{ color: isCompleted ? '#b0b0b0' : '#fff' }}>SPECIFICHE MATERIALE</span>
           </div>
           <div className="flex items-center gap-2">
             {/* MISCELA NEL HEADER */}
             <Tooltip>
               <TooltipTrigger asChild>
-                <div className="flex items-center gap-1.5 bg-slate-800/50 rounded border border-slate-600/30 hover:border-purple-400/50 transition-all duration-200 px-2 py-1">
-                  <Beaker className="w-3 h-3 text-purple-400" />
-                  <span className="text-base font-medium text-slate-400">Miscela:</span>
-                  <span className="text-base font-bold text-purple-300">{miscelaData.value}</span>
+                <div
+                  className="flex items-center gap-1.5 bg-slate-800/50 rounded border border-slate-600/30 transition-all duration-200 px-2 py-1"
+                  style={isCompleted ? { filter: 'grayscale(1)', opacity: 0.6 } : {}}
+                >
+                  <Beaker className="w-3 h-3" style={{ color: isCompleted ? '#b0b0b0' : '#a78bfa' }} />
+                  <span className="text-base font-medium" style={{ color: isCompleted ? '#b0b0b0' : '#94a3b8' }}>Miscela:</span>
+                  <span className="text-base font-bold" style={{ color: isCompleted ? '#b0b0b0' : '#c4b5fd' }}>{miscelaData.value}</span>
                 </div>
               </TooltipTrigger>
               <TooltipContent>
@@ -97,24 +114,19 @@ const ModernMaterialSpecs = ({ data, isCompleted }) => {
           {gridFields.map((field) => (
             <Tooltip key={field.key}>
               <TooltipTrigger asChild>
-                <div className="bg-slate-800/50 rounded border border-slate-600/30 hover:border-slate-500/50 transition-all duration-200 group px-1.5 py-1.5">
+                <div
+                  className="bg-slate-800/50 rounded border border-slate-600/30 transition-all duration-200 group px-1.5 py-1.5"
+                  style={isCompleted ? { filter: 'grayscale(1)', opacity: 0.6 } : {}}
+                >
                   <div className="flex flex-col items-center text-center space-y-0.5">
-                    <div className="group-hover:scale-110 transition-transform duration-200 text-sm opacity-80">
-                      {field.icon}
+                    <div className="transition-transform duration-200 text-sm opacity-80">
+                      {React.cloneElement(field.icon, { style: isCompleted ? { color: '#b0b0b0' } : {} })}
                     </div>
-                    <div className="text-[0.75rem] font-medium text-slate-400 uppercase tracking-wide leading-tight truncate w-full">
+                    <div className="text-[0.75rem] font-medium uppercase tracking-wide leading-tight truncate w-full" style={{ color: isCompleted ? '#b0b0b0' : '#94a3b8' }}>
                       {field.label}
                     </div>
-                    <div className={`text-2xl font-extrabold ${field.color} group-hover:text-white transition-colors duration-200 leading-tight truncate w-full text-center`}>
-                    <div className={`text-2xl font-semibold ${field.color} group-hover:text-white transition-colors duration-200 leading-tight truncate w-full text-center`}>
-                    <div className={`text-xl font-semibold ${field.color} group-hover:text-white transition-colors duration-200 leading-tight truncate w-full text-center`}>
-                    <div className={`text-lg font-semibold ${field.color} group-hover:text-white transition-colors duration-200 leading-tight truncate w-full text-center`}>
-                    <div className={`text-xl font-semibold ${field.color} group-hover:text-white transition-colors duration-200 leading-tight truncate w-full text-center`}>
+                    <div className="text-xl font-semibold w-full text-center" style={{ color: isCompleted ? '#b0b0b0' : undefined }}>
                       {field.value}
-                    </div>
-                    </div>
-                    </div>
-                    </div>
                     </div>
                   </div>
                 </div>
