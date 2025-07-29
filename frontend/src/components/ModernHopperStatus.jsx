@@ -190,7 +190,7 @@ const ModernHopperStatus = ({ htmlString, isCompleted = false, machineName }) =>
   return (
     <TooltipProvider>
       <Card className={`w-full h-80 bg-gradient-to-br from-slate-900/40 to-slate-800/40 border-slate-700/50 backdrop-blur-xl ${isCompleted ? 'opacity-60 grayscale' : ''}`}>
-        <CardHeader className="pb-4">
+        <CardHeader className="pb-2 pt-1">
           <div className="flex items-center justify-between">
             <CardTitle className="text-lg font-bold text-white flex items-center gap-2" style={{lineHeight: 1.1}}>
               <Factory className="w-5 h-5 text-cyan-400" />
