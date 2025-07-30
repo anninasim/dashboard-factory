@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Card, CardHeader, CardTitle, CardContent } from './ui/Card';
 import { Badge } from './ui/Badge';
@@ -41,41 +40,41 @@ function ModernEstrusoriSection({ estrusoriMiscele, isCompleted }) {
         </CardTitle>
         <div className="border-b border-slate-600/40 mt-2" />
       </CardHeader>
-      <CardContent className={`pt-2 pb-1 grid ${colClass} gap-2`}>
-        {(() => {
-          // Column-major order: fill columns vertically, then next column
-          const n = estrusoriMiscele.length;
-          const cols = colClass === 'grid-cols-2' ? 2 : 1;
-          const rows = Math.ceil(n / cols);
-          const items = [];
-          for (let col = 0; col < cols; col++) {
-            for (let row = 0; row < rows; row++) {
-              const idx = row + col * rows;
-              if (idx < n) {
-                const item = estrusoriMiscele[idx];
-                items.push(
-                  <div
-                    key={idx}
-                    className="flex items-center gap-2 bg-slate-800/60 rounded-md px-2 py-1 min-w-[80px] shadow-sm border border-slate-700/30"
-                    style={{ fontSize: '0.92rem', minHeight: '30px', borderWidth: '1px' }}
-                  >
-                    <Badge
-                      variant="secondary"
-                      className={`font-extrabold px-2 py-0.5 mr-1 border ${pastelColors[idx % pastelColors.length]}`}
-                      style={{ fontSize: '1.05rem', transition: 'background 0.2s' }}
-                    >
-                      {item.lettera}
-                    </Badge>
-                    <span className="text-slate-100 font-medium tracking-tight" style={{ fontSize: '0.92rem' }}>
-                      {item.miscela}
-                    </span>
-                  </div>
-                );
-              }
+      <CardContent className="pt-2 pb-1">
+        <div className="grid grid-cols-4 gap-2">
+          {Array.from({ length: 8 }).map((_, idx) => {
+            const item = estrusoriMiscele[idx];
+            if (!item) {
+              // Slot vuoto per mantenere la griglia 4x2
+              return <div key={idx}></div>;
             }
-          }
-          return items;
-        })()}
+            return (
+              <div
+                key={idx}
+                className="flex items-center justify-between bg-slate-800/60 rounded-md px-2 py-1 min-w-[80px] shadow-sm border border-slate-700/30"
+                style={{ fontSize: '0.92rem', minHeight: '30px', borderWidth: '1px' }}
+              >
+                <div className="flex items-center gap-2 min-w-0">
+                  <Badge
+                    variant="secondary"
+                    className={`font-extrabold px-2 py-0.5 mr-1 border ${pastelColors[idx % pastelColors.length]}`}
+                    style={{ fontSize: '1.05rem', transition: 'background 0.2s' }}
+                  >
+                    {item.lettera}
+                  </Badge>
+                  <span className="text-slate-100 font-medium tracking-tight flex-1" style={{ fontSize: '0.92rem' }}>
+                    {item.miscela}
+                  </span>
+                </div>
+                {item.percentuale !== undefined && (
+                  <span className="ml-2 text-green-400 font-semibold text-sm whitespace-nowrap">
+                    {item.percentuale}%
+                  </span>
+                )}
+              </div>
+            );
+          })}
+        </div>
       </CardContent>
     </Card>
   );
