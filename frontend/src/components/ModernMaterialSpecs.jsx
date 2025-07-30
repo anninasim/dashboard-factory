@@ -76,10 +76,19 @@ const ModernMaterialSpecs = ({ data, isCompleted }) => {
     <TooltipProvider>
       <div
         className="w-full bg-gradient-to-br from-slate-900/40 to-slate-800/40 border border-slate-700/50 backdrop-blur-xl rounded-lg"
-        style={isCompleted ? { ...completedStyle } : {}}
+        style={{
+          ...isCompleted ? completedStyle : {},
+          marginTop: 0,
+          marginBottom: 0,
+          paddingLeft: '0.5rem',
+          paddingRight: '0.5rem',
+          paddingTop: '0.5rem',
+          paddingBottom: '0.5rem',
+          boxSizing: 'border-box',
+        }}
       >
         {/* HEADER CON MISCELA A DESTRA */}
-        <div className="flex items-center justify-between px-3 py-1.5 border-b border-slate-600/30">
+        <div className="flex items-center justify-between px-2 py-1 border-b border-slate-600/30">
           <div className="flex items-center gap-1.5">
             <Beaker className="w-5 h-5" style={{ color: isCompleted ? '#b0b0b0' : '#a78bfa' }} />
             <span className="text-lg font-bold" style={{ color: isCompleted ? '#b0b0b0' : '#fff', lineHeight: 1.1 }}>SPECIFICHE MATERIALE</span>
@@ -110,15 +119,15 @@ const ModernMaterialSpecs = ({ data, isCompleted }) => {
         </div>
 
         {/* GRID COMPATTO: 5 colonne (senza miscela) - LAYOUT MODIFICATO */}
-        <div className="grid grid-cols-5 gap-1 p-2">
+        <div className="grid grid-cols-5 gap-1 p-1.5">
           {gridFields.map((field) => (
             <Tooltip key={field.key}>
               <TooltipTrigger asChild>
                 <div
-                  className="bg-slate-800/50 rounded border border-slate-600/30 transition-all duration-200 group px-1.5 py-1.5"
+                  className="bg-slate-800/50 rounded border border-slate-600/30 transition-all duration-200 group px-1 py-1"
                   style={isCompleted ? { filter: 'grayscale(1)', opacity: 0.6 } : {}}
                 >
-                  <div className="flex flex-col items-center text-center space-y-1.5">
+                  <div className="flex flex-col items-center text-center space-y-0.5">
                     {/* ICONA + LABEL */}
                     <div className="flex items-center gap-1 justify-center">
                       <div className="text-lg opacity-90">

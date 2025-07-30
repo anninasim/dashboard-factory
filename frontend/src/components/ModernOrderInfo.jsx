@@ -41,17 +41,26 @@ const ModernOrderInfo = ({ data, isCompleted }) => {
     <TooltipProvider>
       <div
         className="w-full bg-gradient-to-br from-slate-900/40 to-slate-800/40 border border-slate-700/50 backdrop-blur-xl rounded-lg"
-        style={isCompleted ? { ...completedStyle } : {}}
+        style={{
+          ...isCompleted ? completedStyle : {},
+          marginTop: 0,
+          marginBottom: 0,
+          paddingLeft: '0.5rem',
+          paddingRight: '0.5rem',
+          paddingTop: '0.5rem',
+          paddingBottom: '0.5rem',
+          boxSizing: 'border-box',
+        }}
       >
         {/* HEADER ULTRA-COMPATTO CON TUTTO INLINE */}
-        <div className="flex items-center justify-between px-3 py-1.5">
+        <div className="flex items-center justify-between px-2 py-1">
         <div className="flex items-center gap-1.5">
           <ClipboardList className="w-5 h-5" style={{ color: isCompleted ? '#b0b0b0' : '#60a5fa' }} />
           <span className="text-lg font-bold" style={{ color: isCompleted ? '#b0b0b0' : '#fff', lineHeight: 1.1 }}>ORDINE</span>
         </div>
           
           {/* ORDINE E ARTICOLO TUTTO INLINE */}
-          <div className="flex items-center gap-2 flex-1 justify-end">
+          <div className="flex items-center gap-2">
             {/* ORDINE COMPATTO */}
             <Tooltip>
               <TooltipTrigger asChild>

@@ -36,7 +36,7 @@ function ModernEstrusoriSection({ estrusoriMiscele, isCompleted }) {
           style={{ color: isCompleted ? '#b0b0b0' : '#fff', lineHeight: 1.1 }}
         >
           <FlaskRound className="w-5 h-5" style={{ color: isCompleted ? '#b0b0b0' : '#f472b6' }} />
-          DOSAGGIO ADDITIVI
+          DOSAGGIO PREMISCELATO
         </CardTitle>
         <div className="border-b border-slate-600/40 mt-2" />
       </CardHeader>
