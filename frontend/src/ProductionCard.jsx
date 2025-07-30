@@ -211,9 +211,9 @@ function ProductionCard({ data, estrusori, estrusoriMiscele }) {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between',
-        padding: '0.4rem 1.2rem 0.4rem 1.2rem',
-        minHeight: '3.2rem',
-        boxShadow: '0 2px 8px rgba(0,0,0,0.18)',
+        padding: '0.18rem 0.6rem 0.18rem 0.6rem',
+        minHeight: '2.1rem',
+        boxShadow: '0 1px 4px rgba(0,0,0,0.13)',
         zIndex: 2
       }}>
         {/* Titolo macchina con rotella a sinistra e stato a destra (struttura classica separata) */}
@@ -221,16 +221,16 @@ function ProductionCard({ data, estrusori, estrusoriMiscele }) {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          fontSize: '2.1rem',
+          fontSize: '1rem',
           fontWeight: 800,
           color: '#f8ffe0',
-          letterSpacing: '0.04em',
-          textShadow: '0 2px 8px #000, 0 1px 2px #2d5016',
-          padding: '0.1em 0.7em',
-          borderRadius: '0.35em',
-          border: `2.5px solid ${isProductionComplete ? '#84cc16' : stato.borderColor || stato.color}`,
+          letterSpacing: '0.025em',
+          textShadow: '0 1px 3px #000, 0 1px 2px #2d5016',
+          padding: '0.04em 0.28em',
+          borderRadius: '0.24em',
+          border: `1.7px solid ${isProductionComplete ? '#84cc16' : stato.borderColor || stato.color}`,
           background: isProductionComplete ? 'rgba(40,60,20,0.92)' : 'rgba(20,24,28,0.92)',
-          boxShadow: isProductionComplete ? '0 0 12px #84cc1633' : '0 2px 8px rgba(0,0,0,0.18)',
+          boxShadow: isProductionComplete ? '0 0 6px #84cc1633' : '0 1px 3px rgba(0,0,0,0.11)',
           minWidth: 0,
           overflow: 'hidden',
           whiteSpace: 'nowrap',
@@ -239,7 +239,7 @@ function ProductionCard({ data, estrusori, estrusoriMiscele }) {
         }}>
           {/* Icona animata solo se IN PRODUZIONE o INIZIO PRODUZIONE */}
           {(stato.label === '🟢 IN PRODUZIONE' || stato.label === '🔵 INIZIO PRODUZIONE') && (
-            <Loader2 className="mr-2 text-cyan-300 animate-spin-slow" style={{verticalAlign:'middle', flexShrink:0}} size={28} />
+            <Loader2 className="mr-1 text-cyan-300 animate-spin-slow" style={{verticalAlign:'middle', flexShrink:0}} size={18} />
           )}
           <span style={{flex: 1, minWidth: 0, textAlign: 'center'}}>{data.fnt_sigla}</span>
         </h2>
@@ -248,16 +248,16 @@ function ProductionCard({ data, estrusori, estrusoriMiscele }) {
           style={{
             background: isProductionComplete ? 'linear-gradient(135deg, #2d5016, #3f6e20)' : 'rgba(30,40,30,0.92)',
             color: isProductionComplete ? '#d9f99d' : stato.color,
-            border: `2px solid ${isProductionComplete ? '#84cc16' : stato.color}`,
+            border: `1.5px solid ${isProductionComplete ? '#84cc16' : stato.color}`,
             borderRadius: '9999px',
             fontWeight: 800,
-            padding: '0.32rem 1.1rem',
-            fontSize: '1.08rem',
-            boxShadow: isProductionComplete ? '0 0 12px #84cc1633' : 'none',
+            padding: '0.18rem 0.7rem',
+            fontSize: '0.9rem',
+            boxShadow: isProductionComplete ? '0 0 8px #84cc1633' : 'none',
             textShadow: '0 1px 2px #000, 0 1px 2px #2d5016',
             flexShrink: 0,
-            marginLeft: '1.2rem',
-            marginTop: '0.2rem',
+            marginLeft: '0.7rem',
+            marginTop: '0.08rem',
             display: 'inline-block',
             verticalAlign: 'middle'
           }}
