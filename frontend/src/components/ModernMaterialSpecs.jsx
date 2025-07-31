@@ -95,7 +95,8 @@ const ModernMaterialSpecs = ({ data, isCompleted }) => {
           boxSizing: 'border-box',
         }}
       >
-
+        {/* HEADER VUOTO SOLO BORDO */}
+        <div className="border-b border-slate-600/30" style={{height: '0.5rem'}} />
 
         {/* GRID COMPATTO: 5 colonne (senza miscela) - LAYOUT MODIFICATO */}
         <div className={`flex flex-row flex-nowrap items-center gap-1 p-1.5`} style={{overflowX:'auto'}}>
