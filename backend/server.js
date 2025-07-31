@@ -61,6 +61,7 @@ app.get('/api/dashboard', async (req, res) => {
         tech.qta_uni_kg,           -- Quantità unitaria in kg
         tech.qta_uni_ml,           -- Quantità unitaria in ml
         tech.num_bobine,           -- Numero bobine
+        tech.foratura,             -- Foratura (nuovo campo richiesto)
         tech.stato_macchina_html,
         tech.additivazione_html
 

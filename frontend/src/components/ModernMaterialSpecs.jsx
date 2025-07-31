@@ -60,6 +60,14 @@ const ModernMaterialSpecs = ({ data, isCompleted }) => {
       color: 'text-pink-300'
     }
   ];
+  
+  // Inserisci foratura accanto a Metri Lineari solo se presente e >10 caratteri
+  let showForatura = false;
+  let foraturaValue = '';
+  if (typeof data.foratura === 'string' && data.foratura.trim().length > 10) {
+    showForatura = true;
+    foraturaValue = data.foratura.trim();
+  }
 
   // Stile grigio per stato completato
   const completedStyle = isCompleted
@@ -119,29 +127,32 @@ const ModernMaterialSpecs = ({ data, isCompleted }) => {
         </div>
 
         {/* GRID COMPATTO: 5 colonne (senza miscela) - LAYOUT MODIFICATO */}
-        <div className="grid grid-cols-5 gap-1 p-1.5">
-          {gridFields.map((field) => (
+        <div className={`flex flex-row flex-nowrap items-center gap-1 p-1.5`} style={{overflowX:'auto'}}>
+          {[...gridFields, ...(showForatura ? [{
+            icon: <Info className="w-4 h-4 text-yellow-400 opacity-90 flex-shrink-0" />,
+            label: 'Foratura',
+            value: foraturaValue,
+            key: 'foratura',
+            color: 'text-yellow-300',
+            labelColor: '#fde68a',
+          }] : [])].map((field) => (
             <Tooltip key={field.key}>
               <TooltipTrigger asChild>
                 <div
-                  className="bg-slate-800/50 rounded border border-slate-600/30 transition-all duration-200 group px-1 py-1"
-                  style={isCompleted ? { filter: 'grayscale(1)', opacity: 0.6 } : {}}
+                  className="flex flex-col items-center justify-center flex-1 bg-slate-800/50 rounded border border-slate-600/30 transition-all duration-200 px-1 py-0.5 min-w-0"
+                  style={isCompleted ? { filter: 'grayscale(1)', opacity: 0.6, minWidth: 0 } : {minWidth: 0}}
                 >
-                  <div className="flex flex-col items-center text-center space-y-0.5">
-                    {/* ICONA + LABEL */}
-                    <div className="flex items-center gap-1 justify-center">
-                      <div className="text-lg opacity-90">
-                        {React.cloneElement(field.icon, { style: isCompleted ? { color: '#b0b0b0' } : {} })}
-                      </div>
-                      <div className="text-sm font-semibold uppercase tracking-wide leading-tight" style={{ color: isCompleted ? '#b0b0b0' : '#94a3b8' }}>
-                        {field.label}
-                      </div>
-                    </div>
-                    {/* VALORE */}
-                    <div className={`text-2xl font-bold w-full text-center ${!isCompleted ? field.color : ''}`} style={isCompleted ? { color: '#b0b0b0' } : {}}>
-                      {field.value}
-                    </div>
-                  </div>
+                  <span className="flex items-center gap-0.5 min-w-0">
+                    <span className="text-base opacity-90 flex-shrink-0">
+                      {React.cloneElement(field.icon, { style: isCompleted ? { color: '#b0b0b0' } : {} })}
+                    </span>
+                    <span className="text-xs font-semibold uppercase tracking-wide leading-tight flex-shrink-0" style={{ color: isCompleted ? '#b0b0b0' : (field.labelColor || '#94a3b8') }}>
+                      {field.label}
+                    </span>
+                  </span>
+                  <span className={`font-bold text-lg text-center truncate mt-0.5 ${!isCompleted ? field.color : ''}`} style={isCompleted ? { color: '#b0b0b0', maxWidth: '100%' } : {maxWidth: '100%'}}>
+                    {field.value}
+                  </span>
                 </div>
               </TooltipTrigger>
               <TooltipContent>
