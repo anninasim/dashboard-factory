@@ -295,6 +295,7 @@ function ProductionCard({ data, estrusori, estrusoriMiscele }) {
         htmlString={data.stato_macchina_html || ''}
         isCompleted={isProductionComplete}
         machineName={data.fnt_sigla}
+        miscelaCode={data.mntg_codice_ricetta}
       />
       {/* Sezione compatta estrusori/miscele - modulare */}
       <ModernEstrusoriSection estrusoriMiscele={estrusoriMiscele} isCompleted={isProductionComplete} />

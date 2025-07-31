@@ -122,7 +122,22 @@ const ModernMaterialSpecs = ({ data, isCompleted }) => {
                       {field.label}
                     </span>
                   </span>
-                  <span className={`font-bold text-lg text-center truncate mt-0.5 ${!isCompleted ? field.color : ''}`} style={isCompleted ? { color: '#b0b0b0', maxWidth: '100%' } : {maxWidth: '100%'}}>
+                  <span
+                    className={`font-bold text-center truncate mt-0.5 ${!isCompleted ? field.color : ''}`}
+                    style={{
+                      fontSize: [
+                        'kg_totali',
+                        'larghezza',
+                        'spessore',
+                        'kg_unitari',
+                        'metri_unitari'
+                      ].includes(field.key)
+                        ? '1.45rem'
+                        : '1.05rem',
+                      color: isCompleted ? '#b0b0b0' : undefined,
+                      maxWidth: '100%'
+                    }}
+                  >
                     {field.value}
                   </span>
                 </div>

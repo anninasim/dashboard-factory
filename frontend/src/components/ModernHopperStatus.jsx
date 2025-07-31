@@ -162,7 +162,7 @@ const ModernHopperCard = ({ hopperName, components, isEmpty = false }) => {
 };
 
 // 🎨 COMPONENTE PRINCIPALE HOPPER STATUS MODERNO
-const ModernHopperStatus = ({ htmlString, isCompleted = false, machineName }) => {
+const ModernHopperStatus = ({ htmlString, isCompleted = false, machineName, miscelaCode }) => {
   // Normalizza nome macchina per lookup
   const normalizedMachineName = machineName?.toUpperCase().replace(/\s+/g, '') || '';
   
@@ -195,17 +195,12 @@ const ModernHopperStatus = ({ htmlString, isCompleted = false, machineName }) =>
               <Factory className="w-5 h-5 text-cyan-400" />
               STATO HOPPER
             </CardTitle>
-            <Tooltip>
-              <TooltipTrigger>
-                <Badge variant={activeHoppers > 0 ? 'success' : 'secondary'} className="text-xs font-semibold">
-                  <Gauge className="w-3 h-3 mr-1" />
-                  {activeHoppers}/{machineHoppers.length} attivi
-                </Badge>
-              </TooltipTrigger>
-              <TooltipContent>
-                <p>Hopper attivi: {activeHoppers} su {machineHoppers.length} disponibili per {machineName}</p>
-              </TooltipContent>
-            </Tooltip>
+            {/* Codice miscela al posto del badge hopper attivi */}
+            {miscelaCode && (
+              <span className="text-xs font-bold text-purple-300 bg-slate-800/60 px-2 py-1 rounded shadow-sm border border-purple-400/30" style={{letterSpacing:'0.04em', display:'flex', alignItems:'center', gap:'0.3em'}}>
+                <span style={{color:'#c4b5fd', fontWeight:600, marginRight:'0.3em'}}>Miscela</span> {miscelaCode}
+              </span>
+            )}
           </div>
         </CardHeader>
         <CardContent>
