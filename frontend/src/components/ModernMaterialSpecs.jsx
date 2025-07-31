@@ -95,36 +95,7 @@ const ModernMaterialSpecs = ({ data, isCompleted }) => {
           boxSizing: 'border-box',
         }}
       >
-        {/* HEADER CON MISCELA A DESTRA */}
-        <div className="flex items-center justify-between px-2 py-1 border-b border-slate-600/30">
-          <div className="flex items-center gap-1.5">
-            <Beaker className="w-5 h-5" style={{ color: isCompleted ? '#b0b0b0' : '#a78bfa' }} />
-            <span className="text-lg font-bold" style={{ color: isCompleted ? '#b0b0b0' : '#fff', lineHeight: 1.1 }}>SPECIFICHE MATERIALE</span>
-          </div>
-          <div className="flex items-center gap-2">
-            {/* MISCELA NEL HEADER */}
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <div
-                  className="flex items-center gap-1.5 bg-slate-800/50 rounded border border-slate-600/30 transition-all duration-200 px-2 py-1"
-                  style={isCompleted ? { filter: 'grayscale(1)', opacity: 0.6 } : {}}
-                >
-                  <Beaker className="w-3 h-3" style={{ color: isCompleted ? '#b0b0b0' : '#a78bfa' }} />
-                  <span className="text-base font-medium" style={{ color: isCompleted ? '#b0b0b0' : '#94a3b8' }}>Miscela:</span>
-                  <span className="text-base font-bold" style={{ color: isCompleted ? '#b0b0b0' : '#c4b5fd' }}>{miscelaData.value}</span>
-                </div>
-              </TooltipTrigger>
-              <TooltipContent>
-                <p className="text-base">Miscela: {miscelaData.value}</p>
-              </TooltipContent>
-            </Tooltip>
-            {isCompleted && (
-              <Badge variant="info" className="text-xs font-semibold px-1.5 py-0.5">
-                OK
-              </Badge>
-            )}
-          </div>
-        </div>
+
 
         {/* GRID COMPATTO: 5 colonne (senza miscela) - LAYOUT MODIFICATO */}
         <div className={`flex flex-row flex-nowrap items-center gap-1 p-1.5`} style={{overflowX:'auto'}}>
