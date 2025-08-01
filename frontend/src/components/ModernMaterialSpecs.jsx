@@ -5,6 +5,7 @@ import { Tooltip, TooltipContent, TooltipTrigger, TooltipProvider } from './ui/T
 import { Beaker, Scale, Ruler, Info } from 'lucide-react';
 
 // 🎯 Componente MODERNO per le specifiche tecniche del materiale con shadcn/ui
+
 const ModernMaterialSpecs = ({ data, isCompleted }) => {
   // Funzione helper per formattare i valori numerici senza decimali inutili
   const formatNumber = (value) => {
@@ -12,15 +13,6 @@ const ModernMaterialSpecs = ({ data, isCompleted }) => {
     const numValue = typeof value === 'string' ? parseFloat(value) : value;
     if (isNaN(numValue)) return '-';
     return Number.isInteger(numValue) ? numValue.toString() : numValue.toString();
-  };
-
-  // 🆕 SEPARAZIONE: Miscela nel header, altri 5 nel grid
-  const miscelaData = {
-    icon: <Beaker className="w-4 h-4 text-purple-400" />,
-    label: 'Miscela',
-    value: data.mntg_codice_ricetta || '-',
-    key: 'miscela',
-    color: 'text-purple-300'
   };
 
   const gridFields = [
@@ -60,7 +52,7 @@ const ModernMaterialSpecs = ({ data, isCompleted }) => {
       color: 'text-pink-300'
     }
   ];
-  
+
   // Inserisci foratura accanto a Metri Lineari solo se presente e >10 caratteri
   let showForatura = false;
   let foraturaValue = '';
@@ -100,19 +92,16 @@ const ModernMaterialSpecs = ({ data, isCompleted }) => {
 
         {/* GRID COMPATTO: 5 colonne (senza miscela) - LAYOUT MODIFICATO */}
         <div className={`flex flex-row flex-nowrap items-center gap-1 p-1.5`} style={{overflowX:'auto'}}>
-          {[...gridFields, ...(showForatura ? [{
-            icon: <Info className="w-4 h-4 text-yellow-400 opacity-90 flex-shrink-0" />,
-            label: 'Foratura',
-            value: foraturaValue,
-            key: 'foratura',
-            color: 'text-yellow-300',
-            labelColor: '#fde68a',
-          }] : [])].map((field) => (
+          {gridFields.map((field) => (
             <Tooltip key={field.key}>
               <TooltipTrigger asChild>
                 <div
                   className="flex flex-col items-center justify-center flex-1 bg-slate-800/50 rounded border border-slate-600/30 transition-all duration-200 px-1 py-0.5 min-w-0"
-                  style={isCompleted ? { filter: 'grayscale(1)', opacity: 0.6, minWidth: 0 } : {minWidth: 0}}
+                  style={{
+                    ...(isCompleted ? { filter: 'grayscale(1)', opacity: 0.6, minWidth: 0 } : { minWidth: 0 }),
+                    minHeight: '4.2rem',
+                    height: '100%',
+                  }}
                 >
                   <span className="flex items-center gap-0.5 min-w-0">
                     <span className="text-base opacity-90 flex-shrink-0">
@@ -123,7 +112,7 @@ const ModernMaterialSpecs = ({ data, isCompleted }) => {
                     </span>
                   </span>
                   <span
-                    className={`font-bold text-center truncate mt-0.5 ${!isCompleted ? field.color : ''}`}
+                    className={`font-bold text-center mt-0.5 ${!isCompleted ? field.color : ''} truncate`}
                     style={{
                       fontSize: [
                         'kg_totali',
@@ -133,7 +122,7 @@ const ModernMaterialSpecs = ({ data, isCompleted }) => {
                         'metri_unitari'
                       ].includes(field.key)
                         ? '1.45rem'
-                        : '1.05rem',
+                        : '1.2rem',
                       color: isCompleted ? '#b0b0b0' : undefined,
                       maxWidth: '100%'
                     }}
@@ -149,6 +138,50 @@ const ModernMaterialSpecs = ({ data, isCompleted }) => {
               </TooltipContent>
             </Tooltip>
           ))}
+
+          {/* Foratura: stessa struttura degli altri campi, label sopra, valore sotto */}
+          {showForatura && (
+            <Tooltip key="foratura">
+              <TooltipTrigger asChild>
+                <div
+                  className="flex flex-col items-center justify-center flex-1 bg-slate-800/50 rounded border border-slate-600/30 transition-all duration-200 px-1 py-0.5 min-w-0"
+                  style={{
+                    ...(isCompleted ? { filter: 'grayscale(1)', opacity: 0.6, minWidth: 0 } : { minWidth: 0 }),
+                    minHeight: '4.2rem',
+                    height: '100%',
+                  }}
+                >
+                  <span className="flex items-center gap-0.5 min-w-0">
+                    <span className="text-base opacity-90 flex-shrink-0">
+                      {React.cloneElement(<Info className="w-4 h-4 text-yellow-400 opacity-90 flex-shrink-0" />, { style: isCompleted ? { color: '#b0b0b0' } : {} })}
+                    </span>
+                    <span className="text-xs font-semibold uppercase tracking-wide leading-tight flex-shrink-0" style={{ color: isCompleted ? '#b0b0b0' : '#fde68a' }}>
+                      Foratura
+                    </span>
+                  </span>
+                  <span
+                    className={`font-bold text-center mt-0.5 ${!isCompleted ? 'text-yellow-300' : ''} truncate`}
+                    style={{
+                      fontSize: '1.1rem',
+                      color: isCompleted ? '#b0b0b0' : undefined,
+                      maxWidth: '100%',
+                      wordBreak: 'break-word',
+                      whiteSpace: 'normal',
+                      lineHeight: '1.2',
+                      marginTop: '0.7rem', 
+                    }}
+                  >
+                    {foraturaValue}
+                  </span>
+                </div>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p className="text-xs">
+                  Foratura: {foraturaValue}
+                </p>
+              </TooltipContent>
+            </Tooltip>
+          )}
         </div>
       </div>
     </TooltipProvider>
