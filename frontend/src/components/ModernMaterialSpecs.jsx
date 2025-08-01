@@ -50,7 +50,16 @@ const ModernMaterialSpecs = ({ data, isCompleted }) => {
       value: data.qta_uni_ml ? `${formatNumber(data.qta_uni_ml)} mt` : '-',
       key: 'metri_unitari',
       color: 'text-pink-300'
-    }
+    },
+    // Tipologia: aggiunta come ultima cella della griglia (prima di foratura)
+    {
+      icon: <Beaker className="w-4 h-4 text-lime-400" />,
+      label: 'Tipologia',
+      value: data.tipologia ? data.tipologia : '-',
+      key: 'tipologia',
+      color: 'text-lime-300',
+      labelColor: '#bef264',
+    },
   ];
 
   // Inserisci foratura accanto a Metri Lineari solo se presente e >10 caratteri
@@ -74,24 +83,10 @@ const ModernMaterialSpecs = ({ data, isCompleted }) => {
 
   return (
     <TooltipProvider>
-      <div
-        className="w-full bg-gradient-to-br from-slate-900/40 to-slate-800/40 border border-slate-700/50 backdrop-blur-xl rounded-lg"
-        style={{
-          ...isCompleted ? completedStyle : {},
-          marginTop: 0,
-          marginBottom: 0,
-          paddingLeft: '0.5rem',
-          paddingRight: '0.5rem',
-          paddingTop: '0.5rem',
-          paddingBottom: '0.5rem',
-          boxSizing: 'border-box',
-        }}
-      >
-        {/* HEADER VUOTO SOLO BORDO */}
         <div className="border-b border-slate-600/30" style={{height: '0.5rem'}} />
 
         {/* GRID COMPATTO: 5 colonne (senza miscela) - LAYOUT MODIFICATO */}
-        <div className={`flex flex-row flex-nowrap items-center gap-1 p-1.5`} style={{overflowX:'auto'}}>
+        <div className="flex flex-row items-center gap-1 p-1.5">
           {gridFields.map((field) => (
             <Tooltip key={field.key}>
               <TooltipTrigger asChild>
@@ -124,7 +119,8 @@ const ModernMaterialSpecs = ({ data, isCompleted }) => {
                         ? '1.45rem'
                         : '1.2rem',
                       color: isCompleted ? '#b0b0b0' : undefined,
-                      maxWidth: '100%'
+                      maxWidth: '100%',
+                      marginTop: '0.125rem', // mt-0.5 per tutte
                     }}
                   >
                     {field.value}
@@ -168,7 +164,7 @@ const ModernMaterialSpecs = ({ data, isCompleted }) => {
                       wordBreak: 'break-word',
                       whiteSpace: 'normal',
                       lineHeight: '1.2',
-                      marginTop: '0.7rem', 
+                      marginTop: '0.125rem', // mt-0.5 per tutte
                     }}
                   >
                     {foraturaValue}
@@ -183,9 +179,8 @@ const ModernMaterialSpecs = ({ data, isCompleted }) => {
             </Tooltip>
           )}
         </div>
-      </div>
     </TooltipProvider>
   );
-};
+}
 
 export default ModernMaterialSpecs;
