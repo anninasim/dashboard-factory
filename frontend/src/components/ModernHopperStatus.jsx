@@ -67,7 +67,7 @@ const parseHopperHTML = (htmlString) => {
         if (match) {
           const [, siloCode, percentage, description] = match;
           components.push({
-            silo: siloCode.trim(),
+            silo: "",  // Rimuovi il codice del silo
             percentage: parseInt(percentage),
             description: description.trim()
           });
@@ -138,7 +138,7 @@ const ModernHopperCard = ({ hopperName, components, isEmpty = false }) => {
             <div key={index} className="space-y-1">
               <div className="flex items-center justify-between text-sm">
                 <span className="text-slate-300 truncate flex-1 mr-2 text-base">
-                  {comp.silo} - <span className="text-[1rem]">{comp.description}</span>
+                  <span className="text-[1rem]">{comp.description}</span>
                 </span>
                 <span className={`font-bold text-lg ${getComponentColor(comp.percentage)}`}> 
                   {comp.percentage}%

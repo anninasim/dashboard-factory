@@ -89,11 +89,11 @@ const CompactProgressSection = ({ data, fontSizeRem, isCompleted }) => {
                   {/* BOBINE FATTE - ANCORA PIÙ GRANDI */}
                   {(() => {
                     // Colore in base alla percentuale di completamento produzione
-                    let currentColor = '#ef4444'; // rosso <50%
+                    let currentColor = '#f59e42'; // arancione <50%
                     if (isCompleted) currentColor = '#b0b0b0';
                     else if (percentage >= 90) currentColor = '#22c55e'; // verde
                     else if (percentage >= 50) currentColor = '#fbbf24'; // giallo
-                    // altrimenti rosso
+                    // altrimenti arancione
                     return (
                       <span className="font-bold" style={{ color: currentColor, fontSize: '3.2rem', lineHeight: 1 }}>{current}</span>
                     );
