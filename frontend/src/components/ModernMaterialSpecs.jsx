@@ -83,10 +83,10 @@ const ModernMaterialSpecs = ({ data, isCompleted }) => {
 
   return (
     <TooltipProvider>
-        <div className="border-b border-slate-600/30" style={{height: '0.5rem'}} />
+        {/* Divisore rimosso su richiesta utente */}
 
         {/* GRID COMPATTO: 5 colonne (senza miscela) - LAYOUT MODIFICATO */}
-        <div className="flex flex-row items-center gap-1 p-1.5">
+        <div className="flex flex-row items-center gap-1 p-0.25">
           {gridFields.map((field) => (
             <Tooltip key={field.key}>
               <TooltipTrigger asChild>
