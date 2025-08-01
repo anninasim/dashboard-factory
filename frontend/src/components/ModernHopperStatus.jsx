@@ -5,6 +5,25 @@ import { Progress } from './ui/Progress';
 import { Tooltip, TooltipContent, TooltipTrigger, TooltipProvider } from './ui/Tooltip';
 import { Factory, Gauge, AlertCircle, CheckCircle, Info } from 'lucide-react';
 
+// 🏭 ICONA HOPPER SEMPLIFICATA
+const HopperIcon = ({ className = "w-6 h-6" }) => (
+  <svg 
+    className={className} 
+    viewBox="0 0 32 32" 
+    fill="none" 
+    stroke="currentColor" 
+    strokeWidth="2"
+    strokeLinecap="round" 
+    strokeLinejoin="round"
+  >
+    {/* Parte cilindrica superiore */}
+    <rect x="8" y="6" width="16" height="14" rx="1" />
+    
+    {/* Parte conica inferiore */}
+    <path d="M8 20 L16 28 L24 20" />
+  </svg>
+);
+
 // 🗺️ MAPPATURA FISSA MACCHINA → HOPPER
 const MACHINE_HOPPER_MAP = {
   'TR80': ['H16.7'],
@@ -94,7 +113,10 @@ const ModernHopperCard = ({ hopperName, components, isEmpty = false }) => {
       <Card className="h-full bg-gradient-to-br from-slate-800/30 to-slate-700/30 border-slate-600/40 opacity-60">
         <CardHeader className="pb-2">
           <div className="flex items-center justify-between">
-            <CardTitle className="text-sm font-semibold text-slate-300">{hopperName}</CardTitle>
+            <CardTitle className="text-sm font-semibold text-slate-300 flex items-center gap-3">
+              <HopperIcon className="w-5 h-5 text-slate-400" />
+              {hopperName}
+            </CardTitle>
             <Badge variant="secondary" className="text-xs">
               <AlertCircle className="w-3 h-3 mr-1" />
               Inattivo
@@ -121,10 +143,11 @@ const ModernHopperCard = ({ hopperName, components, isEmpty = false }) => {
     <Card className="h-full bg-gradient-to-br from-slate-900/40 to-slate-800/40 border-slate-700/50 hover:border-slate-600/60 transition-all duration-300 hover:shadow-lg">
       <CardHeader className="pt-2 pb-1">
         <CardTitle className="text-lg font-bold text-white flex items-center gap-2">
-          {/* Pulsing dot for active hopper */}
-          <span className="relative flex items-center">
-            <span className="mr-2 font-semibold" style={{fontSize: '1.14rem'}}>{hopperName}</span>
-            <span className="ml-1">
+          {/* Icona hopper + nome + pallino verde */}
+          <span className="relative flex items-center gap-3">
+            <HopperIcon className="w-7 h-7 text-blue-400 flex-shrink-0" />
+            <span className="font-semibold" style={{fontSize: '1.14rem'}}>{hopperName}</span>
+            <span className="ml-2">
               <span className="inline-block w-3 h-3 rounded-full bg-green-400 animate-pulse" style={{ boxShadow: '0 0 6px 2px #22c55e55' }}></span>
             </span>
           </span>
