@@ -189,20 +189,7 @@ const ModernHopperStatus = ({ htmlString, isCompleted = false, machineName, misc
   return (
     <TooltipProvider>
       <Card className={`w-full h-80 bg-gradient-to-br from-slate-900/40 to-slate-800/40 border-slate-700/50 backdrop-blur-xl ${isCompleted ? 'opacity-60 grayscale' : ''}`}>
-        <CardHeader className="pb-2 pt-1">
-          <div className="flex items-center justify-between">
-            <CardTitle className="text-lg font-bold text-white flex items-center gap-2" style={{lineHeight: 1.1}}>
-              <Factory className="w-5 h-5 text-cyan-400" />
-              STATO HOPPER
-            </CardTitle>
-            {/* Codice miscela al posto del badge hopper attivi */}
-            {miscelaCode && (
-              <span className="text-xs font-bold text-purple-300 bg-slate-800/60 px-2 py-1 rounded shadow-sm border border-purple-400/30" style={{letterSpacing:'0.04em', display:'flex', alignItems:'center', gap:'0.3em'}}>
-                <span style={{color:'#c4b5fd', fontWeight:600, marginRight:'0.3em'}}>Miscela</span> {miscelaCode}
-              </span>
-            )}
-          </div>
-        </CardHeader>
+        <CardHeader className="pb-2 pt-1 min-h-0 h-2"></CardHeader>
         <CardContent>
           <div className={`grid gap-3 h-48 ${getGridCols()}`}>
             {machineHoppers.map((hopperName, index) => {
