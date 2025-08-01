@@ -2,7 +2,8 @@ import React from 'react';
 import { Progress } from './ui/Progress';
 import { Badge } from './ui/BadgeFixed';
 import { Tooltip, TooltipContent, TooltipTrigger, TooltipProvider } from './ui/Tooltip';
-import { TrendingUp, Package, Zap, Gauge } from 'lucide-react';
+import { TrendingUp, Zap, Gauge } from 'lucide-react';
+import RollIcon from './icons/RollIcon';
 
 // Componente Progress Section BILANCIATO
 const CompactProgressSection = ({ data, fontSizeRem, isCompleted }) => {
@@ -82,12 +83,24 @@ const CompactProgressSection = ({ data, fontSizeRem, isCompleted }) => {
                   Bobine
                 </span>
                 <div className="flex items-center gap-2">
-                  <Package className="w-6 h-6" style={{ color: isCompleted ? '#b0b0b0' : '#67e8f9' }} />
+                  <span style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', filter: isCompleted ? 'grayscale(1) opacity(0.6)' : 'none', marginRight: 4 }}>
+                    <RollIcon size={2} color={'#fff'} />
+                  </span>
                   {/* BOBINE FATTE - ANCORA PIÙ GRANDI */}
-                  <span className="text-4xl font-bold" style={{ color: isCompleted ? '#b0b0b0' : '#fff' }}>{current}</span>
+                  {(() => {
+                    // Colore in base alla percentuale di completamento produzione
+                    let currentColor = '#ef4444'; // rosso <50%
+                    if (isCompleted) currentColor = '#b0b0b0';
+                    else if (percentage >= 90) currentColor = '#22c55e'; // verde
+                    else if (percentage >= 50) currentColor = '#fbbf24'; // giallo
+                    // altrimenti rosso
+                    return (
+                      <span className="font-bold" style={{ color: currentColor, fontSize: '3.2rem', lineHeight: 1 }}>{current}</span>
+                    );
+                  })()}
                   <span className="text-xl" style={{ color: isCompleted ? '#b0b0b0' : '#94a3b8' }}>/</span>
                   {/* BOBINE TOTALI - PIÙ GRANDI */}
-                  <span className="text-2xl font-bold" style={{ color: isCompleted ? '#b0b0b0' : '#cbd5e1' }}>{total}</span>
+                  <span className="font-bold" style={{ color: isCompleted ? '#b0b0b0' : '#cbd5e1', fontSize: '2.3rem', lineHeight: 1 }}>{total}</span>
                 </div>
               </div>
 
