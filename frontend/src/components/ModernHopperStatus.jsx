@@ -18,7 +18,6 @@ const HopperIcon = ({ className = "w-6 h-6" }) => (
   >
     {/* Parte cilindrica superiore */}
     <rect x="8" y="6" width="16" height="14" rx="1" />
-    
     {/* Parte conica inferiore */}
     <path d="M8 20 L16 28 L24 20" />
   </svg>
@@ -106,8 +105,39 @@ const parseHopperHTML = (htmlString) => {
   }
 };
 
+// 🎬 COMPONENTE ANIMAZIONE PALLINI MOBILI
+const HopperMovingDots = React.memo(() => {
+  const baseDelay = React.useMemo(() => Math.random() * 2.5, []);
+  
+  return (
+    <div className="absolute inset-0 flex items-center pointer-events-none">
+      <div className="hopper-moving-dots w-full h-full" style={{position:'relative'}}>
+        {[0, 1, 2].map(i => (
+          <span
+            key={i}
+            className="hopper-dot"
+            style={{
+              animationDelay: `${baseDelay + i * 1.2}s`
+            }}
+          />
+        ))}
+      </div>
+    </div>
+  );
+});
+
+HopperMovingDots.displayName = 'HopperMovingDots';
+
 // 🎨 COMPONENTE SINGOLO HOPPER MODERNO
-const ModernHopperCard = ({ hopperName, components, isEmpty = false }) => {
+const ModernHopperCard = React.memo(({ hopperName, components, isEmpty = false }) => {
+  // Funzione per determinare colore componente
+  const getComponentColor = (percentage) => {
+    if (percentage >= 70) return 'text-green-400';
+    if (percentage >= 40) return 'text-yellow-400';
+    return 'text-orange-400';
+  };
+
+  // Renderizza hopper vuoto
   if (isEmpty) {
     return (
       <Card className="h-full bg-gradient-to-br from-slate-800/30 to-slate-700/30 border-slate-600/40 opacity-60">
@@ -133,73 +163,155 @@ const ModernHopperCard = ({ hopperName, components, isEmpty = false }) => {
     );
   }
 
-  const getComponentColor = (percentage) => {
-    if (percentage >= 70) return 'text-green-400';
-    if (percentage >= 40) return 'text-yellow-400';
-    return 'text-orange-400';
-  };
-
+  // Renderizza hopper attivo
   return (
-    <Card className="h-full bg-gradient-to-br from-slate-900/40 to-slate-800/40 border-slate-700/50 hover:border-slate-600/60 transition-all duration-300 hover:shadow-lg">
-      <CardHeader className="pt-2 pb-1">
-        <CardTitle className="text-lg font-bold text-white flex items-center gap-2">
-          {/* Icona hopper + nome + pallino verde */}
-          <span className="relative flex items-center gap-1">
-            <HopperIcon className="w-7 h-7 text-blue-400 flex-shrink-0 -ml-2" />
-            <span className="font-semibold" style={{fontSize: '1.14rem'}}>{hopperName}</span>
-            <span className="ml-2">
-              <span className="inline-block w-3 h-3 rounded-full bg-green-400 animate-pulse" style={{ boxShadow: '0 0 6px 2px #22c55e55' }}></span>
+    <>
+      <Card className="h-full bg-gradient-to-br from-slate-900/40 to-slate-800/40 border-slate-700/50 hover:border-slate-600/60 transition-all duration-300 hover:shadow-lg">
+        <CardHeader className="pt-2 pb-1">
+          <CardTitle className="text-lg font-bold text-white flex items-center gap-2">
+            {/* Icona hopper + nome + pallino verde */}
+            <span className="relative flex items-center gap-1">
+              <HopperIcon className="w-7 h-7 text-blue-400 flex-shrink-0 -ml-2" />
+              <span className="font-semibold" style={{fontSize: '1.14rem'}}>{hopperName}</span>
+              <span className="ml-2">
+                <span 
+                  className="inline-block w-3 h-3 rounded-full bg-green-400 animate-pulse" 
+                  style={{ boxShadow: '0 0 6px 2px #22c55e55' }}
+                />
+              </span>
             </span>
-          </span>
-        </CardTitle>
-        <div className="border-b border-slate-600/40 mt-2" />
-      </CardHeader>
+          </CardTitle>
+          <div className="border-b border-slate-600/40 mt-2" />
+        </CardHeader>
 
-      <CardContent className="p-2 space-y-2">
-        <div className="space-y-1.5">
-          {components.slice(0, 6).map((comp, index) => (
-            <div key={index} className="space-y-1">
-              <div className="flex items-center justify-between text-sm">
-                <span className="text-slate-300 truncate flex-1 mr-2 text-base">
-                  <span className="text-[1rem]">{comp.description}</span>
-                </span>
-                <span className={`font-bold text-lg ${getComponentColor(comp.percentage)}`}> 
-                  {comp.percentage}%
-                </span>
+        <CardContent className="p-2 space-y-2">
+          <div className="space-y-1.5">
+            {components.slice(0, 6).map((comp, index) => (
+              <div key={index} className="space-y-1">
+                <div className="flex items-center justify-between text-sm">
+                  <span className="text-slate-300 truncate flex-1 mr-2 text-base">
+                    <span className="text-[1rem]">{comp.description}</span>
+                  </span>
+                  <span className={`font-bold text-lg ${getComponentColor(comp.percentage)}`}> 
+                    {comp.percentage}%
+                  </span>
+                </div>
+                
+                {/* Progress bar con animazione pallini */}
+                <div className="relative">
+                  <Progress 
+                    value={comp.percentage} 
+                    className="h-1.5 bg-slate-800/60 hopper-bar-translucent"
+                    style={{'--hopper-bar-opacity': 0.55}}
+                  />
+                  {/* Overlay pallini animati */}
+                  <HopperMovingDots />
+                </div>
               </div>
-              <Progress 
-                value={comp.percentage} 
-                className="h-1.5 bg-slate-800/60"
-              />
-            </div>
-          ))}
-          {components.length > 6 && (
-            <div className="text-sm text-slate-400 text-center pt-0.5">
-              +{components.length - 6} altri componenti
-            </div>
-          )}
-        </div>
-      </CardContent>
-    </Card>
+            ))}
+            
+            {/* Indicatore componenti aggiuntivi */}
+            {components.length > 6 && (
+              <div className="text-sm text-slate-400 text-center pt-0.5">
+                +{components.length - 6} altri componenti
+              </div>
+            )}
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* CSS per animazioni - inserito una sola volta */}
+      <style jsx>{`
+        .hopper-bar-translucent :global(.bg-gradient-to-r) {
+          opacity: var(--hopper-bar-opacity, 1) !important;
+        }
+        
+        .hopper-moving-dots { 
+          position: absolute; 
+          top: 0; 
+          left: 0; 
+          right: 0; 
+          bottom: 0; 
+          pointer-events: none; 
+        }
+        
+        :global(.hopper-dot) {
+          position: absolute;
+          top: 50%;
+          width: 7px;
+          height: 7px;
+          border-radius: 50%;
+          background: #f59e42;
+          opacity: 0.92;
+          transform: translateY(-50%);
+          animation: hopper-dot-move 6s linear infinite;
+          border: 1.5px solid #fff;
+          box-shadow: 0 0 4px 1.5px #222, 0 0 0 2px rgba(255,255,255,0.18);
+        }
+        
+        :global(.hopper-dot:nth-child(1)) { left: 0%; }
+        :global(.hopper-dot:nth-child(2)) { left: 0%; }
+        :global(.hopper-dot:nth-child(3)) { left: 0%; }
+        
+        @keyframes hopper-dot-move {
+          0% { 
+            left: 0%; 
+            opacity: 0.2; 
+          }
+          10% { 
+            opacity: 1; 
+          }
+          70% { 
+            opacity: 1; 
+          }
+          90% { 
+            opacity: 0.5; 
+          }
+          100% { 
+            left: 100%; 
+            opacity: 0.15; 
+          }
+        }
+      `}</style>
+    </>
   );
-};
+});
+
+ModernHopperCard.displayName = 'ModernHopperCard';
 
 // 🎨 COMPONENTE PRINCIPALE HOPPER STATUS MODERNO
-const ModernHopperStatus = ({ htmlString, isCompleted = false, machineName, miscelaCode }) => {
+const ModernHopperStatus = React.memo(({ 
+  htmlString, 
+  isCompleted = false, 
+  machineName, 
+  miscelaCode 
+}) => {
   // Normalizza nome macchina per lookup
-  const normalizedMachineName = machineName?.toUpperCase().replace(/\s+/g, '') || '';
+  const normalizedMachineName = React.useMemo(() => 
+    machineName?.toUpperCase().replace(/\s+/g, '') || '', 
+    [machineName]
+  );
   
   // Ottieni lista hopper per questa macchina
-  const machineHoppers = MACHINE_HOPPER_MAP[normalizedMachineName] || [];
+  const machineHoppers = React.useMemo(() => 
+    MACHINE_HOPPER_MAP[normalizedMachineName] || [], 
+    [normalizedMachineName]
+  );
   
-  // Parse dei dati HTML
-  const hopperData = parseHopperHTML(htmlString);
+  // Parse dei dati HTML (memoizzato per performance)
+  const hopperData = React.useMemo(() => 
+    parseHopperHTML(htmlString), 
+    [htmlString]
+  );
   
   // Conta hopper attivi
-  const activeHoppers = machineHoppers.filter(hopperName => hopperData[hopperName]).length;
+  const activeHoppers = React.useMemo(() => 
+    machineHoppers.filter(hopperName => hopperData[hopperName]).length,
+    [machineHoppers, hopperData]
+  );
   
   // Calcola layout responsive
-  const getGridCols = () => {
+  const getGridCols = React.useCallback(() => {
     switch (machineHoppers.length) {
       case 1: return 'grid-cols-1';
       case 2: return 'grid-cols-2';
@@ -207,19 +319,27 @@ const ModernHopperStatus = ({ htmlString, isCompleted = false, machineName, misc
       case 4: return 'grid-cols-2 xl:grid-cols-4';
       default: return 'grid-cols-1';
     }
-  };
+  }, [machineHoppers.length]);
+
+  // Se non ci sono hopper per questa macchina, non renderizzare nulla
+  if (machineHoppers.length === 0) {
+    return null;
+  }
 
   return (
     <TooltipProvider>
       <Card className={`w-full h-80 bg-gradient-to-br from-slate-900/40 to-slate-800/40 border-slate-700/50 backdrop-blur-xl ${isCompleted ? 'opacity-60 grayscale' : ''}`}>
-        <CardHeader className="pb-2 pt-1 min-h-0 h-2"></CardHeader>
+        <CardHeader className="pb-2 pt-1 min-h-0 h-2">
+          {/* Header vuoto per consistenza layout */}
+        </CardHeader>
+        
         <CardContent>
           <div className={`grid gap-3 h-48 ${getGridCols()}`}>
             {machineHoppers.map((hopperName, index) => {
               const components = hopperData[hopperName];
               return (
                 <ModernHopperCard
-                  key={index}
+                  key={`${hopperName}-${index}`} // Key più stabile
                   hopperName={hopperName}
                   components={components}
                   isEmpty={!components}
@@ -231,6 +351,8 @@ const ModernHopperStatus = ({ htmlString, isCompleted = false, machineName, misc
       </Card>
     </TooltipProvider>
   );
-};
+});
+
+ModernHopperStatus.displayName = 'ModernHopperStatus';
 
 export default ModernHopperStatus;
