@@ -114,8 +114,8 @@ html, body {
   box-sizing: border-box !important;
   
   /* Stili base card */
-  background: linear-gradient(120deg, #020a1a 0%, #010713 100%) !important;
-  border-width: 3px !important;
+  background: linear-gradient(120deg, #010817 0%, #00050ffa 100%) !important;
+  border-width: 2px !important;
   border-style: solid !important;
   border-radius: 0.6rem !important;
   padding: 1rem !important; /* 📺 Padding ottimizzato per fit */
@@ -196,13 +196,13 @@ html, body {
   display: flex !important;
   justify-content: space-between !important;
   align-items: center !important;
-  padding: 0.3rem 0.8rem 0.6rem 0.8rem !important;
+  padding: 0.3rem 0.8rem 0.3rem 0.4rem !important;
   position: relative !important;
-  margin-bottom: 0.8rem !important;
+  margin-bottom: 0.5rem !important;
   box-sizing: border-box !important;
   flex-shrink: 0 !important;
   background: #dcdbdb1f !important;
-  border: 3px solid #454545 !important;
+  border: 1px solid #454545 !important;
   border-radius: 0.6rem !important;
   box-shadow: 0 1px 3px rgba(0,0,0,0.18) !important;
   transition: border-color 0.2s, box-shadow 0.2s !important;
@@ -211,10 +211,10 @@ html, body {
 
 .machine-name {
   margin: 0 !important;
-  font-size: 1.8rem !important; /* 📺 Dimensione perfetta per leggibilità e fit */
-  font-weight: 700 !important;
+  font-size: 1.5rem !important; /* 📺 Dimensione perfetta per leggibilità e fit */
+  font-weight: 400 !important;
   color: #fff !important;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5) !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0) !important;
   letter-spacing: 0.05rem !important;
   line-height: 1 !important;
 }
@@ -448,7 +448,7 @@ html, body {
   }
   
   .machine-name {
-    font-size: 2.4rem !important;
+    font-size: 2.2rem !important;
   }
   
   .status-compact {
@@ -513,7 +513,7 @@ html, body {
   }
   
   .order-article-vertical .spec-item:last-child {
-    padding: 0.5rem 1rem !important;
+    padding: 0.4rem 1rem !important;
   }
   
   /* 🆕 COMPACT PROGRESS */
@@ -1232,52 +1232,12 @@ html, body {
   }
 }
 
-/* 📱 MOBILE */
-@media (max-width: 1199px) {
-  .progress-clean-layout {
-    flex-direction: column;
-    gap: 0.6rem;
-  }
-  
-  .progress-section-clean {
-    max-width: 100%;
-    min-width: 100%;
-  }
-  
-  .kpi-section-clean {
-    flex: 1;
-    max-width: 100%;
-  }
-  
-  .kpi-compact-clean {
-    flex-direction: row;
-    gap: 0.5rem;
-  }
-  
-  .progress-bar-pure {
-    height: 16px;
-  }
-  
-  .progress-counter-external {
-    font-size: 0.75rem;
-  }
-  
-  .count-current-clean {
-    font-size: 0.9rem;
-  }
-  
-  .percent-clean {
-    font-size: 0.8rem;
-  }
-}
-
-
 /* RIGA 1: Header pulito */
 .progress-header-clean {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 8px;
+  margin-bottom: 6px;
 }
 
 .progress-title-clean {
