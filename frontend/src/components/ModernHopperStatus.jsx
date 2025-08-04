@@ -105,13 +105,13 @@ const parseHopperHTML = (htmlString) => {
   }
 };
 
-// 🎬 COMPONENTE ANIMAZIONE PALLINI MOBILI
+// 🎬 COMPONENTE ANIMAZIONE PALLINI MOBILI - SENZA STYLED-JSX
 const HopperMovingDots = React.memo(() => {
   const baseDelay = React.useMemo(() => Math.random() * 2.5, []);
   
   return (
-    <div className="absolute inset-0 flex items-center pointer-events-none">
-      <div className="hopper-moving-dots w-full h-full" style={{position:'relative'}}>
+    <div className="hopper-moving-dots-container">
+      <div className="hopper-moving-dots-wrapper">
         {[0, 1, 2].map(i => (
           <span
             key={i}
@@ -128,7 +128,7 @@ const HopperMovingDots = React.memo(() => {
 
 HopperMovingDots.displayName = 'HopperMovingDots';
 
-// 🎨 COMPONENTE SINGOLO HOPPER MODERNO
+// 🎨 COMPONENTE SINGOLO HOPPER MODERNO - SENZA STYLED-JSX
 const ModernHopperCard = React.memo(({ hopperName, components, isEmpty = false }) => {
   // Funzione per determinare colore componente
   const getComponentColor = (percentage) => {
@@ -165,121 +165,63 @@ const ModernHopperCard = React.memo(({ hopperName, components, isEmpty = false }
 
   // Renderizza hopper attivo
   return (
-    <>
-      <Card className="h-full bg-gradient-to-br from-slate-900/40 to-slate-800/40 border-slate-700/50 hover:border-slate-600/60 transition-all duration-300 hover:shadow-lg">
-        <CardHeader className="pt-2 pb-1">
-          <CardTitle className="text-lg font-bold text-white flex items-center gap-2">
-            {/* Icona hopper + nome + pallino verde */}
-            <span className="relative flex items-center gap-1">
-              <HopperIcon className="w-7 h-7 text-blue-400 flex-shrink-0 -ml-2" />
-              <span className="font-semibold" style={{fontSize: '1.14rem'}}>{hopperName}</span>
-              <span className="ml-2">
-                <span 
-                  className="inline-block w-3 h-3 rounded-full bg-green-400 animate-pulse" 
-                  style={{ boxShadow: '0 0 6px 2px #22c55e55' }}
-                />
-              </span>
+    <Card className="h-full bg-gradient-to-br from-slate-900/40 to-slate-800/40 border-slate-700/50 hover:border-slate-600/60 transition-all duration-300 hover:shadow-lg">
+      <CardHeader className="pt-2 pb-1">
+        <CardTitle className="text-lg font-bold text-white flex items-center gap-2">
+          {/* Icona hopper + nome + pallino verde */}
+          <span className="relative flex items-center gap-1">
+            <HopperIcon className="w-7 h-7 text-blue-400 flex-shrink-0 -ml-2" />
+            <span className="font-semibold" style={{fontSize: '1.14rem'}}>{hopperName}</span>
+            <span className="ml-2">
+              <span 
+                className="hopper-status-dot" 
+              />
             </span>
-          </CardTitle>
-          <div className="border-b border-slate-600/40 mt-2" />
-        </CardHeader>
+          </span>
+        </CardTitle>
+        <div className="border-b border-slate-600/40 mt-2" />
+      </CardHeader>
 
-        <CardContent className="p-2 space-y-2">
-          <div className="space-y-1.5">
-            {components.slice(0, 6).map((comp, index) => (
-              <div key={index} className="space-y-1">
-                <div className="flex items-center justify-between text-sm">
-                  <span className="text-slate-300 truncate flex-1 mr-2 text-base">
-                    <span className="text-[1rem]">{comp.description}</span>
-                  </span>
-                  <span className={`font-bold text-lg ${getComponentColor(comp.percentage)}`}> 
-                    {comp.percentage}%
-                  </span>
-                </div>
-                
-                {/* Progress bar con animazione pallini */}
-                <div className="relative">
-                  <Progress 
-                    value={comp.percentage} 
-                    className="h-1.5 bg-slate-800/60 hopper-bar-translucent"
-                    style={{'--hopper-bar-opacity': 0.55}}
-                  />
-                  {/* Overlay pallini animati */}
-                  <HopperMovingDots />
-                </div>
+      <CardContent className="p-2 space-y-2">
+        <div className="space-y-1.5">
+          {components.slice(0, 6).map((comp, index) => (
+            <div key={index} className="space-y-1">
+              <div className="flex items-center justify-between text-sm">
+                <span className="text-slate-300 truncate flex-1 mr-2 text-base">
+                  <span className="text-[1rem]">{comp.description}</span>
+                </span>
+                <span className={`font-bold text-lg ${getComponentColor(comp.percentage)}`}> 
+                  {comp.percentage}%
+                </span>
               </div>
-            ))}
-            
-            {/* Indicatore componenti aggiuntivi */}
-            {components.length > 6 && (
-              <div className="text-sm text-slate-400 text-center pt-0.5">
-                +{components.length - 6} altri componenti
+              
+              {/* Progress bar con animazione pallini */}
+              <div className="hopper-progress-container">
+                <Progress 
+                  value={comp.percentage} 
+                  className="h-1.5 bg-slate-800/60 hopper-bar-translucent"
+                />
+                {/* Overlay pallini animati */}
+                <HopperMovingDots />
               </div>
-            )}
-          </div>
-        </CardContent>
-      </Card>
-
-      {/* CSS per animazioni - inserito una sola volta */}
-      <style jsx>{`
-        .hopper-bar-translucent :global(.bg-gradient-to-r) {
-          opacity: var(--hopper-bar-opacity, 1) !important;
-        }
-        
-        .hopper-moving-dots { 
-          position: absolute; 
-          top: 0; 
-          left: 0; 
-          right: 0; 
-          bottom: 0; 
-          pointer-events: none; 
-        }
-        
-        :global(.hopper-dot) {
-          position: absolute;
-          top: 50%;
-          width: 7px;
-          height: 7px;
-          border-radius: 50%;
-          background: #f59e42;
-          opacity: 0.92;
-          transform: translateY(-50%);
-          animation: hopper-dot-move 6s linear infinite;
-          border: 1.5px solid #fff;
-          box-shadow: 0 0 4px 1.5px #222, 0 0 0 2px rgba(255,255,255,0.18);
-        }
-        
-        :global(.hopper-dot:nth-child(1)) { left: 0%; }
-        :global(.hopper-dot:nth-child(2)) { left: 0%; }
-        :global(.hopper-dot:nth-child(3)) { left: 0%; }
-        
-        @keyframes hopper-dot-move {
-          0% { 
-            left: 0%; 
-            opacity: 0.2; 
-          }
-          10% { 
-            opacity: 1; 
-          }
-          70% { 
-            opacity: 1; 
-          }
-          90% { 
-            opacity: 0.5; 
-          }
-          100% { 
-            left: 100%; 
-            opacity: 0.15; 
-          }
-        }
-      `}</style>
-    </>
+            </div>
+          ))}
+          
+          {/* Indicatore componenti aggiuntivi */}
+          {components.length > 6 && (
+            <div className="text-sm text-slate-400 text-center pt-0.5">
+              +{components.length - 6} altri componenti
+            </div>
+          )}
+        </div>
+      </CardContent>
+    </Card>
   );
 });
 
 ModernHopperCard.displayName = 'ModernHopperCard';
 
-// 🎨 COMPONENTE PRINCIPALE HOPPER STATUS MODERNO
+// 🎨 COMPONENTE PRINCIPALE HOPPER STATUS MODERNO - SENZA STYLED-JSX
 const ModernHopperStatus = React.memo(({ 
   htmlString, 
   isCompleted = false, 

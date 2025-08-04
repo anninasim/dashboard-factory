@@ -1386,3 +1386,135 @@ html, body {
     box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.2);
   }
 }
+
+/* ========================================
+   🎬 ANIMAZIONI HOPPER - PALLINI MOBILI E STATUS
+   Aggiungi questo CSS alla fine del tuo App.css
+   ======================================== */
+
+/* 🎯 CONTAINER ANIMAZIONI HOPPER */
+.hopper-moving-dots-container {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.hopper-moving-dots-wrapper { 
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.hopper-progress-container {
+  position: relative;
+  width: 100%;
+}
+
+/* 🟠 PALLINI MOBILI ANIMATI */
+.hopper-dot {
+  position: absolute;
+  top: 50%;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #f59e42;
+  opacity: 0.92;
+  transform: translateY(-50%);
+  animation: hopper-dot-move 6s linear infinite;
+  border: 1.5px solid #fff;
+  box-shadow: 0 0 4px 1.5px #222, 0 0 0 2px rgba(255,255,255,0.18);
+  z-index: 15;
+}
+
+.hopper-dot:nth-child(1) { 
+  left: 0%; 
+}
+
+.hopper-dot:nth-child(2) { 
+  left: 0%; 
+}
+
+.hopper-dot:nth-child(3) { 
+  left: 0%; 
+}
+
+/* 🎬 KEYFRAME MOVIMENTO PALLINI */
+@keyframes hopper-dot-move {
+  0% { 
+    left: 0%; 
+    opacity: 0.2; 
+  }
+  10% { 
+    opacity: 1; 
+  }
+  40% { 
+    opacity: 1; 
+  }
+  50% { 
+    opacity: 0.5; 
+  }
+  100% { 
+    left: 100%; 
+    opacity: 0.15; 
+  }
+}
+
+/* 🟢 STATUS DOT PULSANTE */
+.hopper-status-dot {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #22c55e;
+  animation: hopper-status-pulse 2s ease-in-out infinite;
+  box-shadow: 0 0 6px 2px #22c55e55;
+}
+
+/* 🎬 KEYFRAME PULSAZIONE STATUS */
+@keyframes hopper-status-pulse {
+  0%, 100% { 
+    opacity: 1;
+    transform: scale(1);
+    box-shadow: 0 0 6px 2px #22c55e55;
+  }
+  50% { 
+    opacity: 0.7;
+    transform: scale(1.1);
+    box-shadow: 0 0 12px 4px #22c55e88;
+  }
+}
+
+/* 🎨 PROGRESS BAR TRASPARENTE per vedere i pallini */
+.hopper-bar-translucent .bg-gradient-to-r {
+  opacity: 0.55 !important;
+}
+
+/* 📺 RESPONSIVE ANIMATIONS */
+@media (min-width: 3840px) {
+  .hopper-dot {
+    width: 9px;
+    height: 9px;
+    border: 2px solid #fff;
+  }
+  
+  .hopper-status-dot {
+    width: 16px;
+    height: 16px;
+  }
+}
+
+@media (max-width: 768px) {
+  .hopper-dot {
+    width: 5px;
+    height: 5px;
+    border: 1px solid #fff;
+  }
+  
+  .hopper-status-dot {
+    width: 10px;
+    height: 10px;
+  }
+}
