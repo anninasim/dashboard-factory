@@ -144,8 +144,8 @@ const ModernHopperCard = ({ hopperName, components, isEmpty = false }) => {
       <CardHeader className="pt-2 pb-1">
         <CardTitle className="text-lg font-bold text-white flex items-center gap-2">
           {/* Icona hopper + nome + pallino verde */}
-          <span className="relative flex items-center gap-3">
-            <HopperIcon className="w-7 h-7 text-blue-400 flex-shrink-0" />
+          <span className="relative flex items-center gap-1">
+            <HopperIcon className="w-7 h-7 text-blue-400 flex-shrink-0 -ml-2" />
             <span className="font-semibold" style={{fontSize: '1.14rem'}}>{hopperName}</span>
             <span className="ml-2">
               <span className="inline-block w-3 h-3 rounded-full bg-green-400 animate-pulse" style={{ boxShadow: '0 0 6px 2px #22c55e55' }}></span>
