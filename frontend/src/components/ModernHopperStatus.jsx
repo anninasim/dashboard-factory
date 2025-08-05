@@ -105,9 +105,14 @@ const parseHopperHTML = (htmlString) => {
   }
 };
 
-// 🎬 COMPONENTE ANIMAZIONE PALLINI MOBILI - SENZA STYLED-JSX
-const HopperMovingDots = React.memo(() => {
+// 🎬 COMPONENTE ANIMAZIONE PALLINI MOBILI - CON CONTROLLO STATO MACCHINA
+const HopperMovingDots = React.memo(({ isRunning = true }) => {
   const baseDelay = React.useMemo(() => Math.random() * 2.5, []);
+  
+  // Se la macchina non è in funzione, non renderizzare i pallini
+  if (!isRunning) {
+    return null;
+  }
   
   return (
     <div className="hopper-moving-dots-container">
@@ -129,7 +134,7 @@ const HopperMovingDots = React.memo(() => {
 HopperMovingDots.displayName = 'HopperMovingDots';
 
 // 🎨 COMPONENTE SINGOLO HOPPER MODERNO - SENZA STYLED-JSX
-const ModernHopperCard = React.memo(({ hopperName, components, isEmpty = false }) => {
+const ModernHopperCard = React.memo(({ hopperName, components, isEmpty = false, isRunning = true }) => {
   // Funzione per determinare colore componente
   const getComponentColor = (percentage) => {
     if (percentage >= 70) return 'text-green-400';
@@ -201,8 +206,8 @@ const ModernHopperCard = React.memo(({ hopperName, components, isEmpty = false }
                   value={comp.percentage} 
                   className="h-1.5 bg-slate-800/60 hopper-bar-translucent"
                 />
-                {/* Overlay pallini animati */}
-                <HopperMovingDots />
+                {/* Overlay pallini animati - solo se macchina in funzione */}
+                <HopperMovingDots isRunning={isRunning} />
               </div>
             </div>
           ))}
@@ -226,7 +231,8 @@ const ModernHopperStatus = React.memo(({
   htmlString, 
   isCompleted = false, 
   machineName, 
-  miscelaCode 
+  miscelaCode,
+  isRunning = true 
 }) => {
   // Normalizza nome macchina per lookup
   const normalizedMachineName = React.useMemo(() => 
@@ -285,6 +291,7 @@ const ModernHopperStatus = React.memo(({
                   hopperName={hopperName}
                   components={components}
                   isEmpty={!components}
+                  isRunning={isRunning}
                 />
               );
             })}
